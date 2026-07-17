@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 
-import { LogoutButton } from "./logout-button";
+import { UserMenuClient } from "./user-menu-client";
 
 export async function UserMenu() {
   const session = await auth();
@@ -10,12 +10,12 @@ export async function UserMenu() {
   }
 
   return (
-    <div>
-      <div>{session.user.name}</div>
-
-      <div>{session.user.email}</div>
-
-      <LogoutButton />
-    </div>
+    <UserMenuClient
+      user={{
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+      }}
+    />
   );
 }
