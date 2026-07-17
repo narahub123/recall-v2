@@ -15,12 +15,14 @@ const noteSchema = new Schema(
     },
 
     content: {
-      type: Schema.Types.Mixed,
+      type: [Schema.Types.Mixed],
       required: true,
+      default: [],
     },
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 

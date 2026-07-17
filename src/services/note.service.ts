@@ -1,6 +1,7 @@
 import { NoteMapper } from "@/mappers/note.mapper";
 import { NoteRepository } from "@/repositories/note.repository";
 import { NoteDTO } from "@/dto/note.dto";
+import { Block } from "@blocknote/core";
 
 export class NoteService {
   constructor(private readonly noteRepository: NoteRepository) {}
@@ -8,7 +9,7 @@ export class NoteService {
   async createNote(data: {
     userId: string;
     title: string;
-    content: unknown;
+    content: Block[];
   }): Promise<NoteDTO> {
     const note = await this.noteRepository.save(data);
 

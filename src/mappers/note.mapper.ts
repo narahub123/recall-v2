@@ -1,11 +1,12 @@
 import { NoteDTO } from "@/dto/note.dto";
+import { Block } from "@blocknote/core";
 
 export class NoteMapper {
   static toDTO(note: {
     _id: unknown;
     userId: unknown;
     title: string;
-    content: unknown;
+    content: Block[];
     createdAt: Date;
     updatedAt: Date;
   }): NoteDTO {
