@@ -1,12 +1,14 @@
 "use client";
 
-import { BlockNoteViewRaw, useCreateBlockNote } from "@blocknote/react";
+import { useEffect } from "react";
 
 import type { Block } from "@blocknote/core";
 
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+
 import "@blocknote/core/fonts/inter.css";
-import "@blocknote/react/style.css";
-import { useEffect } from "react";
+import "@blocknote/mantine/style.css";
 
 interface NoteEditorProps {
   initialContent: Block[];
@@ -20,12 +22,18 @@ export function NoteEditor({ initialContent, onChange }: NoteEditorProps) {
   });
 
   useEffect(() => {
-    const unsubscribe = editor.onChange(() => {
+    return editor.onChange(() => {
       onChange?.(editor.document);
     });
-
-    return unsubscribe;
   }, [editor, onChange]);
 
-  return <BlockNoteViewRaw editor={editor} />;
+  return (
+    <BlockNoteView
+      editor={editor}
+      editable
+      sideMenu
+      slashMenu
+      formattingToolbar
+    />
+  );
 }

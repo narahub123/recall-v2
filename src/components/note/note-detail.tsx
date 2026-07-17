@@ -96,8 +96,8 @@ export function NoteDetail({ id }: NoteDetailProps) {
   }
 
   return (
-    <Card>
-      <CardHeader className="px-8">
+    <Card className="flex min-h-[calc(100vh-5rem)] flex-col ">
+      <CardHeader className="mx-13.5">
         <div className="flex justify-between gap-4">
           <div className="flex-1 space-y-2">
             <Input
@@ -131,9 +131,10 @@ export function NoteDetail({ id }: NoteDetailProps) {
         </div>
       </CardHeader>
 
-      <Separator />
-
-      <CardContent className="px-8 pt-6">
+      <div className="mx-13.5">
+        <Separator />
+      </div>
+      <CardContent className="pt-6 flex-1">
         <NoteEditor initialContent={note.content} onChange={saveContent} />
       </CardContent>
     </Card>
