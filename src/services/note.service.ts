@@ -36,7 +36,7 @@ export class NoteService {
     id: string,
     data: {
       title?: string;
-      content?: unknown;
+      content?: Block[];
     },
   ): Promise<NoteDTO | null> {
     const note = await this.noteRepository.update(id, data);

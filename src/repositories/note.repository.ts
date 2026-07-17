@@ -29,7 +29,7 @@ export class NoteRepository {
     id: string,
     data: {
       title?: string;
-      content?: unknown;
+      content?: Block[];
     },
   ) {
     return Note.findByIdAndUpdate(id, data, {

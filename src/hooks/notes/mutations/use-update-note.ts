@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateNoteAction } from "@/actions/note.actions";
 import { noteKeys } from "@/lib/query-keys/note.keys";
+import { Block } from "@blocknote/core";
 
 export function useUpdateNote() {
   const queryClient = useQueryClient();
@@ -14,7 +15,7 @@ export function useUpdateNote() {
       id: string;
       data: {
         title?: string;
-        content?: unknown;
+        content?: Block[];
       };
     }) => updateNoteAction(id, data),
 

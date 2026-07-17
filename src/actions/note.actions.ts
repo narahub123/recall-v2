@@ -3,12 +3,13 @@
 import { getCurrentUser } from "@/lib/auth-user";
 import { NoteRepository } from "@/repositories/note.repository";
 import { NoteService } from "@/services/note.service";
+import { Block } from "@blocknote/core";
 
 const noteService = new NoteService(new NoteRepository());
 
 export async function createNoteAction(data: {
   title: string;
-  content: unknown;
+  content: Block[];
 }) {
   const user = await getCurrentUser();
 
@@ -35,7 +36,7 @@ export async function updateNoteAction(
   id: string,
   data: {
     title?: string;
-    content?: unknown;
+    content?: Block[];
   },
 ) {
   await getCurrentUser();
