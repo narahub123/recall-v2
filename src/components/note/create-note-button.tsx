@@ -13,7 +13,7 @@ export function CreateNoteButton() {
 
   const handleCreate = async () => {
     const note = await createNoteMutation.mutateAsync({
-      title: "Untitled",
+      title: "",
       content: [
         {
           type: "paragraph",
