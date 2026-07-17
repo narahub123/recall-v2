@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 import { useCreateNote } from "@/hooks/note/mutations/use-create-note";
+import { createEmptyNoteContent } from "@/lib/blocknote";
 
 export function CreateNoteButton() {
   const router = useRouter();
@@ -14,15 +15,7 @@ export function CreateNoteButton() {
   const handleCreate = async () => {
     const note = await createNoteMutation.mutateAsync({
       title: "",
-      content: [
-        {
-          type: "paragraph",
-          id: crypto.randomUUID(),
-          props: {},
-          content: [],
-          children: [],
-        },
-      ],
+      content: createEmptyNoteContent(),
     });
 
     router.push(`/notes/${note.id}`);

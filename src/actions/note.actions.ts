@@ -11,7 +11,7 @@ import { NoteService } from "@/services/note.service";
 const noteService = new NoteService(new NoteRepository());
 
 export async function createNoteAction(data: {
-  title: string;
+  title?: string;
   content: Block[];
 }) {
   await connectMongoDB();

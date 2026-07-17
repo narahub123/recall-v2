@@ -3,7 +3,7 @@ import { Note } from "@/models/note.model";
 import { Block } from "@blocknote/core";
 
 export class NoteRepository {
-  async save(data: { userId: string; title: string; content: Block[] }) {
+  async save(data: { userId: string; title?: string; content: Block[] }) {
     const note = await Note.create({
       userId: new Types.ObjectId(data.userId),
       title: data.title,

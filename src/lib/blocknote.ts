@@ -19,3 +19,19 @@ export function extractBlockText(blocks: Block[]): string {
     })
     .join(" ");
 }
+
+export function createEmptyNoteContent(): Block[] {
+  return [
+    {
+      id: crypto.randomUUID(),
+      type: "paragraph",
+      props: {
+        backgroundColor: "default",
+        textColor: "default",
+        textAlignment: "left",
+      },
+      content: [],
+      children: [],
+    },
+  ];
+}

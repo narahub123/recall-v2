@@ -42,7 +42,7 @@ export function NoteDetail({ id }: NoteDetailProps) {
 
   useEffect(() => {
     if (note && !initialized.current) {
-      setTitle(note.title);
+      setTitle(note.title ?? "");
       initialized.current = true;
     }
   }, [note]);

@@ -8,7 +8,7 @@ export class NoteService {
 
   async createNote(data: {
     userId: string;
-    title: string;
+    title?: string;
     content: Block[];
   }): Promise<NoteDTO> {
     const note = await this.noteRepository.save(data);

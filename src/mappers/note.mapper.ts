@@ -5,7 +5,7 @@ export class NoteMapper {
   static toDTO(note: {
     _id: unknown;
     userId: unknown;
-    title: string;
+    title?: string;
     content: Block[];
     createdAt: Date;
     updatedAt: Date;
