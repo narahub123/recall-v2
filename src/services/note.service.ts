@@ -1,18 +1,34 @@
+import { NoteMapper } from "@/mappers/note.mapper";
 import { NoteRepository } from "@/repositories/note.repository";
+import { NoteDTO } from "@/dto/note.dto";
 
 export class NoteService {
   constructor(private readonly noteRepository: NoteRepository) {}
 
-  async createNote(data: { userId: string; title: string; content: unknown }) {
-    return this.noteRepository.save(data);
+  async createNote(data: {
+    userId: string;
+    title: string;
+    content: unknown;
+  }): Promise<NoteDTO> {
+    const note = await this.noteRepository.save(data);
+
+    return NoteMapper.toDTO(note);
   }
 
-  async getNoteById(id: string) {
-    return this.noteRepository.findById(id);
+  async getNoteById(id: string): Promise<NoteDTO | null> {
+    const note = await this.noteRepository.findById(id);
+
+    if (!note) {
+      return null;
+    }
+
+    return NoteMapper.toDTO(note);
   }
 
-  async getUserNotes(userId: string) {
-    return this.noteRepository.findByUserId(userId);
+  async getUserNotes(userId: string): Promise<NoteDTO[]> {
+    const notes = await this.noteRepository.findByUserId(userId);
+
+    return notes.map((note) => NoteMapper.toDTO(note));
   }
 
   async updateNote(
@@ -21,11 +37,23 @@ export class NoteService {
       title?: string;
       content?: unknown;
     },
-  ) {
-    return this.noteRepository.update(id, data);
+  ): Promise<NoteDTO | null> {
+    const note = await this.noteRepository.update(id, data);
+
+    if (!note) {
+      return null;
+    }
+
+    return NoteMapper.toDTO(note);
   }
 
-  async deleteNote(id: string) {
-    return this.noteRepository.delete(id);
+  async deleteNote(id: string): Promise<NoteDTO | null> {
+    const note = await this.noteRepository.delete(id);
+
+    if (!note) {
+      return null;
+    }
+
+    return NoteMapper.toDTO(note);
   }
 }
