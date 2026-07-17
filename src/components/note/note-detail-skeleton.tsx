@@ -12,7 +12,7 @@ export function NoteDetailSkeleton() {
       </CardHeader>
 
       <CardContent>
-        <Skeleton className="h-[500px] w-full" />
+        <Skeleton className="h-125 w-full" />
       </CardContent>
     </Card>
   );

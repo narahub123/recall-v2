@@ -6,8 +6,8 @@ import { NoteEditor } from "./note-editor";
 
 import { debounce } from "@/lib/debounce";
 
-import { useNote } from "@/hooks/notes/queries/use-note";
-import { useUpdateNote } from "@/hooks/notes/mutations/use-update-note";
+import { useNote } from "@/hooks/note/queries/use-note";
+import { useUpdateNote } from "@/hooks/note/mutations/use-update-note";
 
 import type { Block } from "@blocknote/core";
 import { NoteDetailSkeleton } from "./note-detail-skeleton";
