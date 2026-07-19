@@ -6,29 +6,7 @@ export const ADMIN_MENU: AdminMenuItem[] = [
     href: "/admin",
   },
   {
-    label: "Knowledge",
-    children: [
-      {
-        label: "Classification",
-        href: "/admin/knowledge/classification",
-      },
-      {
-        label: "Object",
-        href: "/admin/knowledge/object",
-      },
-      {
-        label: "Relation",
-        href: "/admin/knowledge/relation",
-      },
-    ],
-  },
-  {
-    label: "Prompt",
-    children: [
-      {
-        label: "Groups",
-        href: "/admin/prompts",
-      },
-    ],
+    label: "프롬프트 관리",
+    href: "/admin/prompts",
   },
 ];

@@ -9,6 +9,7 @@ export class PromptVersionDetailMapper {
   ): PromptVersionDetailDTO {
     return {
       id: promptVersion.id,
+      promptGroupId: promptVersion.promptGroupId,
       version: promptVersion.version,
       content: promptVersion.content,
       createdAt: promptVersion.createdAt,

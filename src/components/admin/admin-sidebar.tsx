@@ -29,7 +29,9 @@ export function AdminSidebar() {
   return (
     <aside className="w-64 border-r">
       <ScrollArea className="h-screen">
-        <nav className="p-4 space-y-2">{renderMenu(ADMIN_MENU)}</nav>
+        <nav className="p-4 space-y-2 flex flex-col">
+          {renderMenu(ADMIN_MENU)}
+        </nav>
       </ScrollArea>
     </aside>
   );

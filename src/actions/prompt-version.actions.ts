@@ -1,7 +1,6 @@
 "use server";
 
 import { connectMongoDB } from "@/lib/mongodb";
-import { getCurrentUser } from "@/lib/auth/auth-user";
 
 import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
 import { PromptVersionService } from "@/services/prompt-version.service";
@@ -26,7 +25,7 @@ export async function createPromptVersionAction(data: {
 }) {
   await connectMongoDB();
 
-  await getCurrentUser();
+  await requireAdmin();
 
   return promptVersionService.createVersion(data);
 }
@@ -34,7 +33,7 @@ export async function createPromptVersionAction(data: {
 export async function getPromptVersionAction(id: string) {
   await connectMongoDB();
 
-  await getCurrentUser();
+  await requireAdmin();
 
   return promptVersionService.getVersionById(id);
 }
@@ -66,7 +65,7 @@ export async function getPromptVersionDetailAction(
 export async function getPromptVersionsAction(promptGroupId: string) {
   await connectMongoDB();
 
-  await getCurrentUser();
+  await requireAdmin();
 
   return promptVersionService.getVersionsByPromptGroupId(promptGroupId);
 }
@@ -79,7 +78,7 @@ export async function updatePromptVersionAction(
 ) {
   await connectMongoDB();
 
-  await getCurrentUser();
+  await requireAdmin();
 
   return promptVersionService.updateVersion(id, data);
 }
@@ -87,7 +86,7 @@ export async function updatePromptVersionAction(
 export async function deletePromptVersionAction(id: string) {
   await connectMongoDB();
 
-  await getCurrentUser();
+  await requireAdmin();
 
   return promptVersionService.deleteVersion(id);
 }

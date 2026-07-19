@@ -14,7 +14,7 @@ export default async function PromptVersionDetailPage({
 
   return (
     <main className="p-6">
-      <PromptVersionDetail promptGroupId={id} versionId={versionId} />
+      <PromptVersionDetail versionId={versionId} />
     </main>
   );
 }
