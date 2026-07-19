@@ -1,10 +1,12 @@
 import { auth } from "@/auth";
+import { UserRole } from "@/constants/user";
 
 export async function getCurrentUser(): Promise<{
   id: string;
   email: string;
   name?: string | null;
   image?: string | null;
+  role: UserRole;
 }> {
   const session = await auth();
 
@@ -12,10 +14,13 @@ export async function getCurrentUser(): Promise<{
     throw new Error("Unauthorized");
   }
 
+  console.log(session?.user);
+
   return {
     id: session.user.id,
     email: session.user.email,
     name: session.user.name,
     image: session.user.image,
+    role: session.user.role,
   };
 }

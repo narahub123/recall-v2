@@ -4,6 +4,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { ObjectId } from "mongodb";
 
 import clientPromise from "@/lib/mongodb-client";
+import { USER_ROLE } from "./constants/user";
 
 const baseAdapter = MongoDBAdapter(clientPromise);
 
@@ -35,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           $set: {
             createdAt: now,
             updatedAt: now,
+            role: USER_ROLE.USER,
           },
         },
       );
@@ -77,4 +79,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+
+  callbacks: {
+    async session({ session, user }) {
+      console.log("SESSION USER", user);
+
+      if (session.user) {
+        session.user.id = user.id;
+        session.user.role = user.role;
+      }
+
+      return session;
+    },
+  },
 });
