@@ -22,4 +22,13 @@ export const ADMIN_MENU: AdminMenuItem[] = [
       },
     ],
   },
+  {
+    label: "Prompt",
+    children: [
+      {
+        label: "Groups",
+        href: "/admin/prompts",
+      },
+    ],
+  },
 ];
