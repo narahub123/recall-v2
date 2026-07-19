@@ -1,7 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
 export interface IPromptGroup {
-  key: string;
   name: string;
   description?: string;
   createdAt: Date;
@@ -10,13 +9,6 @@ export interface IPromptGroup {
 
 const promptGroupSchema = new Schema<IPromptGroup>(
   {
-    key: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-
     name: {
       type: String,
       required: true,

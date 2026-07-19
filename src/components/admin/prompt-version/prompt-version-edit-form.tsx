@@ -47,7 +47,7 @@ export function PromptVersionEditForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <Textarea
-        className="min-h-[500px]"
+        className="min-h-125"
         {...register("content", {
           required: true,
         })}

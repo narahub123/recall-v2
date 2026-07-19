@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCreatePromptGroup } from "@/hooks/prompt-group/mutations/use-create-prompt-group";
 
 type PromptGroupFormValues = {
-  key: string;
   name: string;
   description: string;
 };
@@ -17,7 +16,6 @@ type PromptGroupFormValues = {
 export function PromptGroupForm() {
   const { register, handleSubmit, reset } = useForm<PromptGroupFormValues>({
     defaultValues: {
-      key: "",
       name: "",
       description: "",
     },
@@ -38,17 +36,6 @@ export function PromptGroupForm() {
       <h2 className="mb-4 text-lg font-semibold">Create Prompt Group</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Key</label>
-
-          <Input
-            placeholder="knowledge-classification"
-            {...register("key", {
-              required: true,
-            })}
-          />
-        </div>
-
         <div className="space-y-2">
           <label className="text-sm font-medium">Name</label>
 

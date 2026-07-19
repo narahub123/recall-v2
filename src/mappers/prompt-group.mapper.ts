@@ -3,7 +3,6 @@ import { PromptGroupDTO } from "@/dto/prompt-group.dto";
 export class PromptGroupMapper {
   static toDTO(promptGroup: {
     _id: unknown;
-    key: string;
     name: string;
     description?: string;
     createdAt: Date;
@@ -11,7 +10,6 @@ export class PromptGroupMapper {
   }): PromptGroupDTO {
     return {
       id: String(promptGroup._id),
-      key: promptGroup.key,
       name: promptGroup.name,
       description: promptGroup.description,
       createdAt: promptGroup.createdAt.toISOString(),

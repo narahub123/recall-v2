@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import { PromptGroupDTO } from "@/dto/prompt-group.dto";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -31,8 +30,6 @@ export function PromptGroupCard({ promptGroup }: PromptGroupCardProps) {
         <CardHeader>
           <div className="flex items-center justify-between gap-4">
             <CardTitle>{promptGroup.name}</CardTitle>
-
-            <Badge>{promptGroup.key}</Badge>
           </div>
         </CardHeader>
 

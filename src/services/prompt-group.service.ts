@@ -6,16 +6,9 @@ export class PromptGroupService {
   constructor(private readonly promptGroupRepository: PromptGroupRepository) {}
 
   async createPromptGroup(data: {
-    key: string;
     name: string;
     description?: string;
   }): Promise<PromptGroupDTO> {
-    const existing = await this.promptGroupRepository.findByKey(data.key);
-
-    if (existing) {
-      throw new Error("이미 존재하는 Prompt Group입니다.");
-    }
-
     const promptGroup = await this.promptGroupRepository.create(data);
 
     return PromptGroupMapper.toDTO(promptGroup);

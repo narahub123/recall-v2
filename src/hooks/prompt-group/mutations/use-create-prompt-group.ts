@@ -7,7 +7,7 @@ export function useCreatePromptGroup() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { key: string; name: string; description?: string }) =>
+    mutationFn: (data: { name: string; description?: string }) =>
       createPromptGroupAction(data),
 
     onSuccess: () => {

@@ -54,12 +54,6 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
 
         <CardContent className="space-y-3">
           <div>
-            <p className="text-sm text-muted-foreground">Key</p>
-
-            <p>{promptGroup.key}</p>
-          </div>
-
-          <div>
             <p className="text-sm text-muted-foreground">Description</p>
 
             <p>{promptGroup.description || "설명이 없습니다."}</p>

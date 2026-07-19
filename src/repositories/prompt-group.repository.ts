@@ -1,7 +1,7 @@
 import { PromptGroup } from "@/models/prompt-group.model";
 
 export class PromptGroupRepository {
-  async create(data: { key: string; name: string; description?: string }) {
+  async create(data: { name: string; description?: string }) {
     return PromptGroup.create(data);
   }
 
@@ -13,12 +13,6 @@ export class PromptGroupRepository {
 
   async findById(id: string) {
     return PromptGroup.findById(id);
-  }
-
-  async findByKey(key: string) {
-    return PromptGroup.findOne({
-      key,
-    });
   }
 
   async update(

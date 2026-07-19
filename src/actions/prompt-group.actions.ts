@@ -9,7 +9,6 @@ import { PromptGroupService } from "@/services/prompt-group.service";
 const promptGroupService = new PromptGroupService(new PromptGroupRepository());
 
 export async function createPromptGroupAction(data: {
-  key: string;
   name: string;
   description?: string;
 }) {
