@@ -1,36 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 
 import { PromptGroupDTO } from "@/dto/prompt-group.dto";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import { PromptGroupDeleteDialog } from "./prompt-group-delete-dialog";
-import { PromptGroupEditDialog } from "./prompt-group-edit-dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type PromptGroupCardProps = {
   promptGroup: PromptGroupDTO;
 };
 
 export function PromptGroupCard({ promptGroup }: PromptGroupCardProps) {
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
-
   return (
-    <>
-      <Card>
+    <Link href={`/admin/prompts/${promptGroup.id}`}>
+      <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
-          <div className="flex items-center justify-between gap-4">
-            <CardTitle>{promptGroup.name}</CardTitle>
-          </div>
+          <CardTitle>{promptGroup.name}</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -38,33 +23,7 @@ export function PromptGroupCard({ promptGroup }: PromptGroupCardProps) {
             {promptGroup.description || "설명이 없습니다."}
           </p>
         </CardContent>
-
-        <CardFooter className="gap-2">
-          <Button variant="outline" size="sm" onClick={() => setEditOpen(true)}>
-            수정
-          </Button>
-
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={() => setDeleteOpen(true)}
-          >
-            삭제
-          </Button>
-        </CardFooter>
       </Card>
-
-      <PromptGroupEditDialog
-        promptGroup={promptGroup}
-        open={editOpen}
-        onOpenChange={setEditOpen}
-      />
-
-      <PromptGroupDeleteDialog
-        id={promptGroup.id}
-        open={deleteOpen}
-        onOpenChange={setDeleteOpen}
-      />
-    </>
+    </Link>
   );
 }

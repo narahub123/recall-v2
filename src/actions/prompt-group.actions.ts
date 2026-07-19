@@ -5,8 +5,17 @@ import { requireAdmin } from "@/lib/auth/require-admin";
 
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
 import { PromptGroupService } from "@/services/prompt-group.service";
+import { PromptVersionService } from "@/services/prompt-version.service";
+import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
 
-const promptGroupService = new PromptGroupService(new PromptGroupRepository());
+const promptVersionService = new PromptVersionService(
+  new PromptVersionRepository(),
+);
+
+const promptGroupService = new PromptGroupService(
+  new PromptGroupRepository(),
+  promptVersionService,
+);
 
 export async function createPromptGroupAction(data: {
   name: string;

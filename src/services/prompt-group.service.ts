@@ -1,9 +1,13 @@
 import { PromptGroupDTO } from "@/dto/prompt-group.dto";
 import { PromptGroupMapper } from "@/mappers/prompt-group.mapper";
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
+import { PromptVersionService } from "./prompt-version.service";
 
 export class PromptGroupService {
-  constructor(private readonly promptGroupRepository: PromptGroupRepository) {}
+  constructor(
+    private readonly promptGroupRepository: PromptGroupRepository,
+    private readonly promptVersionService: PromptVersionService,
+  ) {}
 
   async createPromptGroup(data: {
     name: string;
@@ -49,6 +53,8 @@ export class PromptGroupService {
   }
 
   async deletePromptGroup(id: string): Promise<PromptGroupDTO | null> {
+    await this.promptVersionService.deleteVersionsByPromptGroupId(id);
+
     const promptGroup = await this.promptGroupRepository.delete(id);
 
     if (!promptGroup) {

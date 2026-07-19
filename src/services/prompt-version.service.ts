@@ -70,4 +70,8 @@ export class PromptVersionService {
 
     return PromptVersionMapper.toDTO(promptVersion);
   }
+
+  async deleteVersionsByPromptGroupId(promptGroupId: string) {
+    return this.promptVersionRepository.deleteByPromptGroupId(promptGroupId);
+  }
 }

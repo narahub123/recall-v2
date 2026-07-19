@@ -41,4 +41,10 @@ export class PromptVersionRepository {
   async delete(id: string) {
     return PromptVersion.findByIdAndDelete(id);
   }
+
+  async deleteByPromptGroupId(promptGroupId: string) {
+    return PromptVersion.deleteMany({
+      promptGroupId,
+    });
+  }
 }
