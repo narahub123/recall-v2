@@ -3,7 +3,7 @@
 import { Block } from "@blocknote/core";
 
 import { connectMongoDB } from "@/lib/mongodb";
-import { getCurrentUser } from "@/lib/auth-user";
+import { getCurrentUser } from "@/lib/auth/auth-user";
 
 import { NoteRepository } from "@/repositories/note.repository";
 import { NoteService } from "@/services/note.service";
