@@ -15,6 +15,7 @@ import {
 
 import { PromptGroupDeleteDialog } from "./prompt-group-delete-dialog";
 import { PromptGroupEditForm } from "./prompt-group-edit-form";
+import { PromptVersionSection } from "../prompt-version/prompt-version-section";
 
 type PromptGroupDetailProps = {
   id: string;
@@ -81,7 +82,9 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
           <CardTitle>Prompt Versions</CardTitle>
         </CardHeader>
 
-        <CardContent>Version 목록 영역</CardContent>
+        <CardContent>
+          <PromptVersionSection promptGroupId={promptGroup.id} />
+        </CardContent>
       </Card>
 
       <PromptGroupDeleteDialog
