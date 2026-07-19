@@ -7,4 +7,7 @@ export const promptVersionKeys = {
     [...promptVersionKeys.lists(), promptGroupId] as const,
 
   detail: (id: string) => [...promptVersionKeys.all, "detail", id] as const,
+
+  detailView: (id: string) =>
+    [...promptVersionKeys.all, "detail-view", id] as const,
 };

@@ -2,27 +2,28 @@
 
 import { useState } from "react";
 
-import { usePromptVersion } from "@/hooks/prompt-version/queries/use-prompt-version";
+import { usePromptVersionDetail } from "@/hooks/prompt-version/queries/use-prompt-version-detail";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { AdminBreadcrumb } from "../admin-breadcrumb";
 import { PromptVersionDeleteDialog } from "./prompt-version-delete-dialog";
 import { PromptVersionEditForm } from "./prompt-version-edit-form";
 
 type PromptVersionDetailProps = {
-  promptGroupId: string;
   versionId: string;
 };
 
-export function PromptVersionDetail({
-  promptGroupId,
-  versionId,
-}: PromptVersionDetailProps) {
+export function PromptVersionDetail({ versionId }: PromptVersionDetailProps) {
   const [editMode, setEditMode] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const { data: version, isLoading, isError } = usePromptVersion(versionId);
+  const {
+    data: version,
+    isLoading,
+    isError,
+  } = usePromptVersionDetail(versionId);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -43,7 +44,23 @@ export function PromptVersionDetail({
   }
 
   return (
-    <>
+    <div className="space-y-6">
+      <AdminBreadcrumb
+        items={[
+          {
+            label: "Prompts",
+            href: "/admin/prompts",
+          },
+          {
+            label: version.promptGroup.name,
+            href: `/admin/prompts/${version.promptGroup.id}`,
+          },
+          {
+            label: `Version ${version.version}`,
+          },
+        ]}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -70,10 +87,10 @@ export function PromptVersionDetail({
 
       <PromptVersionDeleteDialog
         id={version.id}
-        promptGroupId={promptGroupId}
+        promptGroupId={version.promptGroup.id}
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
       />
-    </>
+    </div>
   );
 }

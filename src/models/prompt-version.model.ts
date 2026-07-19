@@ -29,6 +29,7 @@ const promptVersionSchema = new Schema<IPromptVersion>(
   {
     timestamps: true,
     versionKey: false,
+    collection: "prompt_versions",
   },
 );
 

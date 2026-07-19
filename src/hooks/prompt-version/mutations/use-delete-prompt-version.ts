@@ -9,9 +9,17 @@ export function useDeletePromptVersion() {
   return useMutation({
     mutationFn: (id: string) => deletePromptVersionAction(id),
 
-    onSuccess: () => {
+    onSuccess: (_, id) => {
       queryClient.invalidateQueries({
         queryKey: promptVersionKeys.lists(),
+      });
+
+      queryClient.removeQueries({
+        queryKey: promptVersionKeys.detail(id),
+      });
+
+      queryClient.removeQueries({
+        queryKey: promptVersionKeys.detailView(id),
       });
     },
   });

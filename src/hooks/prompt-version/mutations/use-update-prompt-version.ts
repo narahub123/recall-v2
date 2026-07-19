@@ -16,6 +16,10 @@ export function useUpdatePromptVersion() {
       queryClient.invalidateQueries({
         queryKey: promptVersionKeys.detail(variables.id),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: promptVersionKeys.detailView(variables.id),
+      });
     },
   });
 }

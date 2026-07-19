@@ -16,6 +16,7 @@ import {
 import { PromptGroupDeleteDialog } from "./prompt-group-delete-dialog";
 import { PromptGroupEditForm } from "./prompt-group-edit-form";
 import { PromptVersionSection } from "../prompt-version/prompt-version-section";
+import { AdminBreadcrumb } from "../admin-breadcrumb";
 
 type PromptGroupDetailProps = {
   id: string;
@@ -47,6 +48,17 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
 
   return (
     <div className="space-y-6">
+      <AdminBreadcrumb
+        items={[
+          {
+            label: "Prompts",
+            href: "/admin/prompts",
+          },
+          {
+            label: promptGroup.name,
+          },
+        ]}
+      />
       <Card>
         <CardHeader>
           <CardTitle>{promptGroup.name}</CardTitle>
