@@ -1,4 +1,7 @@
-import { KnowledgeExtraction } from "@/models/knowledge-extraction.model";
+import {
+  IKnowledgeExtraction,
+  KnowledgeExtraction,
+} from "@/models/knowledge-extraction.model";
 
 export class KnowledgeExtractionRepository {
   async create(data: {
@@ -25,7 +28,7 @@ export class KnowledgeExtractionRepository {
     return KnowledgeExtraction.create(data);
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<IKnowledgeExtraction | null> {
     return KnowledgeExtraction.findById(id).lean();
   }
 

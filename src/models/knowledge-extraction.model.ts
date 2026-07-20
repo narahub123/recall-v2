@@ -18,6 +18,8 @@ export interface IKnowledgeExtractionResult {
 }
 
 export interface IKnowledgeExtraction {
+  _id: Types.ObjectId;
+
   noteId: string;
 
   promptVersionId: string;
