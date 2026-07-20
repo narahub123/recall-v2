@@ -17,9 +17,12 @@ export class KnowledgeObjectGenerationMapper {
 
       embeddingModel: generation.embeddingModel,
 
-      knowledgeObjectIds: generation.knowledgeObjectIds,
+      knowledgeObjectIds: [...generation.knowledgeObjectIds],
 
-      usage: generation.usage,
+      usage: {
+        inputTokens: generation.usage.inputTokens,
+        totalTokens: generation.usage.totalTokens,
+      },
 
       status: generation.status,
 

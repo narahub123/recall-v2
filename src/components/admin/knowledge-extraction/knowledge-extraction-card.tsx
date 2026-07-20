@@ -18,12 +18,12 @@ export function KnowledgeExtractionCard({
     <Link href={`/admin/knowledge-extractions/${extraction.id}`}>
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
-          <CardTitle>{extraction.model}</CardTitle>
+          <CardTitle>{extraction.note.title ?? "제목 없음"}</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-2">
           <p className="text-sm text-muted-foreground">
-            Note: {extraction.note.title ?? "제목 없음"}
+            Model: {extraction.model}
           </p>
 
           <p className="text-sm text-muted-foreground">

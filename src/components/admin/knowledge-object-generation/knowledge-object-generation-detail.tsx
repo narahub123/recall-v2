@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useKnowledgeObjectGeneration } from "@/hooks/knowledge-object-generation/queries/use-knowledge-object-generation";
 
 import { KnowledgeObjectGenerationObjectList } from "./knowledge-object-generation-object-list";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
+import Link from "next/link";
 
 interface Props {
   id: string;
@@ -27,29 +29,66 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
 
   return (
     <Card>
+      <div className="pl-4">
+        <AdminBreadcrumb
+          items={[
+            {
+              label: "관리자",
+              href: "/admin",
+            },
+            {
+              label: "Knowledge Object Generation",
+              href: "/admin/knowledge-object-generations",
+            },
+            {
+              label: generation.note.title ?? "상세",
+            },
+          ]}
+        />
+      </div>
       <CardHeader>
         <CardTitle>Knowledge Object Generation</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
-          <div>
+          <Link
+            href={`/admin/notes/${generation.note.id}`}
+            className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+          >
             <p className="text-sm text-muted-foreground">노트</p>
 
             <p className="font-medium">{generation.note.title}</p>
-          </div>
+          </Link>
 
-          <div>
+          <Link
+            href={`/admin/prompts/${generation.promptGroup.id}`}
+            className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+          >
             <p className="text-sm text-muted-foreground">Prompt Group</p>
 
             <p>{generation.promptGroup.name}</p>
-          </div>
+          </Link>
 
-          <div>
+          <Link
+            href={`/admin/prompts/${generation.promptGroup.id}/versions/${generation.promptVersion.id}`}
+            className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+          >
             <p className="text-sm text-muted-foreground">Prompt Version</p>
 
             <p>v{generation.promptVersion.version}</p>
-          </div>
+          </Link>
+
+          <Link
+            href={`/admin/knowledge-extractions/${generation.extractionId}`}
+            className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+          >
+            <p className="text-sm text-muted-foreground">
+              Knowledge Extraction
+            </p>
+
+            <p>{generation.note.title} extraction</p>
+          </Link>
 
           <div>
             <p className="text-sm text-muted-foreground">Embedding Model</p>

@@ -240,5 +240,6 @@ export async function getKnowledgeObjectGenerationsViewAction() {
     );
   }
 
+  console.dir(result, { depth: null });
   return result;
 }

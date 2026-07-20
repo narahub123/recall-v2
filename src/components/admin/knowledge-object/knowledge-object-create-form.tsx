@@ -40,7 +40,7 @@ export function KnowledgeObjectCreateForm() {
             return;
           }
 
-          router.push(`/admin/knowledge-objects`);
+          router.push(`/admin/knowledge-object-generations`);
         },
       },
     );

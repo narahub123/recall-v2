@@ -14,6 +14,10 @@ export const ADMIN_MENU: AdminMenuItem[] = [
     href: "/admin/knowledge-extractions",
   },
   {
+    label: "지식 객체 작업 관리",
+    href: "/admin/knowledge-object-generations",
+  },
+  {
     label: "지식 객체 관리",
     href: "/admin/knowledge-objects",
   },

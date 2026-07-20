@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { KnowledgeExtractionResult } from "./knowledge-extraction-result";
 import { KnowledgeObjectGenerator } from "./knowledge-object-generator";
+import Link from "next/link";
 
 interface Props {
   id: string;
@@ -45,7 +46,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
               href: "/admin/knowledge-extractions",
             },
             {
-              label: "상세",
+              label: extraction.note.title ?? "상세",
             },
           ]}
         />
@@ -59,15 +60,25 @@ export function KnowledgeExtractionDetail({ id }: Props) {
         <section className="space-y-3">
           <DetailItem label="ID" value={extraction.id} />
 
-          <DetailItem
-            label="Note"
-            value={extraction.note.title ?? "제목 없음"}
-          />
+          <Link
+            href={`/admin/notes/${extraction.note.id}`}
+            className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+          >
+            <DetailItem
+              label="Note"
+              value={extraction.note.title ?? "제목 없음"}
+            />
+          </Link>
 
-          <DetailItem
-            label="Prompt"
-            value={`${extraction.promptGroup.name} v${extraction.promptVersion.version}`}
-          />
+          <Link
+            href={`/admin/prompts/${extraction.promptGroup.id}/versions/${extraction.promptVersion.id}`}
+            className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+          >
+            <DetailItem
+              label="Prompt"
+              value={`${extraction.promptGroup.name} v${extraction.promptVersion.version}`}
+            />
+          </Link>
 
           <DetailItem label="Model" value={extraction.model} />
 

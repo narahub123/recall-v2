@@ -35,7 +35,7 @@ export function KnowledgeObjectGenerator({ extractionId }: Props) {
       },
       {
         onSuccess() {
-          router.push("/admin/knowledge-objects");
+          router.push("/admin/knowledge-object-generations");
         },
       },
     );
