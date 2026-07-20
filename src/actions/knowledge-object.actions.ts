@@ -2,6 +2,7 @@
 
 import { KnowledgeObjectViewDTO } from "@/dto/knowledge-object-view.dto";
 import { EmbeddingModel } from "@/embedding/embedding-models";
+import { OpenAiEmbeddingClient } from "@/embedding/providers/openai/openai-embedding-client";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { connectMongoDB } from "@/lib/mongodb";
 import { KnowledgeObjectViewMapper } from "@/mappers/knowledge-object-view.mapper";
@@ -13,6 +14,7 @@ import { NoteRepository } from "@/repositories/note.repository";
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
 import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
 import { KnowledgeExtractionService } from "@/services/knowledge-extraction.service";
+import { KnowledgeObjectGenerationService } from "@/services/knowledge-object-generation.service";
 import { KnowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
 import { KnowledgeObjectService } from "@/services/knowledge-object.service";
 import { NoteService } from "@/services/note.service";
@@ -42,6 +44,14 @@ const knowledgeExtractionService = new KnowledgeExtractionService(
   new KnowledgeExtractionRepository(),
 );
 
+const knowledgeObjectGenerationService = new KnowledgeObjectGenerationService(
+  new KnowledgeExtractionRepository(),
+
+  new KnowledgeObjectService(new KnowledgeObjectRepository()),
+
+  new OpenAiEmbeddingClient(),
+);
+
 export async function createKnowledgeObjectAction(data: {
   noteId: string;
 
@@ -68,6 +78,28 @@ export async function createKnowledgeObjectAction(data: {
   await requireAdmin();
 
   return knowledgeObjectService.createKnowledgeObject(data);
+}
+
+export async function createKnowledgeObjectFromManualAction(data: {
+  noteId: string;
+
+  promptVersionId: string;
+
+  name: string;
+
+  description: string;
+
+  reason: string;
+
+  parent?: string | null;
+
+  embeddingModel: EmbeddingModel;
+}) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectGenerationService.createFromManual(data);
 }
 
 export async function getKnowledgeObjectAction(id: string) {

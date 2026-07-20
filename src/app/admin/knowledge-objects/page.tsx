@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+
 import { KnowledgeObjectListClient } from "@/components/admin/knowledge-object/knowledge-object-list-client";
 
 export default function KnowledgeObjectPage() {
@@ -11,6 +15,10 @@ export default function KnowledgeObjectPage() {
             저장된 Knowledge Object를 관리합니다.
           </p>
         </div>
+
+        <Link href="/admin/knowledge-objects/new">
+          <Button>생성</Button>
+        </Link>
       </div>
 
       <KnowledgeObjectListClient />

@@ -67,6 +67,54 @@ export class KnowledgeObjectGenerationService {
     return knowledgeObjects;
   }
 
+  async createFromManual(data: {
+    noteId: string;
+
+    promptVersionId: string;
+
+    name: string;
+
+    description: string;
+
+    reason: string;
+
+    parent?: string | null;
+
+    embeddingModel: EmbeddingModel;
+  }): Promise<KnowledgeObjectDTO> {
+    const embeddingText = this.createEmbeddingText(
+      data.name,
+      data.description,
+      data.parent,
+    );
+
+    const embeddingResponse = await this.embeddingClient.embed({
+      texts: [embeddingText],
+
+      model: data.embeddingModel,
+    });
+
+    return this.knowledgeObjectService.createKnowledgeObject({
+      noteId: data.noteId,
+
+      promptVersionId: data.promptVersionId,
+
+      name: data.name,
+
+      description: data.description,
+
+      reason: data.reason,
+
+      parent: data.parent,
+
+      embeddingText,
+
+      embeddingModel: data.embeddingModel,
+
+      embedding: embeddingResponse.embeddings[0],
+    });
+  }
+
   private createEmbeddingText(
     name: string,
     description: string,
