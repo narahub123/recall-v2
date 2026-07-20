@@ -78,7 +78,15 @@ export function KnowledgeExtractionCreateClient() {
         onSuccess(result) {
           sessionStorage.setItem(
             "knowledge-extraction-preview",
-            JSON.stringify(result),
+            JSON.stringify({
+              ...result,
+
+              noteTitle: selectedNoteTitle,
+
+              promptGroupName: selectedPromptGroupName,
+
+              promptVersion: selectedPromptVersion?.version,
+            }),
           );
 
           router.push("/admin/knowledge-extractions/preview");

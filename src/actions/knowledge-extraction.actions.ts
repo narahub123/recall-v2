@@ -17,6 +17,10 @@ import { PromptVersionRepository } from "@/repositories/prompt-version.repositor
 import { NoteService } from "@/services/note.service";
 import { PromptVersionService } from "@/services/prompt-version.service";
 import { OpenAiClient } from "@/llm/providers/openai/openai-client";
+import { PromptGroupService } from "@/services/prompt-group.service";
+import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
+import { KnowledgeExtractionViewDTO } from "@/dto/knowledge-extraction-view.dto";
+import { KnowledgeExtractionViewMapper } from "@/mappers/knowledge-extraction-view.mapper";
 
 const knowledgeExtractionService = new KnowledgeExtractionService(
   new KnowledgeExtractionRepository(),
@@ -31,6 +35,17 @@ const knowledgeExtractionRunService = new KnowledgeExtractionRunService(
 
   new OpenAiClient(),
 );
+
+const promptVersionService = new PromptVersionService(
+  new PromptVersionRepository(),
+);
+
+const promptGroupService = new PromptGroupService(
+  new PromptGroupRepository(),
+  promptVersionService,
+);
+
+const noteService = new NoteService(new NoteRepository());
 
 export async function createKnowledgeExtractionAction(data: {
   noteId: string;
@@ -70,6 +85,54 @@ export async function getKnowledgeExtractionAction(
   return knowledgeExtractionService.getExtractionById(id);
 }
 
+export async function getKnowledgeExtractionViewAction(
+  id: string,
+): Promise<KnowledgeExtractionViewDTO | null> {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  const extraction = await knowledgeExtractionService.getExtractionById(id);
+
+  if (!extraction) {
+    return null;
+  }
+
+  const note = await noteService.getNoteById(extraction.noteId);
+
+  const promptVersion = await promptVersionService.getVersionById(
+    extraction.promptVersionId,
+  );
+
+  if (!note || !promptVersion) {
+    return null;
+  }
+
+  const promptGroup = await promptGroupService.getPromptGroupById(
+    promptVersion.promptGroupId,
+  );
+
+  if (!promptGroup) {
+    return null;
+  }
+
+  return KnowledgeExtractionViewMapper.toDTO(
+    extraction,
+    {
+      id: note.id,
+      title: note.title,
+    },
+    {
+      id: promptVersion.id,
+      version: promptVersion.version,
+    },
+    {
+      id: promptGroup.id,
+      name: promptGroup.name,
+    },
+  );
+}
+
 export async function getKnowledgeExtractionsAction(): Promise<
   KnowledgeExtractionDTO[]
 > {
@@ -78,6 +141,58 @@ export async function getKnowledgeExtractionsAction(): Promise<
   await requireAdmin();
 
   return knowledgeExtractionService.getExtractions();
+}
+
+export async function getKnowledgeExtractionsViewAction(): Promise<
+  KnowledgeExtractionViewDTO[]
+> {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  const extractions = await knowledgeExtractionService.getExtractions();
+
+  const result: KnowledgeExtractionViewDTO[] = [];
+
+  for (const extraction of extractions) {
+    const note = await noteService.getNoteById(extraction.noteId);
+
+    const promptVersion = await promptVersionService.getVersionById(
+      extraction.promptVersionId,
+    );
+
+    if (!note || !promptVersion) {
+      continue;
+    }
+
+    const promptGroup = await promptGroupService.getPromptGroupById(
+      promptVersion.promptGroupId,
+    );
+
+    if (!promptGroup) {
+      continue;
+    }
+
+    result.push(
+      KnowledgeExtractionViewMapper.toDTO(
+        extraction,
+        {
+          id: note.id,
+          title: note.title,
+        },
+        {
+          id: promptVersion.id,
+          version: promptVersion.version,
+        },
+        {
+          id: promptGroup.id,
+          name: promptGroup.name,
+        },
+      ),
+    );
+  }
+
+  return result;
 }
 
 export async function updateKnowledgeExtractionAction(

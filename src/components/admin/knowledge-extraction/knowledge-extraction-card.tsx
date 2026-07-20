@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 
-import { KnowledgeExtractionDTO } from "@/dto/knowledge-extraction.dto";
+import { KnowledgeExtractionViewDTO } from "@/dto/knowledge-extraction-view.dto";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDate } from "@/lib/date/format-date";
 
 type KnowledgeExtractionCardProps = {
-  extraction: KnowledgeExtractionDTO;
+  extraction: KnowledgeExtractionViewDTO;
 };
 
 export function KnowledgeExtractionCard({
@@ -22,15 +23,16 @@ export function KnowledgeExtractionCard({
 
         <CardContent className="space-y-2">
           <p className="text-sm text-muted-foreground">
-            Prompt Version ID: {extraction.promptVersionId}
+            Note: {extraction.note.title ?? "제목 없음"}
           </p>
 
           <p className="text-sm text-muted-foreground">
-            Note ID: {extraction.noteId}
+            Prompt: {extraction.promptGroup.name} v
+            {extraction.promptVersion.version}
           </p>
 
           <p className="text-sm text-muted-foreground">
-            Created At: {extraction.createdAt}
+            Created At: {formatDate(extraction.createdAt)}
           </p>
         </CardContent>
       </Card>

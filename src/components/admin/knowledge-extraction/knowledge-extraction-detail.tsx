@@ -3,6 +3,14 @@
 import { useKnowledgeExtraction } from "@/hooks/knowledge-extraction/queries/use-knowledge-extraction";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AdminBreadcrumb } from "../admin-breadcrumb";
+import { formatDate } from "@/lib/date/format-date";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   id: string;
@@ -23,6 +31,24 @@ export function KnowledgeExtractionDetail({ id }: Props) {
 
   return (
     <Card>
+      <div className="pl-4">
+        <AdminBreadcrumb
+          items={[
+            {
+              label: "관리자",
+              href: "/admin",
+            },
+            {
+              label: "Knowledge Extraction",
+              href: "/admin/knowledge-extractions",
+            },
+            {
+              label: "상세",
+            },
+          ]}
+        />
+      </div>
+
       <CardHeader>
         <CardTitle>Knowledge Extraction Detail</CardTitle>
       </CardHeader>
@@ -31,11 +57,14 @@ export function KnowledgeExtractionDetail({ id }: Props) {
         <section className="space-y-3">
           <DetailItem label="ID" value={extraction.id} />
 
-          <DetailItem label="Note ID" value={extraction.noteId} />
+          <DetailItem
+            label="Note"
+            value={extraction.note.title ?? "제목 없음"}
+          />
 
           <DetailItem
-            label="Prompt Version ID"
-            value={extraction.promptVersionId}
+            label="Prompt"
+            value={`${extraction.promptGroup.name} v${extraction.promptVersion.version}`}
           />
 
           <DetailItem label="Model" value={extraction.model} />
@@ -50,7 +79,10 @@ export function KnowledgeExtractionDetail({ id }: Props) {
             value={extraction.responseFormat}
           />
 
-          <DetailItem label="Created At" value={extraction.createdAt} />
+          <DetailItem
+            label="Created At"
+            value={formatDate(extraction.createdAt)}
+          />
         </section>
 
         <section className="space-y-3">
@@ -75,9 +107,21 @@ export function KnowledgeExtractionDetail({ id }: Props) {
         <section className="space-y-3">
           <h2 className="font-semibold">Prompt Snapshot</h2>
 
-          <pre className="rounded-lg border p-4 whitespace-pre-wrap text-sm">
-            {extraction.promptSnapshot}
-          </pre>
+          <Collapsible>
+            <div className="rounded-lg border">
+              <div className="flex items-center justify-between p-4">
+                <CollapsibleTrigger className="flex-1 cursor-pointer">
+                  프롬프트 내용을 확인하려면 여기를 클릭하세요.
+                </CollapsibleTrigger>
+              </div>
+
+              <CollapsibleContent>
+                <pre className="border-t p-4 whitespace-pre-wrap break-all text-sm">
+                  {extraction.promptSnapshot}
+                </pre>
+              </CollapsibleContent>
+            </div>
+          </Collapsible>
         </section>
 
         <section className="space-y-3">
@@ -107,7 +151,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
         <section className="space-y-3">
           <h2 className="font-semibold">Raw Result</h2>
 
-          <pre className="rounded-lg border p-4 overflow-auto text-sm">
+          <pre className="rounded-lg border p-4 whitespace-pre-wrap break-all text-sm">
             {JSON.stringify(extraction.result, null, 2)}
           </pre>
         </section>
@@ -119,7 +163,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
 function DetailItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-4 text-sm">
-      <span className="w-40 font-medium">{label}</span>
+      <span className="w-30 shrink-0 font-medium">{label}</span>
 
       <span className="break-all">{value}</span>
     </div>

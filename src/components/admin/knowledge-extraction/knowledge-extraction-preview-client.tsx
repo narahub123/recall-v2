@@ -7,11 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useCreateKnowledgeExtraction } from "@/hooks/knowledge-extraction/mutations/use-create-knowledge-extraction";
+import { AdminBreadcrumb } from "../admin-breadcrumb";
 
 interface KnowledgeExtractionPreview {
   noteId: string;
 
+  noteTitle?: string;
+
   promptVersionId: string;
+
+  promptGroupName?: string;
+
+  promptVersion?: number;
 
   promptSnapshot: string;
 
@@ -78,15 +85,37 @@ export function KnowledgeExtractionPreviewClient() {
 
   return (
     <Card>
+      <div className="ml-4">
+        <AdminBreadcrumb
+          items={[
+            {
+              label: "관리자",
+              href: "/admin",
+            },
+            {
+              label: "Knowledge Extraction",
+              href: "/admin/knowledge-extractions",
+            },
+            {
+              label: "미리보기",
+            },
+          ]}
+        />
+      </div>
       <CardHeader>
         <CardTitle>Knowledge Extraction Preview</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-6">
         <div className="space-y-2 text-sm">
-          <div>Note ID: {data.noteId}</div>
+          <div>Note: {data.noteTitle ?? data.noteId}</div>
 
-          <div>Prompt Version ID: {data.promptVersionId}</div>
+          <div>
+            Prompt:{" "}
+            {data.promptGroupName
+              ? `${data.promptGroupName} v${data.promptVersion}`
+              : data.promptVersionId}
+          </div>
 
           <div>Model: {data.model}</div>
 

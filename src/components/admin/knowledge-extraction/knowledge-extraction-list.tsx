@@ -1,9 +1,9 @@
-import { KnowledgeExtractionDTO } from "@/dto/knowledge-extraction.dto";
+import { KnowledgeExtractionViewDTO } from "@/dto/knowledge-extraction-view.dto";
 
 import { KnowledgeExtractionCard } from "./knowledge-extraction-card";
 
 type KnowledgeExtractionListProps = {
-  extractions: KnowledgeExtractionDTO[];
+  extractions: KnowledgeExtractionViewDTO[];
 };
 
 export function KnowledgeExtractionList({
@@ -18,7 +18,7 @@ export function KnowledgeExtractionList({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex flex-col">
       {extractions.map((extraction) => (
         <KnowledgeExtractionCard key={extraction.id} extraction={extraction} />
       ))}
