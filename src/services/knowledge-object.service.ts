@@ -1,6 +1,5 @@
 import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
 import { KnowledgeObjectMapper } from "@/mappers/knowledge-object.mapper";
-import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
 import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
 
 export class KnowledgeObjectService {
