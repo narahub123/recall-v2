@@ -1,10 +1,16 @@
 import type { EmbeddingClient } from "@/embedding/embedding-client";
 import type { EmbeddingModel } from "@/embedding/embedding-models";
 
-import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
-import { KnowledgeObjectService } from "@/services/knowledge-object.service";
-
 import type { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
+
+import { KNOWLEDGE_OBJECT_GENERATION_STATUS } from "@/models/knowledge-object-generation.model";
+
+import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
+import { KnowledgeObjectGenerationRepository } from "@/repositories/knowledge-object-generation.repository";
+
+import { KnowledgeObjectService } from "@/services/knowledge-object.service";
+import { KnowledgeObjectGenerationDTO } from "@/dto/knowledge-object-generation.dto";
+import { KnowledgeObjectGenerationMapper } from "@/mappers/knowledge-object-generation.mapper";
 
 export class KnowledgeObjectGenerationService {
   constructor(
@@ -13,6 +19,8 @@ export class KnowledgeObjectGenerationService {
     private readonly knowledgeObjectService: KnowledgeObjectService,
 
     private readonly embeddingClient: EmbeddingClient,
+
+    private readonly knowledgeObjectGenerationRepository: KnowledgeObjectGenerationRepository,
   ) {}
 
   async createFromExtraction(
@@ -26,98 +34,129 @@ export class KnowledgeObjectGenerationService {
       throw new Error("KnowledgeExtraction not found");
     }
 
-    const objects = extraction.result.knowledge_objects;
+    const generation = await this.knowledgeObjectGenerationRepository.create({
+      noteId: extraction.noteId,
 
-    const embeddingTexts = objects.map((object) =>
-      this.createEmbeddingText(object.name, object.description, object.parent),
-    );
+      extractionId: extraction._id.toString(),
 
-    const embeddingResponse = await this.embeddingClient.embed({
-      texts: embeddingTexts,
+      promptVersionId: extraction.promptVersionId,
 
-      model: embeddingModel,
+      embeddingModel,
+
+      knowledgeObjectIds: [],
+
+      usage: {
+        inputTokens: 0,
+
+        totalTokens: 0,
+      },
+
+      status: KNOWLEDGE_OBJECT_GENERATION_STATUS.PROCESSING,
     });
 
-    const knowledgeObjects = await Promise.all(
-      objects.map((object, index) =>
-        this.knowledgeObjectService.createKnowledgeObject({
-          noteId: extraction.noteId,
+    try {
+      const objects = extraction.result.knowledge_objects;
 
-          extractionId: extraction._id.toString(),
+      const embeddingTexts = objects.map((object) =>
+        this.createEmbeddingText(
+          object.name,
+          object.description,
+          object.parent,
+        ),
+      );
 
-          promptVersionId: extraction.promptVersionId,
+      const embeddingResponse = await this.embeddingClient.embed({
+        texts: embeddingTexts,
 
-          name: object.name,
+        model: embeddingModel,
+      });
 
-          description: object.description,
+      const knowledgeObjects = await Promise.all(
+        objects.map((object, index) =>
+          this.knowledgeObjectService.createKnowledgeObject({
+            noteId: extraction.noteId,
 
-          reason: object.reason,
+            extractionId: extraction._id.toString(),
 
-          parent: object.parent,
+            promptVersionId: extraction.promptVersionId,
 
-          embeddingText: embeddingTexts[index],
+            name: object.name,
 
-          embeddingModel,
+            description: object.description,
 
-          embedding: embeddingResponse.embeddings[index],
-        }),
-      ),
-    );
+            reason: object.reason,
 
-    return knowledgeObjects;
+            parent: object.parent,
+
+            embeddingText: embeddingTexts[index],
+
+            embeddingModel,
+
+            embedding: embeddingResponse.embeddings[index],
+          }),
+        ),
+      );
+
+      await this.knowledgeObjectGenerationRepository.update(
+        generation._id.toString(),
+        {
+          knowledgeObjectIds: knowledgeObjects.map(
+            (knowledgeObject) => knowledgeObject.id,
+          ),
+
+          usage: {
+            inputTokens: embeddingResponse.usage.inputTokens,
+
+            totalTokens: embeddingResponse.usage.totalTokens,
+          },
+
+          status: KNOWLEDGE_OBJECT_GENERATION_STATUS.COMPLETED,
+        },
+      );
+
+      return knowledgeObjects;
+    } catch (error) {
+      await this.knowledgeObjectGenerationRepository.update(
+        generation._id.toString(),
+        {
+          status: KNOWLEDGE_OBJECT_GENERATION_STATUS.FAILED,
+
+          errorMessage:
+            error instanceof Error ? error.message : "Unknown error",
+        },
+      );
+
+      throw error;
+    }
   }
 
-  async createFromManual(data: {
-    noteId: string;
+  async getGenerationById(
+    id: string,
+  ): Promise<KnowledgeObjectGenerationDTO | null> {
+    const generation =
+      await this.knowledgeObjectGenerationRepository.findById(id);
 
-    promptVersionId: string;
+    if (!generation) {
+      return null;
+    }
 
-    name: string;
+    return KnowledgeObjectGenerationMapper.toDTO(generation);
+  }
 
-    description: string;
+  async getGenerations(): Promise<KnowledgeObjectGenerationDTO[]> {
+    const generations =
+      await this.knowledgeObjectGenerationRepository.findAll();
 
-    reason: string;
-
-    parent?: string | null;
-
-    embeddingModel: EmbeddingModel;
-  }): Promise<KnowledgeObjectDTO> {
-    const embeddingText = this.createEmbeddingText(
-      data.name,
-      data.description,
-      data.parent,
+    return generations.map((generation) =>
+      KnowledgeObjectGenerationMapper.toDTO(generation),
     );
-
-    const embeddingResponse = await this.embeddingClient.embed({
-      texts: [embeddingText],
-
-      model: data.embeddingModel,
-    });
-
-    return this.knowledgeObjectService.createKnowledgeObject({
-      noteId: data.noteId,
-
-      promptVersionId: data.promptVersionId,
-
-      name: data.name,
-
-      description: data.description,
-
-      reason: data.reason,
-
-      parent: data.parent,
-
-      embeddingText,
-
-      embeddingModel: data.embeddingModel,
-
-      embedding: embeddingResponse.embeddings[0],
-    });
   }
 
   private createEmbeddingText(
     name: string,
+
     description: string,
+
     parent?: string | null,
   ): string {
     return [name, description, parent ? `상위 개념: ${parent}` : null]

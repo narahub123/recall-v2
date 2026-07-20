@@ -1,18 +1,23 @@
 "use server";
 
 import { KnowledgeObjectViewDTO } from "@/dto/knowledge-object-view.dto";
+
 import { EmbeddingModel } from "@/embedding/embedding-models";
 import { OpenAiEmbeddingClient } from "@/embedding/providers/openai/openai-embedding-client";
+
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { connectMongoDB } from "@/lib/mongodb";
-import { KnowledgeObjectViewMapper } from "@/mappers/knowledge-object-view.mapper";
-import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
-import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
 
+import { KnowledgeObjectViewMapper } from "@/mappers/knowledge-object-view.mapper";
+
+import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
+import { KnowledgeObjectGenerationRepository } from "@/repositories/knowledge-object-generation.repository";
+import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
 import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
 import { NoteRepository } from "@/repositories/note.repository";
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
 import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
+
 import { KnowledgeExtractionService } from "@/services/knowledge-extraction.service";
 import { KnowledgeObjectGenerationService } from "@/services/knowledge-object-generation.service";
 import { KnowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
@@ -21,8 +26,10 @@ import { NoteService } from "@/services/note.service";
 import { PromptGroupService } from "@/services/prompt-group.service";
 import { PromptVersionService } from "@/services/prompt-version.service";
 
+const knowledgeObjectRepository = new KnowledgeObjectRepository();
+
 const knowledgeObjectService = new KnowledgeObjectService(
-  new KnowledgeObjectRepository(),
+  knowledgeObjectRepository,
 );
 
 const knowledgeObjectRelationService = new KnowledgeObjectRelationService(
@@ -47,9 +54,11 @@ const knowledgeExtractionService = new KnowledgeExtractionService(
 const knowledgeObjectGenerationService = new KnowledgeObjectGenerationService(
   new KnowledgeExtractionRepository(),
 
-  new KnowledgeObjectService(new KnowledgeObjectRepository()),
+  knowledgeObjectService,
 
   new OpenAiEmbeddingClient(),
+
+  new KnowledgeObjectGenerationRepository(),
 );
 
 export async function createKnowledgeObjectAction(data: {
@@ -78,28 +87,6 @@ export async function createKnowledgeObjectAction(data: {
   await requireAdmin();
 
   return knowledgeObjectService.createKnowledgeObject(data);
-}
-
-export async function createKnowledgeObjectFromManualAction(data: {
-  noteId: string;
-
-  promptVersionId: string;
-
-  name: string;
-
-  description: string;
-
-  reason: string;
-
-  parent?: string | null;
-
-  embeddingModel: EmbeddingModel;
-}) {
-  await connectMongoDB();
-
-  await requireAdmin();
-
-  return knowledgeObjectGenerationService.createFromManual(data);
 }
 
 export async function getKnowledgeObjectAction(id: string) {
