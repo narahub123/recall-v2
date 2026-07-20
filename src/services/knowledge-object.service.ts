@@ -1,4 +1,5 @@
 import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
+import { EmbeddingModel } from "@/embedding/embedding-models";
 import { KnowledgeObjectMapper } from "@/mappers/knowledge-object.mapper";
 import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
 
@@ -16,6 +17,7 @@ export class KnowledgeObjectService {
     reason: string;
     parent?: string | null;
     embeddingText: string;
+    embeddingModel: EmbeddingModel;
     embedding: number[];
   }): Promise<KnowledgeObjectDTO> {
     const knowledgeObject = await this.knowledgeObjectRepository.create(data);

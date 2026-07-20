@@ -1,3 +1,5 @@
+import type { EmbeddingModel } from "@/embedding/embedding-models";
+
 export interface KnowledgeObjectDTO {
   id: string;
 
@@ -16,6 +18,8 @@ export interface KnowledgeObjectDTO {
   parent?: string | null;
 
   embeddingText: string;
+
+  embeddingModel: EmbeddingModel;
 
   embedding: number[];
 

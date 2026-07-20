@@ -1,5 +1,6 @@
 "use server";
 
+import { EmbeddingModel } from "@/embedding/embedding-models";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { connectMongoDB } from "@/lib/mongodb";
 import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
@@ -32,6 +33,8 @@ export async function createKnowledgeObjectAction(data: {
   parent?: string | null;
 
   embeddingText: string;
+
+  embeddingModel: EmbeddingModel;
 
   embedding: number[];
 }) {

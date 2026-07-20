@@ -150,7 +150,7 @@ export async function getKnowledgeExtractionsViewAction(): Promise<
 
   await requireAdmin();
 
-  const extractions = await knowledgeExtractionService.getExtractions();
+  const extractions = await knowledgeExtractionService.getExtractionDetails();
 
   const result: KnowledgeExtractionViewDTO[] = [];
 

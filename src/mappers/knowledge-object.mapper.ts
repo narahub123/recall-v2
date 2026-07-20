@@ -1,4 +1,5 @@
 import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
+import { EmbeddingModel } from "@/embedding/embedding-models";
 
 export class KnowledgeObjectMapper {
   static toDTO(knowledgeObject: {
@@ -19,6 +20,8 @@ export class KnowledgeObjectMapper {
     parent?: string | null;
 
     embeddingText: string;
+
+    embeddingModel: EmbeddingModel;
 
     embedding: number[];
 
@@ -44,6 +47,8 @@ export class KnowledgeObjectMapper {
       parent: knowledgeObject.parent,
 
       embeddingText: knowledgeObject.embeddingText,
+
+      embeddingModel: knowledgeObject.embeddingModel,
 
       embedding: knowledgeObject.embedding,
 

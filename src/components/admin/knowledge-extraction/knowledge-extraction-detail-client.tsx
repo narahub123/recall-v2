@@ -39,7 +39,7 @@ export function KnowledgeExtractionDetailClient({ id }: Props) {
 
   return (
     <div className="space-y-6">
-      <KnowledgeExtractionDetail extraction={extraction} />
+      <KnowledgeExtractionDetail id={id} />
 
       <div className="flex gap-2">
         <Button variant="outline" onClick={() => setEditMode(true)}>

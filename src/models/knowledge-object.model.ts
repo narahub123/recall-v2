@@ -1,3 +1,4 @@
+import { EmbeddingModel } from "@/embedding/embedding-models";
 import { Schema, model, models } from "mongoose";
 
 export interface IKnowledgeObject {
@@ -16,6 +17,8 @@ export interface IKnowledgeObject {
   parent?: string | null;
 
   embeddingText: string;
+
+  embeddingModel: EmbeddingModel;
 
   embedding: number[];
 
@@ -65,6 +68,11 @@ const knowledgeObjectSchema = new Schema<IKnowledgeObject>(
     },
 
     embeddingText: {
+      type: String,
+      required: true,
+    },
+
+    embeddingModel: {
       type: String,
       required: true,
     },

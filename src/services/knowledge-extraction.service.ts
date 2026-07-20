@@ -60,6 +60,15 @@ export class KnowledgeExtractionService {
     );
   }
 
+  async getExtractionDetails(): Promise<KnowledgeExtractionDetailDTO[]> {
+    const knowledgeExtractions =
+      await this.knowledgeExtractionRepository.findAll();
+
+    return knowledgeExtractions.map((knowledgeExtraction) =>
+      KnowledgeExtractionDetailMapper.toDTO(knowledgeExtraction),
+    );
+  }
+
   async updateExtraction(
     id: string,
     data: {

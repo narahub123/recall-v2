@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createKnowledgeObjectAction } from "@/actions/knowledge-object.actions";
 import { knowledgeObjectKeys } from "@/lib/query-keys/knowledge-object.keys";
+import { EmbeddingModel } from "@/embedding/embedding-models";
 
 export function useCreateKnowledgeObject() {
   const queryClient = useQueryClient();
@@ -23,6 +24,8 @@ export function useCreateKnowledgeObject() {
       parent?: string | null;
 
       embeddingText: string;
+
+      embeddingModel: EmbeddingModel;
 
       embedding: number[];
     }) => createKnowledgeObjectAction(data),
