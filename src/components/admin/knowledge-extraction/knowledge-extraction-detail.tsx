@@ -3,7 +3,7 @@
 import { useKnowledgeExtraction } from "@/hooks/knowledge-extraction/queries/use-knowledge-extraction";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AdminBreadcrumb } from "../admin-breadcrumb";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { formatDate } from "@/lib/date/format-date";
 import {
   Collapsible,
@@ -11,6 +11,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
+import { KnowledgeExtractionResult } from "./knowledge-extraction-result";
+import { KnowledgeObjectGenerator } from "./knowledge-object-generator";
 
 interface Props {
   id: string;
@@ -27,7 +29,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
     return <div>Knowledge Extraction을 찾을 수 없습니다.</div>;
   }
 
-  const knowledgeObjects = extraction.result?.knowledge_objects ?? [];
+  const knowledgeExtractions = extraction.result?.knowledge_objects ?? [];
 
   return (
     <Card>
@@ -124,29 +126,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
           </Collapsible>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="font-semibold">Knowledge Objects</h2>
-
-          {knowledgeObjects.length === 0 ? (
-            <div className="rounded-lg border p-4 text-sm text-muted-foreground">
-              추출된 Knowledge Object가 없습니다.
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {knowledgeObjects.map((object, index) => (
-                <div key={index} className="rounded-lg border p-4 space-y-2">
-                  <DetailItem label="Name" value={object.name} />
-
-                  <DetailItem label="Description" value={object.description} />
-
-                  <DetailItem label="Reason" value={object.reason} />
-
-                  <DetailItem label="Parent" value={object.parent ?? "-"} />
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+        <KnowledgeExtractionResult knowledgeObjects={knowledgeExtractions} />
 
         <section className="space-y-3">
           <h2 className="font-semibold">Raw Result</h2>
@@ -155,6 +135,8 @@ export function KnowledgeExtractionDetail({ id }: Props) {
             {JSON.stringify(extraction.result, null, 2)}
           </pre>
         </section>
+
+        <KnowledgeObjectGenerator extractionId={extraction.id} />
       </CardContent>
     </Card>
   );

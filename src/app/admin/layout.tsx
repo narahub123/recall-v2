@@ -1,6 +1,6 @@
-import { AdminContainer } from "@/components/admin/admin-container";
-import { AdminHeader } from "@/components/admin/admin-header";
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminContainer } from "@/components/admin/common/admin-container";
+import { AdminHeader } from "@/components/admin/common/admin-header";
+import { AdminSidebar } from "@/components/admin/common/admin-sidebar";
 import { requireAdmin } from "@/lib/auth/require-admin";
 
 export default async function AdminLayout({

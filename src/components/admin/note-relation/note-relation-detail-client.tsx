@@ -6,7 +6,7 @@ import { useNoteRelation } from "@/hooks/note-relation/queries/use-note-relation
 
 import { Button } from "@/components/ui/button";
 
-import { AdminBreadcrumb } from "@/components/admin/admin-breadcrumb";
+import { AdminBreadcrumb } from "@/components/admin/common/admin-breadcrumb";
 
 import { NoteRelationDetail } from "./note-relation-detail";
 import { NoteRelationEditForm } from "./note-relation-edit-form";

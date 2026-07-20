@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useCreateKnowledgeExtraction } from "@/hooks/knowledge-extraction/mutations/use-create-knowledge-extraction";
-import { AdminBreadcrumb } from "../admin-breadcrumb";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 
 interface KnowledgeExtractionPreview {
   noteId: string;

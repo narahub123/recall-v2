@@ -21,7 +21,7 @@ import { usePromptGroups } from "@/hooks/prompt-group/queries/use-prompt-groups"
 import { usePromptVersions } from "@/hooks/prompt-version/queries/use-prompt-versions";
 
 import { useRunKnowledgeExtraction } from "@/hooks/knowledge-extraction/mutations/use-run-knowledge-extraction";
-import { AdminBreadcrumb } from "../admin-breadcrumb";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 
 const MODELS = [
   {

@@ -7,7 +7,7 @@ import { usePromptVersionDetail } from "@/hooks/prompt-version/queries/use-promp
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { AdminBreadcrumb } from "../admin-breadcrumb";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { PromptVersionDeleteDialog } from "./prompt-version-delete-dialog";
 import { PromptVersionEditForm } from "./prompt-version-edit-form";
 

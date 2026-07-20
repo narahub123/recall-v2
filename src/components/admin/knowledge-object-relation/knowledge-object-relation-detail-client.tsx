@@ -6,7 +6,7 @@ import { useKnowledgeObjectRelation } from "@/hooks/knowledge-object-relation/qu
 
 import { Button } from "@/components/ui/button";
 
-import { AdminBreadcrumb } from "@/components/admin/admin-breadcrumb";
+import { AdminBreadcrumb } from "@/components/admin/common/admin-breadcrumb";
 
 import { KnowledgeObjectRelationDeleteDialog } from "./knowledge-object-relation-delete-dialog";
 import { KnowledgeObjectRelationDetail } from "./knowledge-object-relation-detail";

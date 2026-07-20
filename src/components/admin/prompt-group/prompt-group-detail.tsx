@@ -16,7 +16,7 @@ import {
 import { PromptGroupDeleteDialog } from "./prompt-group-delete-dialog";
 import { PromptGroupEditForm } from "./prompt-group-edit-form";
 import { PromptVersionSection } from "../prompt-version/prompt-version-section";
-import { AdminBreadcrumb } from "../admin-breadcrumb";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 
 type PromptGroupDetailProps = {
   id: string;
