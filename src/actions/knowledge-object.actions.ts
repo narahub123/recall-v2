@@ -1,0 +1,100 @@
+"use server";
+
+import { requireAdmin } from "@/lib/auth/require-admin";
+import { connectMongoDB } from "@/lib/mongodb";
+
+import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
+import { KnowledgeObjectService } from "@/services/knowledge-object.service";
+
+const knowledgeObjectService = new KnowledgeObjectService(
+  new KnowledgeObjectRepository(),
+);
+
+export async function createKnowledgeObjectAction(data: {
+  noteId: string;
+
+  extractionId?: string;
+
+  promptVersionId: string;
+
+  name: string;
+
+  description: string;
+
+  reason: string;
+
+  parent?: string | null;
+
+  embeddingText: string;
+
+  embedding: number[];
+}) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.createKnowledgeObject(data);
+}
+
+export async function getKnowledgeObjectAction(id: string) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.getKnowledgeObjectById(id);
+}
+
+export async function getKnowledgeObjectsAction() {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.getKnowledgeObjects();
+}
+
+export async function getKnowledgeObjectsByNoteIdAction(noteId: string) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.getKnowledgeObjectsByNoteId(noteId);
+}
+
+export async function getKnowledgeObjectsByExtractionIdAction(
+  extractionId: string,
+) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.getKnowledgeObjectsByExtractionId(extractionId);
+}
+
+export async function updateKnowledgeObjectAction(
+  id: string,
+  data: {
+    name?: string;
+
+    description?: string;
+
+    reason?: string;
+
+    parent?: string | null;
+
+    embeddingText?: string;
+  },
+) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.updateKnowledgeObject(id, data);
+}
+
+export async function deleteKnowledgeObjectAction(id: string) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeObjectService.deleteKnowledgeObject(id);
+}

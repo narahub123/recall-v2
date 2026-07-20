@@ -14,7 +14,7 @@ export function KnowledgeExtractionCard({
   extraction,
 }: KnowledgeExtractionCardProps) {
   return (
-    <Link href={`/admin/knowledge-extraction/${extraction.id}`}>
+    <Link href={`/admin/knowledge-extractions/${extraction.id}`}>
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
           <CardTitle>{extraction.model}</CardTitle>
