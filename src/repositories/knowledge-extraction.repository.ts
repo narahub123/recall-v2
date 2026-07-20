@@ -26,13 +26,15 @@ export class KnowledgeExtractionRepository {
   }
 
   async findById(id: string) {
-    return KnowledgeExtraction.findById(id);
+    return KnowledgeExtraction.findById(id).lean();
   }
 
   async findAll() {
-    return KnowledgeExtraction.find().sort({
-      createdAt: -1,
-    });
+    return KnowledgeExtraction.find()
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
   }
 
   async update(

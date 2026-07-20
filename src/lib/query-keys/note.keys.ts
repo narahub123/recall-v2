@@ -3,5 +3,7 @@ export const noteKeys = {
 
   lists: () => [...noteKeys.all, "list"] as const,
 
+  adminLists: () => [...noteKeys.all, "admin", "list"] as const,
+
   detail: (id: string) => [...noteKeys.all, "detail", id] as const,
 };

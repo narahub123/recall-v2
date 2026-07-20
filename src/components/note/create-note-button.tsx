@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 import { useCreateNote } from "@/hooks/note/mutations/use-create-note";
-import { createEmptyNoteContent } from "@/lib/blocknote";
+import { createEmptyNoteContent } from "@/lib/blocknote/blocknote";
 
 export function CreateNoteButton() {
   const router = useRouter();

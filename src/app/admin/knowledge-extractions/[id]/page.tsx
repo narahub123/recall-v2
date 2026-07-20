@@ -1,4 +1,4 @@
-import { KnowledgeObjectDetail } from "@/components/admin/knowledge-object/knowledge-object-detail";
+import { KnowledgeExtractionDetail } from "@/components/admin/knowledge-extraction/knowledge-extraction-detail";
 
 interface Props {
   params: Promise<{
@@ -6,8 +6,8 @@ interface Props {
   }>;
 }
 
-export default async function KnowledgeObjectDetailPage({ params }: Props) {
+export default async function KnowledgeExtractionDetailPage({ params }: Props) {
   const { id } = await params;
 
-  return <KnowledgeObjectDetail id={id} />;
+  return <KnowledgeExtractionDetail id={id} />;
 }

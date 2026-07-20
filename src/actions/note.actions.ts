@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/lib/auth/auth-user";
 
 import { NoteRepository } from "@/repositories/note.repository";
 import { NoteService } from "@/services/note.service";
+import { requireAdmin } from "@/lib/auth/require-admin";
 
 const noteService = new NoteService(new NoteRepository());
 
@@ -39,6 +40,14 @@ export async function getUserNotesAction() {
   const user = await getCurrentUser();
 
   return noteService.getUserNotes(user.id);
+}
+
+export async function getAdminNotesAction() {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return noteService.getAllNotes();
 }
 
 export async function updateNoteAction(

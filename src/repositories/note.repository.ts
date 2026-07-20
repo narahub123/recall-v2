@@ -25,6 +25,12 @@ export class NoteRepository {
     });
   }
 
+  async findAll() {
+    return Note.find().sort({
+      createdAt: -1,
+    });
+  }
+
   async update(
     id: string,
     data: {

@@ -9,8 +9,27 @@ import { requireAdmin } from "@/lib/auth/require-admin";
 import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
 import { KnowledgeExtractionService } from "@/services/knowledge-extraction.service";
 
+import { KnowledgeExtractionRunService } from "@/services/knowledge-extraction-run.service";
+
+import { NoteRepository } from "@/repositories/note.repository";
+import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
+
+import { NoteService } from "@/services/note.service";
+import { PromptVersionService } from "@/services/prompt-version.service";
+import { OpenAiClient } from "@/llm/providers/openai/openai-client";
+
 const knowledgeExtractionService = new KnowledgeExtractionService(
   new KnowledgeExtractionRepository(),
+);
+
+const knowledgeExtractionRunService = new KnowledgeExtractionRunService(
+  new NoteService(new NoteRepository()),
+
+  new PromptVersionService(new PromptVersionRepository()),
+
+  knowledgeExtractionService,
+
+  new OpenAiClient(),
 );
 
 export async function createKnowledgeExtractionAction(data: {
@@ -96,4 +115,20 @@ export async function deleteKnowledgeExtractionAction(id: string) {
   await requireAdmin();
 
   return knowledgeExtractionService.deleteExtraction(id);
+}
+
+export async function runKnowledgeExtractionAction(data: {
+  noteId: string;
+
+  promptVersionId: string;
+
+  model: string;
+
+  temperature?: number;
+}) {
+  await connectMongoDB();
+
+  await requireAdmin();
+
+  return knowledgeExtractionRunService.preview(data);
 }

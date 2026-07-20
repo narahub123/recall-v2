@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 
 import type { NoteDTO } from "@/dto/note.dto";
-import { extractBlockText } from "@/lib/blocknote";
+import { extractBlockText } from "@/lib/blocknote/blocknote";
 
 interface NoteItemProps {
   note: NoteDTO;

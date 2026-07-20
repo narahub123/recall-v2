@@ -1,4 +1,6 @@
 import { KnowledgeExtractionClient } from "@/components/admin/knowledge-extraction/knowledge-extraction-client";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function KnowledgeExtractionPage() {
   return (
@@ -11,6 +13,10 @@ export default function KnowledgeExtractionPage() {
             LLM 추출 결과를 관리합니다.
           </p>
         </div>
+
+        <Button>
+          <Link href="/admin/knowledge-extractions/new">Create</Link>
+        </Button>
       </div>
 
       <KnowledgeExtractionClient />

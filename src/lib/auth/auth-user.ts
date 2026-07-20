@@ -14,8 +14,6 @@ export async function getCurrentUser(): Promise<{
     throw new Error("Unauthorized");
   }
 
-  console.log(session?.user);
-
   return {
     id: session.user.id,
     email: session.user.email,

@@ -32,6 +32,12 @@ export class NoteService {
     return notes.map((note) => NoteMapper.toDTO(note));
   }
 
+  async getAllNotes(): Promise<NoteDTO[]> {
+    const notes = await this.noteRepository.findAll();
+
+    return notes.map((note) => NoteMapper.toDTO(note));
+  }
+
   async updateNote(
     id: string,
     data: {
