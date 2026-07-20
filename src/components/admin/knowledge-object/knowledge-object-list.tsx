@@ -15,7 +15,7 @@ export function KnowledgeObjectList({ knowledgeObjects }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex flex-col">
       {knowledgeObjects.map((knowledgeObject) => (
         <KnowledgeObjectCard
           key={knowledgeObject.id}
