@@ -2,45 +2,45 @@
 
 import { useState } from "react";
 
-import { useKnowledgeObjectRelation } from "@/hooks/knowledge-object-relation/queries/use-knowledge-object-relation";
+import { useNoteRelation } from "@/hooks/note-relation/queries/use-note-relation";
 
 import { Button } from "@/components/ui/button";
 
 import { AdminBreadcrumb } from "@/components/admin/admin-breadcrumb";
 
-import { KnowledgeObjectRelationDeleteDialog } from "./knowledge-object-relation-delete-dialog";
-import { KnowledgeObjectRelationDetail } from "./knowledge-object-relation-detail";
-import { KnowledgeObjectRelationEditForm } from "./knowledge-object-relation-edit-form";
+import { NoteRelationDetail } from "./note-relation-detail";
+import { NoteRelationEditForm } from "./note-relation-edit-form";
+import { NoteRelationDeleteDialog } from "./note-relation-delete-dialog";
 
 interface Props {
   id: string;
 }
 
-export function KnowledgeObjectRelationDetailClient({ id }: Props) {
+export function NoteRelationDetailClient({ id }: Props) {
   const [editMode, setEditMode] = useState(false);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const {
-    data: relation,
+    data: noteRelation,
 
     isLoading,
 
     isError,
-  } = useKnowledgeObjectRelation(id);
+  } = useNoteRelation(id);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError || !relation) {
-    return <div>Knowledge Object Relation을 찾을 수 없습니다.</div>;
+  if (isError || !noteRelation) {
+    return <div>Note Relation을 찾을 수 없습니다.</div>;
   }
 
   if (editMode) {
     return (
-      <KnowledgeObjectRelationEditForm
-        relation={relation}
+      <NoteRelationEditForm
+        noteRelation={noteRelation}
         onCancel={() => setEditMode(false)}
         onSuccess={() => setEditMode(false)}
       />
@@ -52,16 +52,16 @@ export function KnowledgeObjectRelationDetailClient({ id }: Props) {
       <AdminBreadcrumb
         items={[
           {
-            label: "Knowledge Object Relations",
-            href: "/admin/knowledge-object-relations",
+            label: "Note Relations",
+            href: "/admin/note-relations",
           },
           {
-            label: relation.relationType,
+            label: noteRelation.relationType,
           },
         ]}
       />
 
-      <KnowledgeObjectRelationDetail relation={relation} />
+      <NoteRelationDetail noteRelation={noteRelation} />
 
       <div className="flex gap-2">
         <Button variant="outline" onClick={() => setEditMode(true)}>
@@ -73,8 +73,8 @@ export function KnowledgeObjectRelationDetailClient({ id }: Props) {
         </Button>
       </div>
 
-      <KnowledgeObjectRelationDeleteDialog
-        id={relation.id}
+      <NoteRelationDeleteDialog
+        id={noteRelation.id}
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
       />

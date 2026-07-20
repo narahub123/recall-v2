@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { DeleteNoteButton } from "./delete-note-button";
+import { NoteRelationSection } from "../admin/note-relation/note-relation-section";
 
 interface NoteDetailProps {
   id: string;
@@ -137,6 +138,8 @@ export function NoteDetail({ id }: NoteDetailProps) {
       <CardContent className="pt-6 flex-1">
         <NoteEditor initialContent={note.content} onChange={saveContent} />
       </CardContent>
+
+      <NoteRelationSection noteId={note.id} />
     </Card>
   );
 }

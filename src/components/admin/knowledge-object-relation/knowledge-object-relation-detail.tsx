@@ -2,6 +2,8 @@
 
 import { KnowledgeObjectRelationDTO } from "@/dto/knowledge-object-relation.dto";
 
+import { useKnowledgeObject } from "@/hooks/knowledge-object/queries/use-knowledge-object";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Props {
@@ -9,6 +11,14 @@ interface Props {
 }
 
 export function KnowledgeObjectRelationDetail({ relation }: Props) {
+  const { data: sourceKnowledgeObject } = useKnowledgeObject(
+    relation.sourceKnowledgeObjectId,
+  );
+
+  const { data: targetKnowledgeObject } = useKnowledgeObject(
+    relation.targetKnowledgeObjectId,
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -21,7 +31,9 @@ export function KnowledgeObjectRelationDetail({ relation }: Props) {
             Source Knowledge Object
           </p>
 
-          <p>{relation.sourceKnowledgeObjectId}</p>
+          <p>
+            {sourceKnowledgeObject?.name ?? relation.sourceKnowledgeObjectId}
+          </p>
         </div>
 
         <div>
@@ -29,7 +41,9 @@ export function KnowledgeObjectRelationDetail({ relation }: Props) {
             Target Knowledge Object
           </p>
 
-          <p>{relation.targetKnowledgeObjectId}</p>
+          <p>
+            {targetKnowledgeObject?.name ?? relation.targetKnowledgeObjectId}
+          </p>
         </div>
 
         <div>
@@ -41,7 +55,7 @@ export function KnowledgeObjectRelationDetail({ relation }: Props) {
         <div>
           <p className="text-sm text-muted-foreground">Reason</p>
 
-          <p>{relation.reason}</p>
+          <p>{relation.reason || "-"}</p>
         </div>
 
         <div>
@@ -49,8 +63,19 @@ export function KnowledgeObjectRelationDetail({ relation }: Props) {
 
           <p>{relation.confidence}</p>
         </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground">Created At</p>
+
+          <p>{new Date(relation.createdAt).toLocaleString()}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground">Updated At</p>
+
+          <p>{new Date(relation.updatedAt).toLocaleString()}</p>
+        </div>
       </CardContent>
     </Card>
   );
 }
-``
