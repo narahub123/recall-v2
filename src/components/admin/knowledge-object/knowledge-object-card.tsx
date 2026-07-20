@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 
-import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
+import { KnowledgeObjectViewDTO } from "@/dto/knowledge-object-view.dto";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Props {
-  knowledgeObject: KnowledgeObjectDTO;
+  knowledgeObject: KnowledgeObjectViewDTO;
 }
 
 export function KnowledgeObjectCard({ knowledgeObject }: Props) {
@@ -25,7 +25,12 @@ export function KnowledgeObjectCard({ knowledgeObject }: Props) {
             </p>
 
             <div className="text-xs text-muted-foreground">
-              Note ID: {knowledgeObject.noteId}
+              Note: {knowledgeObject.note.title ?? "제목 없음"}
+            </div>
+
+            <div className="text-xs text-muted-foreground">
+              Prompt: {knowledgeObject.promptGroup.name} v
+              {knowledgeObject.promptVersion.version}
             </div>
           </div>
         </CardContent>

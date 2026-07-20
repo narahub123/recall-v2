@@ -2,25 +2,43 @@
 
 import { useForm } from "react-hook-form";
 
-import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { useUpdateKnowledgeObject } from "@/hooks/knowledge-object/mutations/use-update-knowledge-object";
 
+interface KnowledgeObjectEditTarget {
+  id: string;
+
+  name: string;
+
+  description: string;
+
+  reason: string;
+
+  parent?: string | null;
+
+  embeddingText: string;
+}
+
 interface Props {
-  knowledgeObject: KnowledgeObjectDTO;
+  knowledgeObject: KnowledgeObjectEditTarget;
+
   onCancel: () => void;
+
   onSuccess: () => void;
 }
 
 interface KnowledgeObjectEditFormValues {
   name: string;
+
   description: string;
+
   reason: string;
+
   parent: string;
+
   embeddingText: string;
 }
 
@@ -32,9 +50,13 @@ export function KnowledgeObjectEditForm({
   const { register, handleSubmit } = useForm<KnowledgeObjectEditFormValues>({
     defaultValues: {
       name: knowledgeObject.name,
+
       description: knowledgeObject.description,
+
       reason: knowledgeObject.reason,
+
       parent: knowledgeObject.parent ?? "",
+
       embeddingText: knowledgeObject.embeddingText,
     },
   });

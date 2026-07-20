@@ -12,4 +12,11 @@ export const knowledgeObjectKeys = {
 
   byExtraction: (extractionId: string) =>
     [...knowledgeObjectKeys.all, "by-extraction", extractionId] as const,
+
+  views: () => [...knowledgeObjectKeys.all, "view"] as const,
+
+  viewList: () => [...knowledgeObjectKeys.views(), "list"] as const,
+
+  viewDetail: (id: string) =>
+    [...knowledgeObjectKeys.views(), "detail", id] as const,
 };

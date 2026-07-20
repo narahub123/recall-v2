@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useKnowledgeObject } from "@/hooks/knowledge-object/queries/use-knowledge-object";
+import { useKnowledgeObjectView } from "@/hooks/knowledge-object/queries/use-knowledge-object-view";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import {
 import { KnowledgeObjectDeleteDialog } from "./knowledge-object-delete-dialog";
 import { KnowledgeObjectEditForm } from "./knowledge-object-edit-form";
 import { KnowledgeObjectRelationSection } from "./knowledge-object-relation-section";
+import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 
 interface Props {
   id: string;
@@ -26,7 +27,11 @@ export function KnowledgeObjectDetail({ id }: Props) {
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const { data: knowledgeObject, isLoading, isError } = useKnowledgeObject(id);
+  const {
+    data: knowledgeObject,
+    isLoading,
+    isError,
+  } = useKnowledgeObjectView(id);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -48,6 +53,24 @@ export function KnowledgeObjectDetail({ id }: Props) {
 
   return (
     <Card>
+      <div className="pl-4">
+        <AdminBreadcrumb
+          items={[
+            {
+              label: "관리자",
+              href: "/admin",
+            },
+            {
+              label: "Knowledge Object",
+              href: "/admin/knowledge-objects",
+            },
+            {
+              label: knowledgeObject.name,
+            },
+          ]}
+        />
+      </div>
+
       <CardHeader>
         <CardTitle>{knowledgeObject.name}</CardTitle>
       </CardHeader>
@@ -72,28 +95,34 @@ export function KnowledgeObjectDetail({ id }: Props) {
         </div>
 
         <div>
-          <p className="text-sm text-muted-foreground">Note ID</p>
+          <p className="text-sm text-muted-foreground">Note</p>
 
-          <p>{knowledgeObject.noteId}</p>
+          <p>{knowledgeObject.note.title ?? "제목 없음"}</p>
         </div>
 
         <div>
-          <p className="text-sm text-muted-foreground">Extraction ID</p>
+          <p className="text-sm text-muted-foreground">Prompt</p>
 
-          <p>{knowledgeObject.extractionId || "-"}</p>
+          <p>
+            {knowledgeObject.promptGroup.name} v
+            {knowledgeObject.promptVersion.version}
+          </p>
         </div>
 
-        <div>
-          <p className="text-sm text-muted-foreground">Prompt Version ID</p>
+        {knowledgeObject.extraction && (
+          <div>
+            <p className="text-sm text-muted-foreground">Extraction Model</p>
 
-          <p>{knowledgeObject.promptVersionId}</p>
-        </div>
+            <p>{knowledgeObject.extraction.model}</p>
+          </div>
+        )}
 
         <div>
           <p className="text-sm text-muted-foreground">Embedding Text</p>
 
           <p className="whitespace-pre-wrap">{knowledgeObject.embeddingText}</p>
         </div>
+
         <KnowledgeObjectRelationSection
           knowledgeObjectId={knowledgeObject.id}
         />

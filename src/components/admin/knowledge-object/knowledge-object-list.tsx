@@ -1,8 +1,8 @@
-import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
+import { KnowledgeObjectViewDTO } from "@/dto/knowledge-object-view.dto";
 import { KnowledgeObjectCard } from "./knowledge-object-card";
 
 interface Props {
-  knowledgeObjects: KnowledgeObjectDTO[];
+  knowledgeObjects: KnowledgeObjectViewDTO[];
 }
 
 export function KnowledgeObjectList({ knowledgeObjects }: Props) {
