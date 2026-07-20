@@ -1,5 +1,6 @@
 import { KnowledgeObjectDTO } from "@/dto/knowledge-object.dto";
 import { KnowledgeObjectMapper } from "@/mappers/knowledge-object.mapper";
+import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
 import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
 
 export class KnowledgeObjectService {
@@ -85,13 +86,13 @@ export class KnowledgeObjectService {
     return KnowledgeObjectMapper.toDTO(knowledgeObject);
   }
 
-  async deleteKnowledgeObject(id: string): Promise<KnowledgeObjectDTO | null> {
-    const knowledgeObject = await this.knowledgeObjectRepository.delete(id);
+  async deleteKnowledgeObject(id: string) {
+    const deleted = await this.knowledgeObjectRepository.delete(id);
 
-    if (!knowledgeObject) {
+    if (!deleted) {
       return null;
     }
 
-    return KnowledgeObjectMapper.toDTO(knowledgeObject);
+    return KnowledgeObjectMapper.toDTO(deleted);
   }
 }

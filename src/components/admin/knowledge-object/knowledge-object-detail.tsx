@@ -15,6 +15,7 @@ import {
 
 import { KnowledgeObjectDeleteDialog } from "./knowledge-object-delete-dialog";
 import { KnowledgeObjectEditForm } from "./knowledge-object-edit-form";
+import { KnowledgeObjectRelationSection } from "./knowledge-object-relation-section";
 
 interface Props {
   id: string;
@@ -93,6 +94,9 @@ export function KnowledgeObjectDetail({ id }: Props) {
 
           <p className="whitespace-pre-wrap">{knowledgeObject.embeddingText}</p>
         </div>
+        <KnowledgeObjectRelationSection
+          knowledgeObjectId={knowledgeObject.id}
+        />
       </CardContent>
 
       <CardFooter className="gap-2">

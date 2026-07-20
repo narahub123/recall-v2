@@ -1,0 +1,120 @@
+import { KnowledgeObjectRelationDTO } from "@/dto/knowledge-object-relation.dto";
+
+import { KnowledgeObjectRelationMapper } from "@/mappers/knowledge-object-relation.mapper";
+
+import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
+
+export class KnowledgeObjectRelationService {
+  constructor(
+    private readonly knowledgeObjectRelationRepository: KnowledgeObjectRelationRepository,
+  ) {}
+
+  async createRelation(data: {
+    sourceKnowledgeObjectId: string;
+
+    targetKnowledgeObjectId: string;
+
+    relationType: string;
+
+    reason: string;
+
+    confidence: number;
+  }): Promise<KnowledgeObjectRelationDTO> {
+    if (data.sourceKnowledgeObjectId === data.targetKnowledgeObjectId) {
+      throw new Error(
+        "Knowledge Object는 자기 자신과 관계를 생성할 수 없습니다.",
+      );
+    }
+
+    const exists = await this.knowledgeObjectRelationRepository.findByRelation(
+      data.sourceKnowledgeObjectId,
+      data.targetKnowledgeObjectId,
+      data.relationType,
+    );
+
+    if (exists) {
+      throw new Error("이미 존재하는 Knowledge Object Relation입니다.");
+    }
+
+    const relation = await this.knowledgeObjectRelationRepository.create(data);
+
+    return KnowledgeObjectRelationMapper.toDTO(relation);
+  }
+
+  async getRelationById(
+    id: string,
+  ): Promise<KnowledgeObjectRelationDTO | null> {
+    const relation = await this.knowledgeObjectRelationRepository.findById(id);
+
+    if (!relation) {
+      return null;
+    }
+
+    return KnowledgeObjectRelationMapper.toDTO(relation);
+  }
+
+  async getRelations(): Promise<KnowledgeObjectRelationDTO[]> {
+    const relations = await this.knowledgeObjectRelationRepository.findAll();
+
+    return relations.map((relation) =>
+      KnowledgeObjectRelationMapper.toDTO(relation),
+    );
+  }
+
+  async getRelationsByKnowledgeObjectId(
+    knowledgeObjectId: string,
+  ): Promise<KnowledgeObjectRelationDTO[]> {
+    const relations =
+      await this.knowledgeObjectRelationRepository.findByKnowledgeObjectId(
+        knowledgeObjectId,
+      );
+
+    return relations.map((relation) =>
+      KnowledgeObjectRelationMapper.toDTO(relation),
+    );
+  }
+
+  async updateRelation(
+    id: string,
+    data: {
+      relationType?: string;
+
+      reason?: string;
+
+      confidence?: number;
+    },
+  ): Promise<KnowledgeObjectRelationDTO | null> {
+    const relation = await this.knowledgeObjectRelationRepository.update(
+      id,
+      data,
+    );
+
+    if (!relation) {
+      return null;
+    }
+
+    return KnowledgeObjectRelationMapper.toDTO(relation);
+  }
+
+  async deleteRelation(id: string): Promise<KnowledgeObjectRelationDTO | null> {
+    const relation = await this.knowledgeObjectRelationRepository.delete(id);
+
+    if (!relation) {
+      return null;
+    }
+
+    return KnowledgeObjectRelationMapper.toDTO(relation);
+  }
+
+  async deleteRelationsByKnowledgeObjectId(knowledgeObjectId: string) {
+    return this.knowledgeObjectRelationRepository.deleteByKnowledgeObjectId(
+      knowledgeObjectId,
+    );
+  }
+
+  async deleteByKnowledgeObjectId(knowledgeObjectId: string) {
+    return this.knowledgeObjectRelationRepository.deleteByKnowledgeObjectId(
+      knowledgeObjectId,
+    );
+  }
+}
