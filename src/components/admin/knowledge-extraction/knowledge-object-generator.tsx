@@ -12,6 +12,7 @@ import {
 } from "@/embedding/embedding-models";
 
 import { useCreateKnowledgeObjectsFromExtraction } from "@/hooks/knowledge-object/mutations/use-create-knowledge-objects-from-extraction";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   extractionId: string;
@@ -35,7 +36,7 @@ export function KnowledgeObjectGenerator({ extractionId }: Props) {
       },
       {
         onSuccess() {
-          router.push("/admin/knowledge-object-generations");
+          router.push(ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS);
         },
       },
     );

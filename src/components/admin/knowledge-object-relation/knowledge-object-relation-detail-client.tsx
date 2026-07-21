@@ -11,6 +11,7 @@ import { AdminBreadcrumb } from "@/components/admin/common/admin-breadcrumb";
 import { KnowledgeObjectRelationDeleteDialog } from "./knowledge-object-relation-delete-dialog";
 import { KnowledgeObjectRelationDetail } from "./knowledge-object-relation-detail";
 import { KnowledgeObjectRelationEditForm } from "./knowledge-object-relation-edit-form";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   id: string;
@@ -53,7 +54,7 @@ export function KnowledgeObjectRelationDetailClient({ id }: Props) {
         items={[
           {
             label: "Knowledge Object Relations",
-            href: "/admin/knowledge-object-relations",
+            href: ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS,
           },
           {
             label: relation.relationType,

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PromptGroupDTO } from "@/dto/prompt-group.dto";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ROUTES } from "@/constants/routes";
 
 type PromptGroupCardProps = {
   promptGroup: PromptGroupDTO;
@@ -12,7 +13,7 @@ type PromptGroupCardProps = {
 
 export function PromptGroupCard({ promptGroup }: PromptGroupCardProps) {
   return (
-    <Link href={`/admin/prompts/${promptGroup.id}`}>
+    <Link href={`${ROUTES.ADMIN.PROMPTS}/${promptGroup.id}`}>
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
           <CardTitle>{promptGroup.name}</CardTitle>

@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { PromptVersionDeleteDialog } from "./prompt-version-delete-dialog";
 import { PromptVersionEditForm } from "./prompt-version-edit-form";
+import { ROUTES } from "@/constants/routes";
 
 type PromptVersionDetailProps = {
   versionId: string;
@@ -48,12 +49,16 @@ export function PromptVersionDetail({ versionId }: PromptVersionDetailProps) {
       <AdminBreadcrumb
         items={[
           {
-            label: "Prompts",
-            href: "/admin/prompts",
+            label: "관리자",
+            href: ROUTES.ADMIN.DASHBOARD,
+          },
+          {
+            label: "프롬프트",
+            href: ROUTES.ADMIN.PROMPTS,
           },
           {
             label: version.promptGroup.name,
-            href: `/admin/prompts/${version.promptGroup.id}`,
+            href: `${ROUTES.ADMIN.PROMPTS}/${version.promptGroup.id}`,
           },
           {
             label: `Version ${version.version}`,

@@ -7,6 +7,7 @@ import { NoteRelationDTO } from "@/dto/note-relation.dto";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useNote } from "@/hooks/note/queries/use-note";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   noteRelation: NoteRelationDTO;
@@ -18,7 +19,7 @@ export function NoteRelationCard({ noteRelation }: Props) {
   const { data: targetNote } = useNote(noteRelation.targetNoteId);
 
   return (
-    <Link href={`/admin/note-relations/${noteRelation.id}`}>
+    <Link href={`${ROUTES.ADMIN.NOTE_RELATIONS}/${noteRelation.id}`}>
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
           <CardTitle>{noteRelation.relationType}</CardTitle>

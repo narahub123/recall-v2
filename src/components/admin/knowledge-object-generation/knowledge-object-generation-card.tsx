@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { KnowledgeObjectGenerationViewDTO } from "@/dto/knowledge-object-generation-view.dto";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   generation: KnowledgeObjectGenerationViewDTO;
@@ -12,7 +13,9 @@ interface Props {
 
 export function KnowledgeObjectGenerationCard({ generation }: Props) {
   return (
-    <Link href={`/admin/knowledge-object-generations/${generation.id}`}>
+    <Link
+      href={`${ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS}/${generation.id}`}
+    >
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
           <CardTitle>Knowledge Object Generation</CardTitle>

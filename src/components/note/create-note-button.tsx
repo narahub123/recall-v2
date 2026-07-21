@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 
 import { useCreateNote } from "@/hooks/note/mutations/use-create-note";
 import { createEmptyNoteContent } from "@/lib/blocknote/blocknote";
+import { ROUTES } from "@/constants/routes";
 
 export function CreateNoteButton() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export function CreateNoteButton() {
       content: createEmptyNoteContent(),
     });
 
-    router.push(`/notes/${note.id}`);
+    router.push(`${ROUTES.NOTES}/${note.id}`);
   };
 
   return (

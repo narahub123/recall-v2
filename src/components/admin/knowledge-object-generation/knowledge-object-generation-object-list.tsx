@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 
 interface Props {
@@ -25,7 +26,7 @@ export function KnowledgeObjectGenerationObjectList({
           {knowledgeObjects.map((knowledgeObject) => (
             <Link
               key={knowledgeObject.id}
-              href={`/admin/knowledge-objects/${knowledgeObject.id}`}
+              href={`${ROUTES.ADMIN.KNOWLEDGE_OBJECTS}/${knowledgeObject.id}`}
               className="block rounded-md px-2 py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
             >
               {knowledgeObject.name}

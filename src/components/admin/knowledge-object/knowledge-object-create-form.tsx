@@ -11,6 +11,7 @@ import { EMBEDDING_MODELS, EmbeddingModel } from "@/embedding/embedding-models";
 
 import { useCreateKnowledgeObjectsFromExtraction } from "@/hooks/knowledge-object/mutations/use-create-knowledge-objects-from-extraction";
 import { KnowledgeExtractionSelect } from "../knowledge-extraction/knowledge-extraction-select";
+import { ROUTES } from "@/constants/routes";
 
 export function KnowledgeObjectCreateForm() {
   const router = useRouter();
@@ -40,7 +41,7 @@ export function KnowledgeObjectCreateForm() {
             return;
           }
 
-          router.push(`/admin/knowledge-object-generations`);
+          router.push(ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS);
         },
       },
     );

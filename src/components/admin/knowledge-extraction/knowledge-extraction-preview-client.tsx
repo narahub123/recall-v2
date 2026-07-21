@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useCreateKnowledgeExtraction } from "@/hooks/knowledge-extraction/mutations/use-create-knowledge-extraction";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
+import { ROUTES } from "@/constants/routes";
 
 interface KnowledgeExtractionPreview {
   noteId: string;
@@ -70,7 +71,7 @@ export function KnowledgeExtractionPreviewClient() {
       onSuccess() {
         sessionStorage.removeItem("knowledge-extraction-preview");
 
-        router.push("/admin/knowledge-extractions");
+        router.push(ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS);
       },
     });
   }
@@ -90,11 +91,11 @@ export function KnowledgeExtractionPreviewClient() {
           items={[
             {
               label: "관리자",
-              href: "/admin",
+              href: ROUTES.ADMIN.DASHBOARD,
             },
             {
               label: "Knowledge Extraction",
-              href: "/admin/knowledge-extractions",
+              href: ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS,
             },
             {
               label: "미리보기",

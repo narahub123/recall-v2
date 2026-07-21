@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deletePromptGroupAction } from "@/actions/prompt-group.actions";
 import { promptGroupKeys } from "@/lib/query-keys/prompt-group.keys";
+import { ROUTES } from "@/constants/routes";
 
 export function useDeletePromptGroup() {
   const queryClient = useQueryClient();
@@ -18,7 +19,7 @@ export function useDeletePromptGroup() {
         queryKey: promptGroupKeys.lists(),
       });
 
-      router.push("/admin/prompts");
+      router.push(ROUTES.ADMIN.PROMPTS);
     },
   });
 }

@@ -17,6 +17,7 @@ import { PromptGroupDeleteDialog } from "./prompt-group-delete-dialog";
 import { PromptGroupEditForm } from "./prompt-group-edit-form";
 import { PromptVersionSection } from "../prompt-version/prompt-version-section";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
+import { ROUTES } from "@/constants/routes";
 
 type PromptGroupDetailProps = {
   id: string;
@@ -52,7 +53,7 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
         items={[
           {
             label: "Prompts",
-            href: "/admin/prompts",
+            href: ROUTES.ADMIN.PROMPTS,
           },
           {
             label: promptGroup.name,

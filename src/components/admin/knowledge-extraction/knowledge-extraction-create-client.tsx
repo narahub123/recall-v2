@@ -22,6 +22,7 @@ import { usePromptVersions } from "@/hooks/prompt-version/queries/use-prompt-ver
 
 import { useRunKnowledgeExtraction } from "@/hooks/knowledge-extraction/mutations/use-run-knowledge-extraction";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
+import { ROUTES } from "@/constants/routes";
 
 const MODELS = [
   {
@@ -89,7 +90,7 @@ export function KnowledgeExtractionCreateClient() {
             }),
           );
 
-          router.push("/admin/knowledge-extractions/preview");
+          router.push(ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS_PREVIEW);
         },
       },
     );
@@ -116,11 +117,11 @@ export function KnowledgeExtractionCreateClient() {
           items={[
             {
               label: "관리자",
-              href: "/admin",
+              href: ROUTES.ADMIN.DASHBOARD,
             },
             {
               label: "Knowledge Extraction",
-              href: "/admin/knowledge-extractions",
+              href: ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS,
             },
             {
               label: "생성",

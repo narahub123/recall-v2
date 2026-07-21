@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ROUTES } from "@/constants/routes";
 
 type PromptVersionCardProps = {
   version: PromptVersionDTO;
@@ -36,7 +37,7 @@ export function PromptVersionCard({ version }: PromptVersionCardProps) {
       <CardFooter>
         <Button variant="outline" size="sm">
           <Link
-            href={`/admin/prompts/${version.promptGroupId}/versions/${version.id}`}
+            href={`${ROUTES.ADMIN.PROMPTS}/${version.promptGroupId}/versions/${version.id}`}
           >
             상세 보기
           </Link>

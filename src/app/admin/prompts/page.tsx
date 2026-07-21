@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { PromptGroupClient } from "@/components/admin/prompt-group/prompt-group-client";
+import { ROUTES } from "@/constants/routes";
 
 export default function PromptGroupsPage() {
   return (
@@ -16,7 +17,7 @@ export default function PromptGroupsPage() {
         </div>
 
         <Button>
-          <Link href="/admin/prompts/new">Create</Link>
+          <Link href={ROUTES.ADMIN.PROMPTS_NEW}>Create</Link>
         </Button>
       </div>
 

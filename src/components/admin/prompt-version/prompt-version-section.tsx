@@ -5,6 +5,7 @@ import { usePromptVersions } from "@/hooks/prompt-version/queries/use-prompt-ver
 import { PromptVersionList } from "./prompt-version-list";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
 
 type PromptVersionSectionProps = {
   promptGroupId: string;
@@ -31,7 +32,7 @@ export function PromptVersionSection({
     <div className="space-y-4">
       <div className="flex justify-end">
         <Button>
-          <Link href={`/admin/prompts/${promptGroupId}/versions/new`}>
+          <Link href={`${ROUTES.ADMIN.PROMPTS}/${promptGroupId}/versions/new`}>
             Create Version
           </Link>
         </Button>

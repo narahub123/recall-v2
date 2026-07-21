@@ -11,6 +11,7 @@ import { AdminBreadcrumb } from "@/components/admin/common/admin-breadcrumb";
 import { NoteRelationDetail } from "./note-relation-detail";
 import { NoteRelationEditForm } from "./note-relation-edit-form";
 import { NoteRelationDeleteDialog } from "./note-relation-delete-dialog";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   id: string;
@@ -53,7 +54,7 @@ export function NoteRelationDetailClient({ id }: Props) {
         items={[
           {
             label: "Note Relations",
-            href: "/admin/note-relations",
+            href: ROUTES.ADMIN.NOTE_RELATIONS,
           },
           {
             label: noteRelation.relationType,

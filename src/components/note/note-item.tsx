@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import type { NoteDTO } from "@/dto/note.dto";
 import { extractBlockText } from "@/lib/blocknote/blocknote";
+import { ROUTES } from "@/constants/routes";
 
 interface NoteItemProps {
   note: NoteDTO;
@@ -11,7 +12,7 @@ interface NoteItemProps {
 
 export function NoteItem({ note }: NoteItemProps) {
   return (
-    <Link href={`/notes/${note.id}`}>
+    <Link href={`${ROUTES.NOTES}/${note.id}`}>
       <Card>
         <CardContent className="space-y-2 p-4">
           <h2 className="font-semibold">{note.title}</h2>

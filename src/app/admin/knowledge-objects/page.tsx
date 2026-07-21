@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 import { KnowledgeObjectListClient } from "@/components/admin/knowledge-object/knowledge-object-list-client";
+import { ROUTES } from "@/constants/routes";
 
 export default function KnowledgeObjectPage() {
   return (
@@ -16,7 +17,7 @@ export default function KnowledgeObjectPage() {
           </p>
         </div>
 
-        <Link href="/admin/knowledge-objects/new">
+        <Link href={ROUTES.ADMIN.KNOWLEDGE_OBJECTS_NEW}>
           <Button>생성</Button>
         </Link>
       </div>

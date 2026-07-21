@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 import { useCreatePromptVersion } from "@/hooks/prompt-version/mutations/use-create-prompt-version";
+import { ROUTES } from "@/constants/routes";
 
 type PromptVersionFormProps = {
   promptGroupId: string;
@@ -31,7 +32,7 @@ export function PromptVersionForm({ promptGroupId }: PromptVersionFormProps) {
       },
       {
         onSuccess: () => {
-          router.push(`/admin/prompts/${promptGroupId}`);
+          router.push(`${ROUTES.ADMIN.PROMPTS}/${promptGroupId}`);
         },
       },
     );

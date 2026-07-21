@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { KnowledgeObjectCreateForm } from "./knowledge-object-create-form";
+import { ROUTES } from "@/constants/routes";
 
 export function KnowledgeObjectCreateClient() {
   return (
@@ -12,11 +13,11 @@ export function KnowledgeObjectCreateClient() {
           items={[
             {
               label: "관리자",
-              href: "/admin",
+              href: ROUTES.ADMIN.DASHBOARD,
             },
             {
               label: "Knowledge Object",
-              href: "/admin/knowledge-objects",
+              href: ROUTES.ADMIN.KNOWLEDGE_OBJECTS,
             },
             {
               label: "생성",

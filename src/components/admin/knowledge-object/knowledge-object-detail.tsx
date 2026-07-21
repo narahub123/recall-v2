@@ -17,6 +17,7 @@ import { KnowledgeObjectDeleteDialog } from "./knowledge-object-delete-dialog";
 import { KnowledgeObjectEditForm } from "./knowledge-object-edit-form";
 import { KnowledgeObjectRelationSection } from "./knowledge-object-relation-section";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   id: string;
@@ -58,11 +59,11 @@ export function KnowledgeObjectDetail({ id }: Props) {
           items={[
             {
               label: "관리자",
-              href: "/admin",
+              href: ROUTES.ADMIN.DASHBOARD,
             },
             {
               label: "Knowledge Object",
-              href: "/admin/knowledge-objects",
+              href: ROUTES.ADMIN.KNOWLEDGE_OBJECTS,
             },
             {
               label: knowledgeObject.name,

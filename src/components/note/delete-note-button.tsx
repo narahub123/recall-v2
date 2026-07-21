@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 import { useDeleteNote } from "@/hooks/note/mutations/use-delete-note";
+import { ROUTES } from "@/constants/routes";
 
 interface DeleteNoteButtonProps {
   id: string;
@@ -24,7 +25,7 @@ export function DeleteNoteButton({ id }: DeleteNoteButtonProps) {
 
     await deleteMutation.mutateAsync(id);
 
-    router.push("/notes");
+    router.push(ROUTES.NOTES);
   };
 
   return (

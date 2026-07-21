@@ -10,10 +10,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Button } from "@/components/ui/button";
 import { KnowledgeExtractionResult } from "./knowledge-extraction-result";
 import { KnowledgeObjectGenerator } from "./knowledge-object-generator";
 import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   id: string;
@@ -39,11 +39,11 @@ export function KnowledgeExtractionDetail({ id }: Props) {
           items={[
             {
               label: "관리자",
-              href: "/admin",
+              href: ROUTES.ADMIN.DASHBOARD,
             },
             {
               label: "Knowledge Extraction",
-              href: "/admin/knowledge-extractions",
+              href: ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS,
             },
             {
               label: extraction.note.title ?? "상세",
@@ -61,7 +61,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
           <DetailItem label="ID" value={extraction.id} />
 
           <Link
-            href={`/admin/notes/${extraction.note.id}`}
+            href={`${ROUTES.NOTES}/${extraction.note.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
           >
             <DetailItem
@@ -71,7 +71,7 @@ export function KnowledgeExtractionDetail({ id }: Props) {
           </Link>
 
           <Link
-            href={`/admin/prompts/${extraction.promptGroup.id}/versions/${extraction.promptVersion.id}`}
+            href={`${ROUTES.ADMIN.PROMPTS}/${extraction.promptGroup.id}/versions/${extraction.promptVersion.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
           >
             <DetailItem

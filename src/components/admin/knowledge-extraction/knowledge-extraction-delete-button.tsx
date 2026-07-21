@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTES } from "@/constants/routes";
 import { useDeleteKnowledgeExtraction } from "@/hooks/knowledge-extraction/mutations/use-delete-knowledge-extraction";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +16,7 @@ export function KnowledgeExtractionDeleteButton({ id }: Props) {
   function handleDelete() {
     mutation.mutate(id, {
       onSuccess: () => {
-        router.push("/admin/knowledge-extraction");
+        router.push(ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS);
       },
     });
   }

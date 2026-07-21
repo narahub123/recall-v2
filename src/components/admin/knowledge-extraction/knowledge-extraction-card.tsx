@@ -6,6 +6,7 @@ import { KnowledgeExtractionViewDTO } from "@/dto/knowledge-extraction-view.dto"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/date/format-date";
+import { ROUTES } from "@/constants/routes";
 
 type KnowledgeExtractionCardProps = {
   extraction: KnowledgeExtractionViewDTO;
@@ -15,7 +16,7 @@ export function KnowledgeExtractionCard({
   extraction,
 }: KnowledgeExtractionCardProps) {
   return (
-    <Link href={`/admin/knowledge-extractions/${extraction.id}`}>
+    <Link href={`${ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS}/${extraction.id}`}>
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
           <CardTitle>{extraction.note.title ?? "제목 없음"}</CardTitle>

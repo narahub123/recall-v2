@@ -7,6 +7,7 @@ import { KnowledgeObjectRelationDTO } from "@/dto/knowledge-object-relation.dto"
 import { useKnowledgeObject } from "@/hooks/knowledge-object/queries/use-knowledge-object";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   relation: KnowledgeObjectRelationDTO;
@@ -22,7 +23,7 @@ export function KnowledgeObjectRelationCard({ relation }: Props) {
   );
 
   return (
-    <Link href={`/admin/knowledge-object-relations/${relation.id}`}>
+    <Link href={`${ROUTES.ADMIN.KNOWLEDGE_OBJECT_RELATIONS}/${relation.id}`}>
       <Card className="cursor-pointer transition hover:bg-muted/50">
         <CardHeader>
           <CardTitle>{relation.relationType}</CardTitle>

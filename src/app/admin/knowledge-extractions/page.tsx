@@ -1,5 +1,6 @@
 import { KnowledgeExtractionClient } from "@/components/admin/knowledge-extraction/knowledge-extraction-client";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 
 export default function KnowledgeExtractionPage() {
@@ -15,7 +16,7 @@ export default function KnowledgeExtractionPage() {
         </div>
 
         <Button>
-          <Link href="/admin/knowledge-extractions/new">Create</Link>
+          <Link href={ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS_NEW}>Create</Link>
         </Button>
       </div>
 

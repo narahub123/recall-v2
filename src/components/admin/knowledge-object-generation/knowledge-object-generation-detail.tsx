@@ -7,6 +7,7 @@ import { useKnowledgeObjectGeneration } from "@/hooks/knowledge-object-generatio
 import { KnowledgeObjectGenerationObjectList } from "./knowledge-object-generation-object-list";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
 
 interface Props {
   id: string;
@@ -34,11 +35,11 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           items={[
             {
               label: "관리자",
-              href: "/admin",
+              href: ROUTES.ADMIN.DASHBOARD,
             },
             {
               label: "Knowledge Object Generation",
-              href: "/admin/knowledge-object-generations",
+              href: ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS,
             },
             {
               label: generation.note.title ?? "상세",
@@ -53,7 +54,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
       <CardContent className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
           <Link
-            href={`/admin/notes/${generation.note.id}`}
+            href={`${ROUTES.NOTES}/${generation.note.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
           >
             <p className="text-sm text-muted-foreground">노트</p>
@@ -62,7 +63,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           </Link>
 
           <Link
-            href={`/admin/prompts/${generation.promptGroup.id}`}
+            href={`${ROUTES.ADMIN.PROMPTS}/${generation.promptGroup.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
           >
             <p className="text-sm text-muted-foreground">Prompt Group</p>
@@ -71,7 +72,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           </Link>
 
           <Link
-            href={`/admin/prompts/${generation.promptGroup.id}/versions/${generation.promptVersion.id}`}
+            href={`${ROUTES.ADMIN.PROMPTS}/${generation.promptGroup.id}/versions/${generation.promptVersion.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
           >
             <p className="text-sm text-muted-foreground">Prompt Version</p>
@@ -80,7 +81,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           </Link>
 
           <Link
-            href={`/admin/knowledge-extractions/${generation.extractionId}`}
+            href={`${ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS}/${generation.extractionId}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
           >
             <p className="text-sm text-muted-foreground">
