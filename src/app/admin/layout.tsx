@@ -1,6 +1,8 @@
 import { AdminContainer } from "@/components/admin/common/admin-container";
 import { AdminHeader } from "@/components/admin/common/admin-header";
 import { AdminSidebar } from "@/components/admin/common/admin-sidebar";
+import { AdminSidebarProvider } from "@/components/admin/common/admin-sidebar-context";
+
 import { requireAdmin } from "@/lib/auth/require-admin";
 
 export default async function AdminLayout({
@@ -11,14 +13,16 @@ export default async function AdminLayout({
   await requireAdmin();
 
   return (
-    <AdminContainer>
-      <AdminSidebar />
+    <AdminSidebarProvider>
+      <AdminContainer>
+        <AdminSidebar />
 
-      <div className="flex-1">
-        <AdminHeader />
+        <div className="flex-1">
+          <AdminHeader />
 
-        <main>{children}</main>
-      </div>
-    </AdminContainer>
+          <main>{children}</main>
+        </div>
+      </AdminContainer>
+    </AdminSidebarProvider>
   );
 }
