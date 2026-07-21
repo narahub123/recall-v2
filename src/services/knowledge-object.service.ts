@@ -96,4 +96,20 @@ export class KnowledgeObjectService {
 
     return KnowledgeObjectMapper.toDTO(deleted);
   }
+
+  async findSimilarKnowledgeObjects(
+    embedding: number[],
+    excludeNoteId: string,
+    limit?: number,
+  ) {
+    return this.knowledgeObjectRepository.findSimilar(
+      embedding,
+      excludeNoteId,
+      limit,
+    );
+  }
 }
+
+export const knowledgeObjectService = new KnowledgeObjectService(
+  new KnowledgeObjectRepository(),
+);

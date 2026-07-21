@@ -15,6 +15,8 @@ export interface KnowledgeObjectRelationGenerationDTO {
 
   candidateKnowledgeObjectIds: string[];
 
+  knowledgeObjectRelationIds: string[];
+
   results: {
     sourceKnowledgeObjectId: string;
 

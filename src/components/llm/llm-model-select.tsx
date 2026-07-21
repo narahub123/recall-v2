@@ -8,26 +8,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import type { EmbeddingModel } from "@/embedding/embedding-models";
-import { EMBEDDING_MODELS } from "@/embedding/embedding-models";
+import type { LlmModel } from "@/llm/llm-model";
+import { LLM_MODELS } from "@/llm/llm-model";
 
 interface Props {
-  value: EmbeddingModel;
-  onChange: (value: EmbeddingModel) => void;
+  value: LlmModel;
+
+  onChange: (value: LlmModel) => void;
 }
 
-export function EmbeddingModelSelect({ value, onChange }: Props) {
+export function LlmModelSelect({ value, onChange }: Props) {
   return (
     <Select
       value={value}
-      onValueChange={(value) => onChange(value as EmbeddingModel)}
+      onValueChange={(value) => onChange(value as LlmModel)}
     >
       <SelectTrigger className="w-72">
         <SelectValue />
       </SelectTrigger>
 
       <SelectContent alignItemWithTrigger={false}>
-        {Object.values(EMBEDDING_MODELS).map((model) => (
+        {Object.values(LLM_MODELS).map((model) => (
           <SelectItem key={model} value={model}>
             {model}
           </SelectItem>

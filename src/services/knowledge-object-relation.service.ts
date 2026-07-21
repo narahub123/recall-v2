@@ -3,10 +3,12 @@ import { KnowledgeObjectRelationDTO } from "@/dto/knowledge-object-relation.dto"
 import { KnowledgeObjectRelationMapper } from "@/mappers/knowledge-object-relation.mapper";
 
 import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
+import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
 
 export class KnowledgeObjectRelationService {
   constructor(
     private readonly knowledgeObjectRelationRepository: KnowledgeObjectRelationRepository,
+    private readonly knowledgeObjectRepository: KnowledgeObjectRepository,
   ) {}
 
   async createRelation(data: {
@@ -117,4 +119,30 @@ export class KnowledgeObjectRelationService {
       knowledgeObjectId,
     );
   }
+
+  async generateRelations(knowledgeObjectId: string) {
+    const target =
+      await this.knowledgeObjectRepository.findById(knowledgeObjectId);
+
+    if (!target) {
+      throw new Error("KnowledgeObject를 찾을 수 없습니다.");
+    }
+
+    const candidates = await this.knowledgeObjectRepository.findSimilar(
+      target.embedding,
+      target.noteId,
+      5,
+    );
+
+    return {
+      target,
+      candidates,
+    };
+  }
 }
+
+export const knowledgeObjectRelationService =
+  new KnowledgeObjectRelationService(
+    new KnowledgeObjectRelationRepository(),
+    new KnowledgeObjectRepository(),
+  );

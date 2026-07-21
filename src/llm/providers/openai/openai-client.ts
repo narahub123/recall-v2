@@ -63,3 +63,5 @@ export class OpenAiClient implements LlmClient {
     };
   }
 }
+
+export const openAiClient = new OpenAiClient();

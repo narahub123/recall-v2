@@ -75,3 +75,7 @@ export class PromptVersionService {
     return this.promptVersionRepository.deleteByPromptGroupId(promptGroupId);
   }
 }
+
+export const promptVersionService = new PromptVersionService(
+  new PromptVersionRepository(),
+);

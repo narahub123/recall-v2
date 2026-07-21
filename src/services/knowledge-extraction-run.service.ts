@@ -1,10 +1,19 @@
-import { KnowledgeExtractionService } from "@/services/knowledge-extraction.service";
-import { NoteService } from "@/services/note.service";
-import { PromptVersionService } from "@/services/prompt-version.service";
+import {
+  knowledgeExtractionService,
+  KnowledgeExtractionService,
+} from "@/services/knowledge-extraction.service";
+import { noteService, NoteService } from "@/services/note.service";
+import {
+  promptVersionService,
+  PromptVersionService,
+} from "@/services/prompt-version.service";
 
 import { convertBlockNoteToLlmText } from "@/lib/blocknote/blocknote-to-llm-text";
 
 import type { LlmClient } from "@/llm/llm-client";
+import {
+  openAiClient,
+} from "@/llm/providers/openai/openai-client";
 
 interface KnowledgeExtractionResult {
   knowledge_objects: {
@@ -82,6 +91,11 @@ ${noteText}`;
       usage: response.usage,
     };
   }
-
-  
 }
+
+export const knowledgeExtractionRunService = new KnowledgeExtractionRunService(
+  noteService,
+  promptVersionService,
+  knowledgeExtractionService,
+  openAiClient,
+);

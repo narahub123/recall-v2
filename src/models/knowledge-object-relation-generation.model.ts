@@ -42,6 +42,8 @@ export interface IKnowledgeObjectRelationGeneration {
 
   candidateKnowledgeObjectIds: string[];
 
+  knowledgeObjectRelationIds: string[];
+
   results: IKnowledgeObjectRelationGenerationResult[];
 
   usage: {
@@ -149,6 +151,14 @@ const knowledgeObjectRelationGenerationSchema =
       },
 
       candidateKnowledgeObjectIds: {
+        type: [String],
+
+        required: true,
+
+        default: [],
+      },
+
+      knowledgeObjectRelationIds: {
         type: [String],
 
         required: true,

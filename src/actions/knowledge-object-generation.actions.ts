@@ -17,7 +17,7 @@ import { PromptVersionRepository } from "@/repositories/prompt-version.repositor
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
 
 import { KnowledgeObjectGenerationService } from "@/services/knowledge-object-generation.service";
-import { KnowledgeObjectService } from "@/services/knowledge-object.service";
+import { knowledgeObjectService, KnowledgeObjectService } from "@/services/knowledge-object.service";
 
 import { NoteService } from "@/services/note.service";
 import { PromptVersionService } from "@/services/prompt-version.service";
@@ -31,10 +31,6 @@ const knowledgeObjectGenerationService = new KnowledgeObjectGenerationService(
   new OpenAiEmbeddingClient(),
 
   new KnowledgeObjectGenerationRepository(),
-);
-
-const knowledgeObjectService = new KnowledgeObjectService(
-  new KnowledgeObjectRepository(),
 );
 
 const noteService = new NoteService(new NoteRepository());

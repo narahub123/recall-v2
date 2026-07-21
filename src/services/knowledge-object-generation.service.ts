@@ -8,9 +8,13 @@ import { KNOWLEDGE_OBJECT_GENERATION_STATUS } from "@/models/knowledge-object-ge
 import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
 import { KnowledgeObjectGenerationRepository } from "@/repositories/knowledge-object-generation.repository";
 
-import { KnowledgeObjectService } from "@/services/knowledge-object.service";
+import {
+  knowledgeObjectService,
+  KnowledgeObjectService,
+} from "@/services/knowledge-object.service";
 import { KnowledgeObjectGenerationDTO } from "@/dto/knowledge-object-generation.dto";
 import { KnowledgeObjectGenerationMapper } from "@/mappers/knowledge-object-generation.mapper";
+import { OpenAiEmbeddingClient } from "@/embedding/providers/openai/openai-embedding-client";
 
 export class KnowledgeObjectGenerationService {
   constructor(
@@ -164,3 +168,11 @@ export class KnowledgeObjectGenerationService {
       .join("\n");
   }
 }
+
+export const knowledgeObjectGenerationService =
+  new KnowledgeObjectGenerationService(
+    new KnowledgeExtractionRepository(),
+    knowledgeObjectService,
+    new OpenAiEmbeddingClient(),
+    new KnowledgeObjectGenerationRepository(),
+  );

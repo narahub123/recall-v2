@@ -64,3 +64,5 @@ export class NoteService {
     return NoteMapper.toDTO(note);
   }
 }
+
+export const noteService = new NoteService(new NoteRepository());

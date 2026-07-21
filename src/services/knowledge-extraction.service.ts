@@ -116,3 +116,7 @@ export class KnowledgeExtractionService {
     return KnowledgeExtractionDetailMapper.toDTO(knowledgeExtraction);
   }
 }
+
+export const knowledgeExtractionService = new KnowledgeExtractionService(
+  new KnowledgeExtractionRepository(),
+);

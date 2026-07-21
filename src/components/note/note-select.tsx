@@ -38,7 +38,7 @@ export function NoteSelect({ value, onChange }: Props) {
           <SelectValue>{selected}</SelectValue>
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           {notes?.map((note) => (
             <SelectItem key={note.id} value={note.id}>
               {note.title || "제목 없음"}

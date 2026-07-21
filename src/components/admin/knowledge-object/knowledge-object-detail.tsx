@@ -19,6 +19,7 @@ import { KnowledgeObjectRelationSection } from "./knowledge-object-relation-sect
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { ROUTES } from "@/constants/routes";
 import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
+import { KnowledgeObjectRelationRunSection } from "./knowledge-object-relation-run-section";
 
 interface Props {
   id: string;
@@ -42,9 +43,11 @@ export function KnowledgeObjectDetail({ id }: Props) {
       return;
     }
 
-    setDynamicItems([{
-      label: knowledgeObject.name ?? "상세",
-    }]);
+    setDynamicItems([
+      {
+        label: knowledgeObject.name ?? "상세",
+      },
+    ]);
   }, [knowledgeObject, setDynamicItems]);
 
   if (isLoading) {
@@ -118,6 +121,10 @@ export function KnowledgeObjectDetail({ id }: Props) {
 
           <p className="whitespace-pre-wrap">{knowledgeObject.embeddingText}</p>
         </div>
+
+        <KnowledgeObjectRelationRunSection
+          knowledgeObjectId={knowledgeObject.id}
+        />
 
         <KnowledgeObjectRelationSection
           knowledgeObjectId={knowledgeObject.id}

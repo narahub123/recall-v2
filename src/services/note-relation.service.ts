@@ -95,3 +95,7 @@ export class NoteRelationService {
     return this.noteRelationRepository.deleteByNoteId(noteId);
   }
 }
+
+export const noteRelationService = new NoteRelationService(
+  new NoteRelationRepository(),
+);

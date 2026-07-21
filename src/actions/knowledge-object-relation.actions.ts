@@ -2,13 +2,7 @@
 
 import { connectMongoDB } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/auth/require-admin";
-
-import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
-import { KnowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
-
-const knowledgeObjectRelationService = new KnowledgeObjectRelationService(
-  new KnowledgeObjectRelationRepository(),
-);
+import { knowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
 
 export async function createKnowledgeObjectRelationAction(data: {
   sourceKnowledgeObjectId: string;

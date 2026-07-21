@@ -39,7 +39,7 @@ export function PromptGroupSelect({ value, onChange }: Props) {
           <SelectValue>{selected}</SelectValue>
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           {promptGroups?.map((group) => (
             <SelectItem key={group.id} value={group.id}>
               {group.name}

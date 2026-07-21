@@ -20,21 +20,14 @@ import { PromptVersionRepository } from "@/repositories/prompt-version.repositor
 
 import { KnowledgeExtractionService } from "@/services/knowledge-extraction.service";
 import { KnowledgeObjectGenerationService } from "@/services/knowledge-object-generation.service";
-import { KnowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
-import { KnowledgeObjectService } from "@/services/knowledge-object.service";
+import { knowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
+import { knowledgeObjectService, KnowledgeObjectService } from "@/services/knowledge-object.service";
 import { NoteService } from "@/services/note.service";
 import { PromptGroupService } from "@/services/prompt-group.service";
 import { PromptVersionService } from "@/services/prompt-version.service";
 
 const knowledgeObjectRepository = new KnowledgeObjectRepository();
 
-const knowledgeObjectService = new KnowledgeObjectService(
-  knowledgeObjectRepository,
-);
-
-const knowledgeObjectRelationService = new KnowledgeObjectRelationService(
-  new KnowledgeObjectRelationRepository(),
-);
 
 const noteService = new NoteService(new NoteRepository());
 

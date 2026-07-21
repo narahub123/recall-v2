@@ -1,7 +1,10 @@
 import { PromptGroupDTO } from "@/dto/prompt-group.dto";
 import { PromptGroupMapper } from "@/mappers/prompt-group.mapper";
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
-import { PromptVersionService } from "./prompt-version.service";
+import {
+  promptVersionService,
+  PromptVersionService,
+} from "./prompt-version.service";
 
 export class PromptGroupService {
   constructor(
@@ -64,3 +67,8 @@ export class PromptGroupService {
     return PromptGroupMapper.toDTO(promptGroup);
   }
 }
+
+export const promptGroupService = new PromptGroupService(
+  new PromptGroupRepository(),
+  promptVersionService,
+);

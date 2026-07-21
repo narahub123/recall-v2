@@ -11,3 +11,5 @@ export class UserService {
     return this.userRepository.findById(id);
   }
 }
+
+export const userService = new UserService(new UserRepository());

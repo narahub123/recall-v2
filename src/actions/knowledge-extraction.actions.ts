@@ -15,8 +15,11 @@ import { NoteRepository } from "@/repositories/note.repository";
 import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
 
 import { NoteService } from "@/services/note.service";
-import { PromptVersionService } from "@/services/prompt-version.service";
-import { OpenAiClient } from "@/llm/providers/openai/openai-client";
+import {
+  promptVersionService,
+  PromptVersionService,
+} from "@/services/prompt-version.service";
+import { openAiClient } from "@/llm/providers/openai/openai-client";
 import { PromptGroupService } from "@/services/prompt-group.service";
 import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
 import { KnowledgeExtractionViewDTO } from "@/dto/knowledge-extraction-view.dto";
@@ -33,11 +36,7 @@ const knowledgeExtractionRunService = new KnowledgeExtractionRunService(
 
   knowledgeExtractionService,
 
-  new OpenAiClient(),
-);
-
-const promptVersionService = new PromptVersionService(
-  new PromptVersionRepository(),
+  openAiClient,
 );
 
 const promptGroupService = new PromptGroupService(

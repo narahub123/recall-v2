@@ -58,6 +58,64 @@ export class KnowledgeObjectRepository {
       .lean();
   }
 
+  async findSimilar(
+    embedding: number[],
+    excludeNoteId: string,
+    limit: number = 5,
+  ) {
+    const searchLimit = limit * 4;
+
+    return KnowledgeObject.aggregate([
+      {
+        $vectorSearch: {
+          index: "knowledge_object_vector_index",
+
+          path: "embedding",
+
+          queryVector: embedding,
+
+          numCandidates: 100,
+
+          limit: searchLimit,
+        },
+      },
+
+      {
+        $match: {
+          noteId: {
+            $ne: excludeNoteId,
+          },
+        },
+      },
+
+      {
+        $limit: limit,
+      },
+
+      {
+        $project: {
+          _id: 1,
+
+          noteId: 1,
+
+          name: 1,
+
+          description: 1,
+
+          reason: 1,
+
+          parent: 1,
+
+          embedding: 1,
+
+          score: {
+            $meta: "vectorSearchScore",
+          },
+        },
+      },
+    ]);
+  }
+
   async update(
     id: string,
     data: {

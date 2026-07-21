@@ -26,6 +26,8 @@ export class KnowledgeObjectRelationGenerationService {
 
     candidateKnowledgeObjectIds: string[];
 
+    knowledgeObjectRelationIds: string[];
+
     results: {
       sourceKnowledgeObjectId: string;
 
@@ -123,6 +125,8 @@ export class KnowledgeObjectRelationGenerationService {
 
         confidence?: number | null;
       }[];
+
+      knowledgeObjectRelationIds?: string[];
 
       usage?: {
         inputTokens: number;

@@ -52,7 +52,7 @@ export function KnowledgeExtractionSelect({ value, onChange }: Props) {
         </SelectValue>
       </SelectTrigger>
 
-      <SelectContent>
+      <SelectContent alignItemWithTrigger={false}>
         {extractions?.map((extraction) => (
           <SelectItem key={extraction.id} value={extraction.id}>
             <div className="flex flex-col">

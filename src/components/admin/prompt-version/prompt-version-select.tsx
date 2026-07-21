@@ -42,7 +42,7 @@ export function PromptVersionSelect({ promptGroupId, value, onChange }: Props) {
           </SelectValue>
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           {versions?.map((version) => (
             <SelectItem key={version.id} value={version.id}>
               v{version.version}

@@ -18,6 +18,8 @@ export class KnowledgeObjectRelationGenerationMapper {
 
     candidateKnowledgeObjectIds: string[];
 
+    knowledgeObjectRelationIds: string[];
+
     results: {
       sourceKnowledgeObjectId: string;
 
@@ -63,11 +65,31 @@ export class KnowledgeObjectRelationGenerationMapper {
 
       responseFormat: data.responseFormat,
 
-      candidateKnowledgeObjectIds: data.candidateKnowledgeObjectIds,
+      candidateKnowledgeObjectIds: [...data.candidateKnowledgeObjectIds],
 
-      results: data.results,
+      knowledgeObjectRelationIds: [...data.knowledgeObjectRelationIds],
 
-      usage: data.usage,
+      results: data.results.map((result) => ({
+        sourceKnowledgeObjectId: result.sourceKnowledgeObjectId,
+
+        targetKnowledgeObjectId: result.targetKnowledgeObjectId,
+
+        related: result.related,
+
+        relationType: result.relationType ?? null,
+
+        reason: result.reason ?? null,
+
+        confidence: result.confidence ?? null,
+      })),
+
+      usage: {
+        inputTokens: data.usage.inputTokens,
+
+        outputTokens: data.usage.outputTokens,
+
+        totalTokens: data.usage.totalTokens,
+      },
 
       status: data.status,
 
