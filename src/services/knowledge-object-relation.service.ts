@@ -4,6 +4,7 @@ import { KnowledgeObjectRelationMapper } from "@/mappers/knowledge-object-relati
 
 import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
 import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
+import { ListQuery, PaginatedResult } from "@/types/pagination";
 
 export class KnowledgeObjectRelationService {
   constructor(
@@ -55,12 +56,35 @@ export class KnowledgeObjectRelationService {
     return KnowledgeObjectRelationMapper.toDTO(relation);
   }
 
-  async getRelations(): Promise<KnowledgeObjectRelationDTO[]> {
-    const relations = await this.knowledgeObjectRelationRepository.findAll();
+  async getRelations(
+    query: ListQuery,
+  ): Promise<PaginatedResult<KnowledgeObjectRelationDTO>> {
+    const { relations, total } =
+      await this.knowledgeObjectRelationRepository.findAll(query);
 
-    return relations.map((relation) =>
+    const items = relations.map((relation) =>
       KnowledgeObjectRelationMapper.toDTO(relation),
     );
+
+    const totalPages = Math.ceil(total / query.limit);
+
+    return {
+      items,
+
+      pagination: {
+        page: query.page,
+
+        limit: query.limit,
+
+        total,
+
+        totalPages,
+
+        hasNextPage: query.page < totalPages,
+
+        hasPreviousPage: query.page > 1,
+      },
+    };
   }
 
   async getRelationsByKnowledgeObjectId(

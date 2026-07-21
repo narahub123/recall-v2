@@ -4,10 +4,12 @@ import { getKnowledgeObjectRelationsAction } from "@/actions/knowledge-object-re
 
 import { knowledgeObjectRelationKeys } from "@/lib/query-keys/knowledge-object-relation.keys";
 
-export function useKnowledgeObjectRelations() {
-  return useQuery({
-    queryKey: knowledgeObjectRelationKeys.list(),
+import type { ListQuery } from "@/types/pagination";
 
-    queryFn: () => getKnowledgeObjectRelationsAction(),
+export function useKnowledgeObjectRelations(query: ListQuery) {
+  return useQuery({
+    queryKey: knowledgeObjectRelationKeys.list(query),
+
+    queryFn: () => getKnowledgeObjectRelationsAction(query),
   });
 }

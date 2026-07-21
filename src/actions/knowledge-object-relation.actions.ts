@@ -3,6 +3,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { knowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
+import { ListQuery } from "@/types/pagination";
 
 export async function createKnowledgeObjectRelationAction(data: {
   sourceKnowledgeObjectId: string;
@@ -30,12 +31,12 @@ export async function getKnowledgeObjectRelationAction(id: string) {
   return knowledgeObjectRelationService.getRelationById(id);
 }
 
-export async function getKnowledgeObjectRelationsAction() {
+export async function getKnowledgeObjectRelationsAction(query: ListQuery) {
   await connectMongoDB();
 
   await requireAdmin();
 
-  return knowledgeObjectRelationService.getRelations();
+  return knowledgeObjectRelationService.getRelations(query);
 }
 
 export async function getKnowledgeObjectRelationsByKnowledgeObjectIdAction(

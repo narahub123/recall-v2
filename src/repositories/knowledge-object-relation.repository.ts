@@ -1,4 +1,5 @@
 import { KnowledgeObjectRelation } from "@/models/knowledge-object-relation.model";
+import { ListQuery } from "@/types/pagination";
 
 export class KnowledgeObjectRelationRepository {
   async create(data: {
@@ -19,10 +20,24 @@ export class KnowledgeObjectRelationRepository {
     return KnowledgeObjectRelation.findById(id);
   }
 
-  async findAll() {
-    return KnowledgeObjectRelation.find().sort({
-      createdAt: -1,
-    });
+  async findAll({ page, limit }: ListQuery) {
+    const skip = (page - 1) * limit;
+
+    const [relations, total] = await Promise.all([
+      KnowledgeObjectRelation.find()
+        .sort({
+          createdAt: -1,
+        })
+        .skip(skip)
+        .limit(limit),
+
+      KnowledgeObjectRelation.countDocuments(),
+    ]);
+
+    return {
+      relations,
+      total,
+    };
   }
 
   async findByKnowledgeObjectId(knowledgeObjectId: string) {
