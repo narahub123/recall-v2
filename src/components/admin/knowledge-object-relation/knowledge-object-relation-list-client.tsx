@@ -9,10 +9,14 @@ import { KnowledgeObjectRelationList } from "./knowledge-object-relation-list";
 import { AdminPagination } from "@/components/admin/common/admin-pagination";
 
 import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
-import type { KnowledgeObjectRelationSearch } from "@/types/knowledge-object-relation/search";
+import {
+  KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS,
+  KNOWLEDGE_OBJECT_RELATION_SEARCH_LABELS,
+  type KnowledgeObjectRelationSearch,
+} from "@/types/knowledge-object-relation/search";
 
 import { KnowledgeObjectRelationFilterSelect } from "./knowledge-object-relation-filter-select";
-import { KnowledgeObjectRelationSearchInput } from "./knowledge-object-relation-search-input";
+import { AdminSearchInput } from "../common/admin-search-input";
 
 const DEFAULT_LIMIT = 20;
 
@@ -53,7 +57,9 @@ export function KnowledgeObjectRelationListClient() {
           }}
         />
 
-        <KnowledgeObjectRelationSearchInput
+        <AdminSearchInput
+          fields={KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS}
+          labels={KNOWLEDGE_OBJECT_RELATION_SEARCH_LABELS}
           value={search}
           onChange={(value) => {
             setPage(1);

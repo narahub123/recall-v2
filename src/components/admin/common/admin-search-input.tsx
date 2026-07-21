@@ -16,37 +16,37 @@ import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
-import {
-  KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS,
-  type KnowledgeObjectRelationSearch,
-  type KnowledgeObjectRelationSearchField,
-} from "@/types/knowledge-object-relation/search";
+interface AdminSearchValue<TField extends string> {
+  field: TField;
 
-interface Props {
-  value?: KnowledgeObjectRelationSearch;
-
-  onChange: (value?: KnowledgeObjectRelationSearch) => void;
+  keyword: string;
 }
 
-const SEARCH_FIELD_LABELS: Record<KnowledgeObjectRelationSearchField, string> =
-  {
-    sourceKnowledgeObjectName: "Source Knowledge Object",
+interface Props<TField extends string> {
+  fields: readonly TField[];
 
-    targetKnowledgeObjectName: "Target Knowledge Object",
-  };
+  labels: Record<TField, string>;
 
-export function KnowledgeObjectRelationSearchInput({ value, onChange }: Props) {
-  const [field, setField] = useState<KnowledgeObjectRelationSearchField>(
-    value?.field ?? "sourceKnowledgeObjectName",
-  );
+  value?: AdminSearchValue<TField>;
+
+  onChange: (value?: AdminSearchValue<TField>) => void;
+}
+
+export function AdminSearchInput<TField extends string>({
+  fields,
+  labels,
+  value,
+  onChange,
+}: Props<TField>) {
+  const [field, setField] = useState<TField>(value?.field ?? fields[0]);
 
   const [keyword, setKeyword] = useState(value?.keyword ?? "");
 
   useEffect(() => {
-    setField(value?.field ?? "sourceKnowledgeObjectName");
+    setField(value?.field ?? fields[0]);
 
     setKeyword(value?.keyword ?? "");
-  }, [value]);
+  }, [value, fields]);
 
   function handleSearch() {
     const trimmedKeyword = keyword.trim();
@@ -75,7 +75,7 @@ export function KnowledgeObjectRelationSearchInput({ value, onChange }: Props) {
       <Select
         value={field}
         onValueChange={(value) => {
-          setField(value as KnowledgeObjectRelationSearchField);
+          setField(value as TField);
         }}
       >
         <SelectTrigger className="w-55">
@@ -83,9 +83,9 @@ export function KnowledgeObjectRelationSearchInput({ value, onChange }: Props) {
         </SelectTrigger>
 
         <SelectContent>
-          {KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS.map((field) => (
+          {fields.map((field) => (
             <SelectItem key={field} value={field}>
-              {SEARCH_FIELD_LABELS[field]}
+              {labels[field]}
             </SelectItem>
           ))}
         </SelectContent>
