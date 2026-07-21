@@ -3,7 +3,7 @@ import { KnowledgeExtractionCreateClient } from "@/components/admin/knowledge-ex
 export default function KnowledgeExtractionCreatePage() {
   return (
     <main className="p-6">
-      <KnowledgeExtractionCreateClient />;
+      <KnowledgeExtractionCreateClient />
     </main>
   );
 }

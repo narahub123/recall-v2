@@ -16,7 +16,7 @@ export function KnowledgeObjectRelationList({ relations }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex flex-col">
       {relations.map((relation) => (
         <KnowledgeObjectRelationCard key={relation.id} relation={relation} />
       ))}

@@ -13,7 +13,7 @@ export default async function KnowledgeObjectRelationDetailPage({
 
   return (
     <main className="p-6">
-      <KnowledgeObjectRelationDetailClient id={id} />;
+      <KnowledgeObjectRelationDetailClient id={id} />
     </main>
   );
 }

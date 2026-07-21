@@ -11,7 +11,7 @@ export default async function KnowledgeObjectDetailPage({ params }: Props) {
 
   return (
     <main className="p-6">
-      <KnowledgeObjectDetail id={id} />;
+      <KnowledgeObjectDetail id={id} />
     </main>
   );
 }

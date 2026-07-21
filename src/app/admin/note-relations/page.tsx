@@ -3,7 +3,7 @@ import { NoteRelationListClient } from "@/components/admin/note-relation/note-re
 export default function NoteRelationsPage() {
   return (
     <main className="p-6">
-      <NoteRelationListClient />;
+      <NoteRelationListClient />
     </main>
   );
 }

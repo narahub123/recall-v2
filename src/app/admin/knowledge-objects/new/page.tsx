@@ -3,7 +3,7 @@ import { KnowledgeObjectCreateClient } from "@/components/admin/knowledge-object
 export default function KnowledgeObjectCreatePage() {
   return (
     <main className="p-6">
-      <KnowledgeObjectCreateClient />;
+      <KnowledgeObjectCreateClient />
     </main>
   );
 }

@@ -14,8 +14,6 @@ export function KnowledgeObjectRelationListClient() {
 
   return (
     <div className="space-y-6">
-      <KnowledgeObjectRelationCreateForm />
-
       <KnowledgeObjectRelationList relations={relations ?? []} />
     </div>
   );

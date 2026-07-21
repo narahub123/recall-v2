@@ -9,5 +9,5 @@ interface NotePageProps {
 export default async function NotePage({ params }: NotePageProps) {
   const { id } = await params;
 
-  return <NoteDetail id={id} />;
+  return <NoteDetail id={id} />
 }

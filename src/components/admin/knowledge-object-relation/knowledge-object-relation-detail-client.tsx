@@ -4,14 +4,9 @@ import { useState } from "react";
 
 import { useKnowledgeObjectRelation } from "@/hooks/knowledge-object-relation/queries/use-knowledge-object-relation";
 
-import { Button } from "@/components/ui/button";
-
-import { AdminBreadcrumb } from "@/components/admin/common/admin-breadcrumb";
-
 import { KnowledgeObjectRelationDeleteDialog } from "./knowledge-object-relation-delete-dialog";
 import { KnowledgeObjectRelationDetail } from "./knowledge-object-relation-detail";
 import { KnowledgeObjectRelationEditForm } from "./knowledge-object-relation-edit-form";
-import { ROUTES } from "@/constants/routes";
 
 interface Props {
   id: string;
@@ -50,29 +45,11 @@ export function KnowledgeObjectRelationDetailClient({ id }: Props) {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb
-        items={[
-          {
-            label: "Knowledge Object Relations",
-            href: ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS,
-          },
-          {
-            label: relation.relationType,
-          },
-        ]}
+      <KnowledgeObjectRelationDetail
+        relation={relation}
+        onEdit={() => setEditMode(true)}
+        onDelete={() => setDeleteOpen(true)}
       />
-
-      <KnowledgeObjectRelationDetail relation={relation} />
-
-      <div className="flex gap-2">
-        <Button variant="outline" onClick={() => setEditMode(true)}>
-          수정
-        </Button>
-
-        <Button variant="destructive" onClick={() => setDeleteOpen(true)}>
-          삭제
-        </Button>
-      </div>
 
       <KnowledgeObjectRelationDeleteDialog
         id={relation.id}

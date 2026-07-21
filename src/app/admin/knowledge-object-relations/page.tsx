@@ -3,7 +3,7 @@ import { KnowledgeObjectRelationListClient } from "@/components/admin/knowledge-
 export default function KnowledgeObjectRelationsPage() {
   return (
     <main className="p-6">
-      <KnowledgeObjectRelationListClient />;
+      <KnowledgeObjectRelationListClient />
     </main>
   );
 }

@@ -1,11 +1,20 @@
 import { Schema, model, models } from "mongoose";
 
+export const KNOWLEDGE_RELATION_TYPES = [
+  "comparison",
+  "extension",
+  "alternative",
+  "criterion",
+] as const;
+
+export type KnowledgeRelationType = (typeof KNOWLEDGE_RELATION_TYPES)[number];
+
 export interface IKnowledgeObjectRelation {
   sourceKnowledgeObjectId: string;
 
   targetKnowledgeObjectId: string;
 
-  relationType: string;
+  relationType: KnowledgeRelationType;
 
   reason: string;
 
@@ -33,6 +42,7 @@ const knowledgeObjectRelationSchema = new Schema<IKnowledgeObjectRelation>(
     relationType: {
       type: String,
       required: true,
+      enum: KNOWLEDGE_RELATION_TYPES,
       trim: true,
     },
 

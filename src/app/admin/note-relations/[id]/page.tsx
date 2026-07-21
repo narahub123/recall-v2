@@ -11,7 +11,7 @@ export default async function NoteRelationDetailPage({ params }: Props) {
 
   return (
     <main className="p-6">
-      <NoteRelationDetailClient id={id} />;
+      <NoteRelationDetailClient id={id} />
     </main>
   );
 }

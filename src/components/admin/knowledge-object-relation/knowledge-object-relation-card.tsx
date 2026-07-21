@@ -6,8 +6,12 @@ import { KnowledgeObjectRelationDTO } from "@/dto/knowledge-object-relation.dto"
 
 import { useKnowledgeObject } from "@/hooks/knowledge-object/queries/use-knowledge-object";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROUTES } from "@/constants/routes";
+import { cn } from "@/lib/utils";
+
+import type { KnowledgeRelationType } from "@/models/knowledge-object-relation.model";
+
+import { RelationTypeIndicator } from "./relation-type-indicator";
 
 interface Props {
   relation: KnowledgeObjectRelationDTO;
@@ -23,42 +27,29 @@ export function KnowledgeObjectRelationCard({ relation }: Props) {
   );
 
   return (
-    <Link href={`${ROUTES.ADMIN.KNOWLEDGE_OBJECT_RELATIONS}/${relation.id}`}>
-      <Card className="cursor-pointer transition hover:bg-muted/50">
-        <CardHeader>
-          <CardTitle>{relation.relationType}</CardTitle>
-        </CardHeader>
+    <Link
+      href={`${ROUTES.ADMIN.KNOWLEDGE_OBJECT_RELATIONS}/${relation.id}`}
+      className="block"
+    >
+      <div
+        className={cn(
+          "flex items-center justify-center gap-3",
+          "rounded-lg border p-4",
+          "transition hover:bg-muted/50",
+        )}
+      >
+        <span className={cn("w-48 truncate text-right", "font-semibold")}>
+          {sourceKnowledgeObject?.name ?? relation.sourceKnowledgeObjectId}
+        </span>
 
-        <CardContent className="space-y-3">
-          <div>
-            <p className="text-sm text-muted-foreground">Source</p>
+        <RelationTypeIndicator
+          type={relation.relationType as KnowledgeRelationType}
+        />
 
-            <p>
-              {sourceKnowledgeObject?.name ?? relation.sourceKnowledgeObjectId}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-muted-foreground">Target</p>
-
-            <p>
-              {targetKnowledgeObject?.name ?? relation.targetKnowledgeObjectId}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-muted-foreground">Reason</p>
-
-            <p>{relation.reason || "-"}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-muted-foreground">Confidence</p>
-
-            <p>{relation.confidence}</p>
-          </div>
-        </CardContent>
-      </Card>
+        <span className={cn("w-48 truncate text-left", "font-semibold")}>
+          {targetKnowledgeObject?.name ?? relation.targetKnowledgeObjectId}
+        </span>
+      </div>
     </Link>
   );
 }
