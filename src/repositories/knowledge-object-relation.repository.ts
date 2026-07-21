@@ -1,9 +1,10 @@
 import { KnowledgeRelationType } from "@/constants/knowledge-object-relation";
 import { KnowledgeObjectRelation } from "@/models/knowledge-object-relation.model";
-import { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
-import { ListQuery } from "@/types/pagination";
-
+import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
+import type { KnowledgeObjectRelationSearch } from "@/types/knowledge-object-relation/search";
+import type { ListQuery } from "@/types/list-query";
 import type { QueryConditions } from "@/types/query-conditions";
+import { PipelineStage } from "mongoose";
 
 interface KnowledgeObjectRelationConditionShape {
   relationType: KnowledgeRelationType;
@@ -32,7 +33,8 @@ export class KnowledgeObjectRelationRepository {
     page,
     limit,
     filter,
-  }: ListQuery<KnowledgeObjectRelationFilter>) {
+    search,
+  }: ListQuery<KnowledgeObjectRelationFilter, KnowledgeObjectRelationSearch>) {
     const skip = (page - 1) * limit;
 
     const conditions: QueryConditions<KnowledgeObjectRelationConditionShape> =
@@ -42,20 +44,110 @@ export class KnowledgeObjectRelationRepository {
       conditions.relationType = filter.relationType;
     }
 
-    const [relations, total] = await Promise.all([
-      KnowledgeObjectRelation.find(conditions)
-        .sort({
-          createdAt: -1,
-        })
-        .skip(skip)
-        .limit(limit),
+    const pipeline: PipelineStage[] = [
+      {
+        $match: conditions,
+      },
 
-      KnowledgeObjectRelation.countDocuments(conditions),
+      {
+        $addFields: {
+          sourceKnowledgeObjectObjectId: {
+            $toObjectId: "$sourceKnowledgeObjectId",
+          },
+
+          targetKnowledgeObjectObjectId: {
+            $toObjectId: "$targetKnowledgeObjectId",
+          },
+        },
+      },
+
+      {
+        $lookup: {
+          from: "knowledge_objects",
+
+          localField: "sourceKnowledgeObjectObjectId",
+
+          foreignField: "_id",
+
+          as: "sourceKnowledgeObject",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "knowledge_objects",
+
+          localField: "targetKnowledgeObjectObjectId",
+
+          foreignField: "_id",
+
+          as: "targetKnowledgeObject",
+        },
+      },
+
+      {
+        $unwind: {
+          path: "$sourceKnowledgeObject",
+
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      {
+        $unwind: {
+          path: "$targetKnowledgeObject",
+
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ];
+
+    if (search?.field && search.keyword) {
+      pipeline.push({
+        $match: {
+          [search.field === "sourceKnowledgeObjectName"
+            ? "sourceKnowledgeObject.name"
+            : "targetKnowledgeObject.name"]: {
+            $regex: search.keyword,
+
+            $options: "i",
+          },
+        },
+      });
+    }
+
+    const [relations, total] = await Promise.all([
+      KnowledgeObjectRelation.aggregate([
+        ...pipeline,
+
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+
+        {
+          $skip: skip,
+        },
+
+        {
+          $limit: limit,
+        },
+      ]),
+
+      KnowledgeObjectRelation.aggregate([
+        ...pipeline,
+
+        {
+          $count: "total",
+        },
+      ]),
     ]);
 
     return {
       relations,
-      total,
+
+      total: total[0]?.total ?? 0,
     };
   }
 

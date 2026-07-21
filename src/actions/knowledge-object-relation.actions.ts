@@ -3,8 +3,9 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { knowledgeObjectRelationService } from "@/services/knowledge-object-relation.service";
-import { ListQuery } from "@/types/pagination";
-import { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
+import type { ListQuery } from "@/types/list-query";
+import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
+import type { KnowledgeObjectRelationSearch } from "@/types/knowledge-object-relation/search";
 
 export async function createKnowledgeObjectRelationAction(data: {
   sourceKnowledgeObjectId: string;
@@ -33,7 +34,10 @@ export async function getKnowledgeObjectRelationAction(id: string) {
 }
 
 export async function getKnowledgeObjectRelationsAction(
-  query: ListQuery<KnowledgeObjectRelationFilter>,
+  query: ListQuery<
+    KnowledgeObjectRelationFilter,
+    KnowledgeObjectRelationSearch
+  >,
 ) {
   await connectMongoDB();
 

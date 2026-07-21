@@ -18,12 +18,4 @@ export interface PaginatedResult<T> {
   pagination: PaginationMeta;
 }
 
-export interface ListQuery<TFilter = undefined> {
-  page: number;
 
-  limit: number;
-
-  filter?: TFilter;
-
-  search?: string;
-}

@@ -4,11 +4,15 @@ import { getKnowledgeObjectRelationsAction } from "@/actions/knowledge-object-re
 
 import { knowledgeObjectRelationKeys } from "@/lib/query-keys/knowledge-object-relation.keys";
 
+import type { ListQuery } from "@/types/list-query";
 import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
-import type { ListQuery } from "@/types/pagination";
+import type { KnowledgeObjectRelationSearch } from "@/types/knowledge-object-relation/search";
 
 export function useKnowledgeObjectRelations(
-  query: ListQuery<KnowledgeObjectRelationFilter>,
+  query: ListQuery<
+    KnowledgeObjectRelationFilter,
+    KnowledgeObjectRelationSearch
+  >,
 ) {
   return useQuery({
     queryKey: knowledgeObjectRelationKeys.list(query),
