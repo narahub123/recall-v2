@@ -1,48 +1,18 @@
 "use server";
 
 import { EmbeddingModel } from "@/embedding/embedding-models";
-import { OpenAiEmbeddingClient } from "@/embedding/providers/openai/openai-embedding-client";
 
 import { KnowledgeObjectGenerationViewMapper } from "@/mappers/knowledge-object-generation-view.mapper";
 
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { connectMongoDB } from "@/lib/mongodb";
 
-import { KnowledgeExtractionRepository } from "@/repositories/knowledge-extraction.repository";
-import { KnowledgeObjectGenerationRepository } from "@/repositories/knowledge-object-generation.repository";
-import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
+import { knowledgeObjectGenerationService } from "@/services/knowledge-object-generation.service";
+import { knowledgeObjectService } from "@/services/knowledge-object.service";
 
-import { NoteRepository } from "@/repositories/note.repository";
-import { PromptVersionRepository } from "@/repositories/prompt-version.repository";
-import { PromptGroupRepository } from "@/repositories/prompt-group.repository";
-
-import { KnowledgeObjectGenerationService } from "@/services/knowledge-object-generation.service";
-import { knowledgeObjectService, KnowledgeObjectService } from "@/services/knowledge-object.service";
-
-import { NoteService } from "@/services/note.service";
-import { PromptVersionService } from "@/services/prompt-version.service";
-import { PromptGroupService } from "@/services/prompt-group.service";
-
-const knowledgeObjectGenerationService = new KnowledgeObjectGenerationService(
-  new KnowledgeExtractionRepository(),
-
-  new KnowledgeObjectService(new KnowledgeObjectRepository()),
-
-  new OpenAiEmbeddingClient(),
-
-  new KnowledgeObjectGenerationRepository(),
-);
-
-const noteService = new NoteService(new NoteRepository());
-
-const promptVersionService = new PromptVersionService(
-  new PromptVersionRepository(),
-);
-
-const promptGroupService = new PromptGroupService(
-  new PromptGroupRepository(),
-  promptVersionService,
-);
+import { noteService } from "@/services/note.service";
+import { promptVersionService } from "@/services/prompt-version.service";
+import { promptGroupService } from "@/services/prompt-group.service";
 
 export async function createKnowledgeObjectsFromExtractionAction(
   extractionId: string,

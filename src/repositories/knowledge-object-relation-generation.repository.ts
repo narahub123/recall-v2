@@ -50,13 +50,15 @@ export class KnowledgeObjectRelationGenerationRepository {
   }
 
   async findById(id: string) {
-    return KnowledgeObjectRelationGeneration.findById(id);
+    return KnowledgeObjectRelationGeneration.findById(id).lean();
   }
 
   async findAll() {
-    return KnowledgeObjectRelationGeneration.find().sort({
-      createdAt: -1,
-    });
+    return KnowledgeObjectRelationGeneration.find()
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
   }
 
   async findByKnowledgeObjectId(knowledgeObjectId: string) {
