@@ -6,7 +6,7 @@ import { useAdminSidebar } from "./admin-sidebar-context";
 import { AdminSidebarContent } from "./admin-sidebar-content";
 
 export function AdminSidebar() {
-  const { sidebarOpen, initialized } = useAdminSidebar();
+  const { sidebarCollapsed, initialized } = useAdminSidebar();
 
   if (!initialized) {
     return null;
@@ -15,8 +15,8 @@ export function AdminSidebar() {
   return (
     <aside
       className={cn(
-        "hidden h-screen shrink-0 overflow-hidden border-r transition-all duration-200 md:flex",
-        sidebarOpen ? "w-64" : "w-0",
+        "hidden h-screen shrink-0 overflow-hidden border-r transition-[width] duration-200 md:flex",
+        sidebarCollapsed ? "w-14" : "w-64",
       )}
     >
       <AdminSidebarContent onNavigate={() => undefined} />

@@ -8,13 +8,13 @@ import {
   type ReactNode,
 } from "react";
 
-const SIDEBAR_STORAGE_KEY = "admin-sidebar-open";
+const SIDEBAR_STORAGE_KEY = "admin-sidebar-collapsed";
 
 type AdminSidebarContextValue = {
-  sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
   initialized: boolean;
   toggleSidebar: () => void;
-  setSidebarOpen: (open: boolean) => void;
+  expandSidebar: () => void;
 };
 
 const AdminSidebarContext = createContext<AdminSidebarContextValue | null>(
@@ -26,36 +26,46 @@ type AdminSidebarProviderProps = {
 };
 
 export function AdminSidebarProvider({ children }: AdminSidebarProviderProps) {
-  const [sidebarOpen, setSidebarOpenState] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     const savedState = localStorage.getItem(SIDEBAR_STORAGE_KEY);
 
     if (savedState !== null) {
-      setSidebarOpenState(savedState === "true");
+      setSidebarCollapsed(savedState === "true");
     }
 
     setInitialized(true);
   }, []);
 
-  const setSidebarOpen = (open: boolean) => {
-    setSidebarOpenState(open);
+  const setCollapsedState = (collapsed: boolean) => {
+    setSidebarCollapsed(collapsed);
 
-    localStorage.setItem(SIDEBAR_STORAGE_KEY, String(open));
+    localStorage.setItem(SIDEBAR_STORAGE_KEY, String(collapsed));
   };
 
   const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+    setSidebarCollapsed((prev) => {
+      const nextState = !prev;
+
+      localStorage.setItem(SIDEBAR_STORAGE_KEY, String(nextState));
+
+      return nextState;
+    });
+  };
+
+  const expandSidebar = () => {
+    setCollapsedState(false);
   };
 
   return (
     <AdminSidebarContext.Provider
       value={{
-        sidebarOpen,
+        sidebarCollapsed,
         initialized,
         toggleSidebar,
-        setSidebarOpen,
+        expandSidebar,
       }}
     >
       {children}

@@ -13,11 +13,19 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { cn } from "@/lib/utils";
 
 type AdminSidebarMenuItemProps = {
   item: AdminMenuItemType;
   onNavigate: () => void;
+  collapsed: boolean;
+  onExpandSidebar: () => void;
 };
 
 function isPathActive(href: string | undefined, pathname: string): boolean {
@@ -39,6 +47,8 @@ function hasActiveChild(item: AdminMenuItemType, pathname: string): boolean {
 export function AdminSidebarMenuItem({
   item,
   onNavigate,
+  collapsed,
+  onExpandSidebar,
 }: AdminSidebarMenuItemProps) {
   const pathname = usePathname();
 
@@ -57,23 +67,49 @@ export function AdminSidebarMenuItem({
   const Icon = item.icon;
 
   if (!item.children) {
-    return (
+    const menuLink = (
       <Link
         href={item.href ?? "#"}
         onClick={onNavigate}
         className={cn(
-          "flex items-center gap-2 rounded-md px-3 py-2 text-sm",
+          "flex items-center rounded-md text-sm",
+          collapsed ? "size-10 justify-center px-0" : "gap-2 px-3 py-2",
           isActive
             ? "bg-accent font-medium"
             : "text-muted-foreground hover:bg-accent hover:text-foreground",
         )}
       >
-        {Icon && <Icon className="size-4" />}
+        {Icon && <Icon className="size-4 shrink-0" />}
 
-        <span>{item.label}</span>
+        {!collapsed && <span>{item.label}</span>}
       </Link>
     );
+
+    if (!collapsed) {
+      return menuLink;
+    }
+
+    return (
+      <Tooltip>
+        <TooltipTrigger render={menuLink} />
+
+        <TooltipContent side="right">{item.label}</TooltipContent>
+      </Tooltip>
+    );
   }
+
+  const collapsedTrigger = (
+    <CollapsibleTrigger
+      onClick={() => {
+        if (collapsed) {
+          onExpandSidebar();
+        }
+      }}
+      className="flex size-10 items-center justify-center rounded-md hover:bg-accent"
+    >
+      {Icon && <Icon className="size-4 shrink-0" />}
+    </CollapsibleTrigger>
+  );
 
   return (
     <Collapsible
@@ -83,25 +119,41 @@ export function AdminSidebarMenuItem({
         setOpen(value);
       }}
     >
-      <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-accent">
-        <div className="flex items-center gap-2">
-          {Icon && <Icon className="size-4" />}
+      {collapsed ? (
+        <Tooltip>
+          <TooltipTrigger render={collapsedTrigger} />
 
-          <span className={cn(hasActive && "font-medium")}>{item.label}</span>
-        </div>
+          <TooltipContent side="right">{item.label}</TooltipContent>
+        </Tooltip>
+      ) : (
+        <CollapsibleTrigger
+          className={cn(
+            "group flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-accent",
+          )}
+        >
+          <div className="flex items-center gap-2">
+            {Icon && <Icon className="size-4 shrink-0" />}
 
-        <ChevronRight className="size-4 transition-transform group-data-panel-open:rotate-90" />
-      </CollapsibleTrigger>
+            <span className={cn(hasActive && "font-medium")}>{item.label}</span>
+          </div>
 
-      <CollapsibleContent className="ml-4.5 mt-1 space-y-1 border-l pl-3">
-        {item.children.map((child) => (
-          <AdminSidebarMenuItem
-            key={child.label}
-            item={child}
-            onNavigate={onNavigate}
-          />
-        ))}
-      </CollapsibleContent>
+          <ChevronRight className="size-4 transition-transform group-data-panel-open:rotate-90" />
+        </CollapsibleTrigger>
+      )}
+
+      {!collapsed && (
+        <CollapsibleContent className="ml-4.5 mt-1 space-y-1 border-l pl-3">
+          {item.children.map((child) => (
+            <AdminSidebarMenuItem
+              key={child.label}
+              item={child}
+              onNavigate={onNavigate}
+              collapsed={collapsed}
+              onExpandSidebar={onExpandSidebar}
+            />
+          ))}
+        </CollapsibleContent>
+      )}
     </Collapsible>
   );
 }

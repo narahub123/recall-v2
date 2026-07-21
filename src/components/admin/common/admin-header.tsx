@@ -8,9 +8,9 @@ import { useAdminSidebar } from "./admin-sidebar-context";
 import { AdminSidebarTrigger } from "./admin-sidebar-trigger";
 
 export function AdminHeader() {
-  const { sidebarOpen, initialized, toggleSidebar } = useAdminSidebar();
+  const { sidebarCollapsed, initialized, toggleSidebar } = useAdminSidebar();
 
-  const SidebarIcon = sidebarOpen ? PanelLeftClose : PanelLeft;
+  const SidebarIcon = sidebarCollapsed ? PanelLeft : PanelLeftClose;
 
   if (!initialized) {
     return null;
@@ -25,7 +25,7 @@ export function AdminHeader() {
       <div className="hidden md:block">
         <Button variant="ghost" size="icon" onClick={toggleSidebar}>
           <SidebarIcon />
-          <span className="sr-only">사이드바 토글</span>
+          <span className="sr-only">사이드바 축소/확장</span>
         </Button>
       </div>
 
