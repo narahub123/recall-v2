@@ -40,7 +40,7 @@ export class KnowledgeObjectRelationRepository {
     const conditions: QueryConditions<KnowledgeObjectRelationConditionShape> =
       {};
 
-    if (filter?.relationType) {
+    if (filter?.relationType && filter.relationType !== "all") {
       conditions.relationType = filter.relationType;
     }
 

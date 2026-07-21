@@ -82,7 +82,7 @@ export function AdminSearchInput<TField extends string>({
           <SelectValue placeholder="Search field" />
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           {fields.map((field) => (
             <SelectItem key={field} value={field}>
               {labels[field]}

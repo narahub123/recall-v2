@@ -8,15 +8,20 @@ import { KnowledgeObjectRelationList } from "./knowledge-object-relation-list";
 
 import { AdminPagination } from "@/components/admin/common/admin-pagination";
 
-import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
+import {
+  KNOWLEDGE_RELATION_FILTER_OPTIONS,
+  KNOWLEDGE_RELATION_TYPE_LABELS,
+  type KnowledgeObjectRelationFilter,
+} from "@/types/knowledge-object-relation/filter";
 import {
   KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS,
   KNOWLEDGE_OBJECT_RELATION_SEARCH_LABELS,
   type KnowledgeObjectRelationSearch,
 } from "@/types/knowledge-object-relation/search";
 
-import { KnowledgeObjectRelationFilterSelect } from "./knowledge-object-relation-filter-select";
 import { AdminSearchInput } from "../common/admin-search-input";
+import { AdminFilterSelect } from "../common/admin-filter-select";
+import { KNOWLEDGE_RELATION_TYPES } from "@/constants/knowledge-object-relation";
 
 const DEFAULT_LIMIT = 20;
 
@@ -46,8 +51,11 @@ export function KnowledgeObjectRelationListClient() {
   return (
     <div className="space-y-6">
       <div className="space-y-4 flex flex-col items-end">
-        <KnowledgeObjectRelationFilterSelect
+        <AdminFilterSelect
           value={filter.relationType}
+          options={KNOWLEDGE_RELATION_FILTER_OPTIONS}
+          labels={KNOWLEDGE_RELATION_TYPE_LABELS}
+          placeholder="관계 유형"
           onChange={(relationType) => {
             setPage(1);
 
