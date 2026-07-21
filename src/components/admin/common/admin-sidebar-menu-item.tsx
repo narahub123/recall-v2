@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { cn } from "@/lib/utils";
+import { ROUTES } from "@/constants/routes";
 
 type AdminSidebarMenuItemProps = {
   item: AdminMenuItemType;
@@ -31,6 +32,10 @@ type AdminSidebarMenuItemProps = {
 function isPathActive(href: string | undefined, pathname: string): boolean {
   if (!href) {
     return false;
+  }
+
+  if (href === ROUTES.ADMIN.DASHBOARD) {
+    return pathname === href;
   }
 
   return pathname === href || pathname.startsWith(`${href}/`);
