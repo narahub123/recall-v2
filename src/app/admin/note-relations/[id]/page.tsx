@@ -9,5 +9,9 @@ interface Props {
 export default async function NoteRelationDetailPage({ params }: Props) {
   const { id } = await params;
 
-  return <NoteRelationDetailClient id={id} />;
+  return (
+    <main className="p-6">
+      <NoteRelationDetailClient id={id} />;
+    </main>
+  );
 }

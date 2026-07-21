@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { usePromptVersionDetail } from "@/hooks/prompt-version/queries/use-prompt-version-detail";
 
@@ -11,6 +11,7 @@ import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { PromptVersionDeleteDialog } from "./prompt-version-delete-dialog";
 import { PromptVersionEditForm } from "./prompt-version-edit-form";
 import { ROUTES } from "@/constants/routes";
+import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
 
 type PromptVersionDetailProps = {
   versionId: string;
@@ -25,6 +26,24 @@ export function PromptVersionDetail({ versionId }: PromptVersionDetailProps) {
     isLoading,
     isError,
   } = usePromptVersionDetail(versionId);
+
+  const { setDynamicItems } = useAdminBreadcrumb();
+
+  useEffect(() => {
+    if (!version) {
+      return;
+    }
+
+    setDynamicItems([
+      {
+        label: version.promptGroup.name,
+        href: `${ROUTES.ADMIN.PROMPTS}/${version.promptGroup.id}`,
+      },
+      {
+        label: `v${version.version}`,
+      },
+    ]);
+  }, [version, setDynamicItems]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -46,26 +65,6 @@ export function PromptVersionDetail({ versionId }: PromptVersionDetailProps) {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb
-        items={[
-          {
-            label: "관리자",
-            href: ROUTES.ADMIN.DASHBOARD,
-          },
-          {
-            label: "프롬프트",
-            href: ROUTES.ADMIN.PROMPTS,
-          },
-          {
-            label: version.promptGroup.name,
-            href: `${ROUTES.ADMIN.PROMPTS}/${version.promptGroup.id}`,
-          },
-          {
-            label: `Version ${version.version}`,
-          },
-        ]}
-      />
-
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

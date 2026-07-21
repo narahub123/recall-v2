@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useKnowledgeObjectView } from "@/hooks/knowledge-object/queries/use-knowledge-object-view";
 
@@ -18,6 +18,7 @@ import { KnowledgeObjectEditForm } from "./knowledge-object-edit-form";
 import { KnowledgeObjectRelationSection } from "./knowledge-object-relation-section";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { ROUTES } from "@/constants/routes";
+import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
 
 interface Props {
   id: string;
@@ -33,6 +34,18 @@ export function KnowledgeObjectDetail({ id }: Props) {
     isLoading,
     isError,
   } = useKnowledgeObjectView(id);
+
+  const { setDynamicItems } = useAdminBreadcrumb();
+
+  useEffect(() => {
+    if (!knowledgeObject) {
+      return;
+    }
+
+    setDynamicItems([{
+      label: knowledgeObject.name ?? "상세",
+    }]);
+  }, [knowledgeObject, setDynamicItems]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -54,24 +67,6 @@ export function KnowledgeObjectDetail({ id }: Props) {
 
   return (
     <Card>
-      <div className="pl-4">
-        <AdminBreadcrumb
-          items={[
-            {
-              label: "관리자",
-              href: ROUTES.ADMIN.DASHBOARD,
-            },
-            {
-              label: "Knowledge Object",
-              href: ROUTES.ADMIN.KNOWLEDGE_OBJECTS,
-            },
-            {
-              label: knowledgeObject.name,
-            },
-          ]}
-        />
-      </div>
-
       <CardHeader>
         <CardTitle>{knowledgeObject.name}</CardTitle>
       </CardHeader>

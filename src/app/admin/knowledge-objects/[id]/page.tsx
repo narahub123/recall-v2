@@ -9,5 +9,9 @@ interface Props {
 export default async function KnowledgeObjectDetailPage({ params }: Props) {
   const { id } = await params;
 
-  return <KnowledgeObjectDetail id={id} />;
+  return (
+    <main className="p-6">
+      <KnowledgeObjectDetail id={id} />;
+    </main>
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { usePromptGroup } from "@/hooks/prompt-group/queries/use-prompt-group";
 
@@ -18,6 +18,7 @@ import { PromptGroupEditForm } from "./prompt-group-edit-form";
 import { PromptVersionSection } from "../prompt-version/prompt-version-section";
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import { ROUTES } from "@/constants/routes";
+import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
 
 type PromptGroupDetailProps = {
   id: string;
@@ -28,6 +29,20 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const { data: promptGroup, isLoading, isError } = usePromptGroup(id);
+
+  const { setDynamicItems } = useAdminBreadcrumb();
+
+  useEffect(() => {
+    if (!promptGroup) {
+      return;
+    }
+
+    setDynamicItems([
+      {
+        label: promptGroup.name ?? "그룹",
+      },
+    ]);
+  }, [promptGroup, setDynamicItems]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,21 +64,6 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb
-        items={[
-          {
-            label: "관리자",
-            href: ROUTES.ADMIN.DASHBOARD,
-          },
-          {
-            label: "Prompts",
-            href: ROUTES.ADMIN.PROMPTS,
-          },
-          {
-            label: promptGroup.name,
-          },
-        ]}
-      />
       <Card>
         <CardHeader>
           <CardTitle>{promptGroup.name}</CardTitle>

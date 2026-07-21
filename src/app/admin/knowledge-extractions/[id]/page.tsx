@@ -9,5 +9,9 @@ interface Props {
 export default async function KnowledgeExtractionDetailPage({ params }: Props) {
   const { id } = await params;
 
-  return <KnowledgeExtractionDetail id={id} />;
+  return (
+    <main className="p-6">
+      <KnowledgeExtractionDetail id={id} />
+    </main>
+  );
 }

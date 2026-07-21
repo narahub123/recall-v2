@@ -3,6 +3,7 @@
 import { useKnowledgeExtractions } from "@/hooks/knowledge-extraction/queries/use-knowledge-extractions";
 import { KnowledgeExtractionList } from "./knowledge-extraction-list";
 
+
 export function KnowledgeExtractionClient() {
   const { data: extractions, isLoading, isError } = useKnowledgeExtractions();
 

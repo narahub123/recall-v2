@@ -4,11 +4,15 @@ import { PanelLeft, PanelLeftClose } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
+import { AdminBreadcrumb } from "./admin-breadcrumb";
+import { useAdminBreadcrumb } from "./admin-breadcrumb-context";
 import { useAdminSidebar } from "./admin-sidebar-context";
 import { AdminSidebarTrigger } from "./admin-sidebar-trigger";
 
 export function AdminHeader() {
   const { sidebarCollapsed, initialized, toggleSidebar } = useAdminSidebar();
+
+  const { items } = useAdminBreadcrumb();
 
   const SidebarIcon = sidebarCollapsed ? PanelLeft : PanelLeftClose;
 
@@ -29,7 +33,10 @@ export function AdminHeader() {
         </Button>
       </div>
 
-      <span>Admin</span>
+      {/* Breadcrumb */}
+      <div className="min-w-0 flex-1 overflow-hidden">
+        <AdminBreadcrumb items={items} />
+      </div>
     </header>
   );
 }

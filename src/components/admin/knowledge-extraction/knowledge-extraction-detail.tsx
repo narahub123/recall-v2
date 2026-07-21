@@ -14,6 +14,8 @@ import { KnowledgeExtractionResult } from "./knowledge-extraction-result";
 import { KnowledgeObjectGenerator } from "./knowledge-object-generator";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
+import { useEffect } from "react";
 
 interface Props {
   id: string;
@@ -21,6 +23,20 @@ interface Props {
 
 export function KnowledgeExtractionDetail({ id }: Props) {
   const { data: extraction, isLoading, isError } = useKnowledgeExtraction(id);
+
+  const { setDynamicItems } = useAdminBreadcrumb();
+
+  useEffect(() => {
+    if (!extraction) {
+      return;
+    }
+
+    setDynamicItems([
+      {
+        label: extraction.note.title ?? "상세",
+      },
+    ]);
+  }, [extraction, setDynamicItems]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -34,24 +50,6 @@ export function KnowledgeExtractionDetail({ id }: Props) {
 
   return (
     <Card>
-      <div className="pl-4">
-        <AdminBreadcrumb
-          items={[
-            {
-              label: "관리자",
-              href: ROUTES.ADMIN.DASHBOARD,
-            },
-            {
-              label: "Knowledge Extraction",
-              href: ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS,
-            },
-            {
-              label: extraction.note.title ?? "상세",
-            },
-          ]}
-        />
-      </div>
-
       <CardHeader>
         <CardTitle>Knowledge Extraction Detail</CardTitle>
       </CardHeader>

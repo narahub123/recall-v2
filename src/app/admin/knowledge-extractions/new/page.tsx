@@ -1,5 +1,9 @@
 import { KnowledgeExtractionCreateClient } from "@/components/admin/knowledge-extraction/knowledge-extraction-create-client";
 
 export default function KnowledgeExtractionCreatePage() {
-  return <KnowledgeExtractionCreateClient />;
+  return (
+    <main className="p-6">
+      <KnowledgeExtractionCreateClient />;
+    </main>
+  );
 }

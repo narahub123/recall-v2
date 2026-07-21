@@ -11,5 +11,9 @@ export default async function KnowledgeObjectRelationDetailPage({
 }: Props) {
   const { id } = await params;
 
-  return <KnowledgeObjectRelationDetailClient id={id} />;
+  return (
+    <main className="p-6">
+      <KnowledgeObjectRelationDetailClient id={id} />;
+    </main>
+  );
 }

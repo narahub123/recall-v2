@@ -8,6 +8,8 @@ import { KnowledgeObjectGenerationObjectList } from "./knowledge-object-generati
 import { AdminBreadcrumb } from "../common/admin-breadcrumb";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
+import { useEffect } from "react";
 
 interface Props {
   id: string;
@@ -20,6 +22,20 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
     isError,
   } = useKnowledgeObjectGeneration(id);
 
+  const { setDynamicItems } = useAdminBreadcrumb();
+
+  useEffect(() => {
+    if (!generation) {
+      return;
+    }
+
+    setDynamicItems([
+      {
+        label: generation.note.title ?? "상세",
+      },
+    ]);
+  }, [generation, setDynamicItems]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -30,23 +46,6 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
 
   return (
     <Card>
-      <div className="pl-4">
-        <AdminBreadcrumb
-          items={[
-            {
-              label: "관리자",
-              href: ROUTES.ADMIN.DASHBOARD,
-            },
-            {
-              label: "Knowledge Object Generation",
-              href: ROUTES.ADMIN.KNOWLEDGE_OBJECT_GENERATIONS,
-            },
-            {
-              label: generation.note.title ?? "상세",
-            },
-          ]}
-        />
-      </div>
       <CardHeader>
         <CardTitle>Knowledge Object Generation</CardTitle>
       </CardHeader>

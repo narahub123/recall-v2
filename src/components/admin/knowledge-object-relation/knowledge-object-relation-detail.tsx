@@ -5,6 +5,8 @@ import { KnowledgeObjectRelationDTO } from "@/dto/knowledge-object-relation.dto"
 import { useKnowledgeObject } from "@/hooks/knowledge-object/queries/use-knowledge-object";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAdminBreadcrumb } from "../common/admin-breadcrumb-context";
+import { useEffect } from "react";
 
 interface Props {
   relation: KnowledgeObjectRelationDTO;
@@ -18,6 +20,20 @@ export function KnowledgeObjectRelationDetail({ relation }: Props) {
   const { data: targetKnowledgeObject } = useKnowledgeObject(
     relation.targetKnowledgeObjectId,
   );
+
+  const { setDynamicItems } = useAdminBreadcrumb();
+
+  useEffect(() => {
+    if (!sourceKnowledgeObject) {
+      return;
+    }
+
+    setDynamicItems([
+      {
+        label: sourceKnowledgeObject.name ?? "상세",
+      },
+    ]);
+  }, [sourceKnowledgeObject, setDynamicItems]);
 
   return (
     <Card>
