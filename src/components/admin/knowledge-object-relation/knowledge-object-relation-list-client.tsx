@@ -9,6 +9,7 @@ import { KnowledgeObjectRelationList } from "./knowledge-object-relation-list";
 import { AdminPagination } from "@/components/admin/common/admin-pagination";
 
 import {
+  KNOWLEDGE_RELATION_BADGE_COLORS,
   KNOWLEDGE_RELATION_FILTER_OPTIONS,
   KNOWLEDGE_RELATION_TYPE_LABELS,
   type KnowledgeObjectRelationFilter,
@@ -22,6 +23,7 @@ import {
 import { AdminSearchInput } from "../common/admin-search-input";
 import { AdminFilterSelect } from "../common/admin-filter-select";
 import { KNOWLEDGE_RELATION_TYPES } from "@/constants/knowledge-object-relation";
+import { AdminMultiSelect } from "../common/admin-multi-select";
 
 const DEFAULT_LIMIT = 20;
 
@@ -51,20 +53,20 @@ export function KnowledgeObjectRelationListClient() {
   return (
     <div className="space-y-6">
       <div className="space-y-4 flex flex-col items-end">
-        <AdminFilterSelect
-          value={filter.relationType}
+        <AdminMultiSelect
+          value={filter.relationTypes ?? []}
           options={KNOWLEDGE_RELATION_FILTER_OPTIONS}
           labels={KNOWLEDGE_RELATION_TYPE_LABELS}
+          badgeColors={KNOWLEDGE_RELATION_BADGE_COLORS}
           placeholder="관계 유형"
-          onChange={(relationType) => {
+          onChange={(relationTypes) => {
             setPage(1);
 
             setFilter({
-              relationType,
+              relationTypes,
             });
           }}
         />
-
         <AdminSearchInput
           fields={KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS}
           labels={KNOWLEDGE_OBJECT_RELATION_SEARCH_LABELS}

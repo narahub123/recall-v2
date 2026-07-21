@@ -6,8 +6,12 @@ import type { ListQuery } from "@/types/list-query";
 import type { QueryConditions } from "@/types/query-conditions";
 import { PipelineStage } from "mongoose";
 
-interface KnowledgeObjectRelationConditionShape {
-  relationType: KnowledgeRelationType;
+export interface KnowledgeObjectRelationConditionShape {
+  relationType?:
+    | KnowledgeRelationType
+    | {
+        $in: KnowledgeRelationType[];
+      };
 }
 
 export class KnowledgeObjectRelationRepository {
@@ -40,9 +44,15 @@ export class KnowledgeObjectRelationRepository {
     const conditions: QueryConditions<KnowledgeObjectRelationConditionShape> =
       {};
 
-    if (filter?.relationType && filter.relationType !== "all") {
-      conditions.relationType = filter.relationType;
-    }
+    const relationTypes = filter?.relationTypes?.filter(
+      (type) => type !== "all",
+    );
+
+    if (relationTypes && relationTypes.length > 0) {
+      conditions.relationType = {
+        $in: relationTypes,
+      };
+    }``
 
     const pipeline: PipelineStage[] = [
       {
