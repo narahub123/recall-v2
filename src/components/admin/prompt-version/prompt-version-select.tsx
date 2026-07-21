@@ -18,16 +18,23 @@ interface Props {
   value: string;
 
   onChange: (value: string) => void;
+
+  label?: string | null;
 }
 
-export function PromptVersionSelect({ promptGroupId, value, onChange }: Props) {
+export function PromptVersionSelect({
+  promptGroupId,
+  value,
+  onChange,
+  label = "Prompt Version",
+}: Props) {
   const { data: versions } = usePromptVersions(promptGroupId);
 
   const selected = versions?.find((version) => version.id === value);
 
   return (
     <div className="space-y-2">
-      <Label>Prompt Version</Label>
+      {label && <Label>{label}</Label>}
 
       <Select
         value={value}

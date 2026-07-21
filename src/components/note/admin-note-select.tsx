@@ -16,9 +16,11 @@ interface Props {
   value: string;
 
   onChange: (value: string) => void;
+
+  label?: string | null;
 }
 
-export function NoteSelect({ value, onChange }: Props) {
+export function AdminNoteSelect({ value, onChange, label = "Note" }: Props) {
   const { data: notes } = useAdminNotes();
 
   const selected =
@@ -26,7 +28,7 @@ export function NoteSelect({ value, onChange }: Props) {
 
   return (
     <div className="space-y-2">
-      <Label>Note</Label>
+      {label && <Label>{label}</Label>}
 
       <Select
         value={value}

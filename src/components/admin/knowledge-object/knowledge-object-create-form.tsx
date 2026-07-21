@@ -58,14 +58,10 @@ export function KnowledgeObjectCreateForm() {
         />
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Embedding Model</label>
-
-        <EmbeddingModelSelect
-          value={embeddingModel}
-          onChange={setEmbeddingModel}
-        />
-      </div>
+      <EmbeddingModelSelect
+        value={embeddingModel}
+        onChange={setEmbeddingModel}
+      />
 
       <Button
         onClick={handleSubmit}

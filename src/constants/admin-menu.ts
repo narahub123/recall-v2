@@ -36,6 +36,11 @@ export const ADMIN_MENU: AdminMenuItem[] = [
         href: ROUTES.ADMIN.KNOWLEDGE_OBJECTS,
         icon: Database,
       },
+      {
+        label: "지식 객체 관계 작업 관리",
+        href: ROUTES.ADMIN.KNOWLEDGE_OBJECT_RELATION_GENERATIONS,
+        icon: Workflow,
+      },
     ],
   },
   {

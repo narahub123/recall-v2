@@ -16,9 +16,15 @@ interface Props {
   value: string;
 
   onChange: (value: string) => void;
+
+  label?: string | null;
 }
 
-export function PromptGroupSelect({ value, onChange }: Props) {
+export function PromptGroupSelect({
+  value,
+  onChange,
+  label = "Prompt Group",
+}: Props) {
   const { data: promptGroups } = usePromptGroups();
 
   const selected =
@@ -27,7 +33,7 @@ export function PromptGroupSelect({ value, onChange }: Props) {
 
   return (
     <div className="space-y-2">
-      <Label>Prompt Group</Label>
+      {label && <Label>{label}</Label>}
 
       <Select
         value={value}
