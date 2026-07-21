@@ -1,13 +1,8 @@
+import {
+  KNOWLEDGE_RELATION_TYPES,
+  KnowledgeRelationType,
+} from "@/constants/knowledge-object-relation";
 import { Schema, model, models } from "mongoose";
-
-export const KNOWLEDGE_RELATION_TYPES = [
-  "comparison",
-  "extension",
-  "alternative",
-  "criterion",
-] as const;
-
-export type KnowledgeRelationType = (typeof KNOWLEDGE_RELATION_TYPES)[number];
 
 export interface IKnowledgeObjectRelation {
   sourceKnowledgeObjectId: string;

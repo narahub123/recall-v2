@@ -1,3 +1,4 @@
+import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
 import type { ListQuery } from "@/types/pagination";
 
 export const knowledgeObjectRelationKeys = {
@@ -5,7 +6,7 @@ export const knowledgeObjectRelationKeys = {
 
   lists: () => [...knowledgeObjectRelationKeys.all, "list"] as const,
 
-  list: (query: ListQuery) =>
+  list: (query: ListQuery<KnowledgeObjectRelationFilter>) =>
     [...knowledgeObjectRelationKeys.lists(), query] as const,
 
   detail: (id: string) =>

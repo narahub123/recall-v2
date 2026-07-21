@@ -4,6 +4,7 @@ import { KnowledgeObjectRelationMapper } from "@/mappers/knowledge-object-relati
 
 import { KnowledgeObjectRelationRepository } from "@/repositories/knowledge-object-relation.repository";
 import { KnowledgeObjectRepository } from "@/repositories/knowledge-object.repository";
+import { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
 import { ListQuery, PaginatedResult } from "@/types/pagination";
 
 export class KnowledgeObjectRelationService {
@@ -57,7 +58,7 @@ export class KnowledgeObjectRelationService {
   }
 
   async getRelations(
-    query: ListQuery,
+    query: ListQuery<KnowledgeObjectRelationFilter>,
   ): Promise<PaginatedResult<KnowledgeObjectRelationDTO>> {
     const { relations, total } =
       await this.knowledgeObjectRelationRepository.findAll(query);

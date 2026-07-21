@@ -1,5 +1,13 @@
+import { KnowledgeRelationType } from "@/constants/knowledge-object-relation";
 import { KnowledgeObjectRelation } from "@/models/knowledge-object-relation.model";
+import { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
 import { ListQuery } from "@/types/pagination";
+
+import type { QueryConditions } from "@/types/query-conditions";
+
+interface KnowledgeObjectRelationConditionShape {
+  relationType: KnowledgeRelationType;
+}
 
 export class KnowledgeObjectRelationRepository {
   async create(data: {
@@ -20,18 +28,29 @@ export class KnowledgeObjectRelationRepository {
     return KnowledgeObjectRelation.findById(id);
   }
 
-  async findAll({ page, limit }: ListQuery) {
+  async findAll({
+    page,
+    limit,
+    filter,
+  }: ListQuery<KnowledgeObjectRelationFilter>) {
     const skip = (page - 1) * limit;
 
+    const conditions: QueryConditions<KnowledgeObjectRelationConditionShape> =
+      {};
+
+    if (filter?.relationType) {
+      conditions.relationType = filter.relationType;
+    }
+
     const [relations, total] = await Promise.all([
-      KnowledgeObjectRelation.find()
+      KnowledgeObjectRelation.find(conditions)
         .sort({
           createdAt: -1,
         })
         .skip(skip)
         .limit(limit),
 
-      KnowledgeObjectRelation.countDocuments(),
+      KnowledgeObjectRelation.countDocuments(conditions),
     ]);
 
     return {
