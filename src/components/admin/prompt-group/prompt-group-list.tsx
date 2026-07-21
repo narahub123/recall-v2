@@ -16,7 +16,7 @@ export function PromptGroupList({ promptGroups }: PromptGroupListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex flex-col">
       {promptGroups.map((promptGroup) => (
         <PromptGroupCard key={promptGroup.id} promptGroup={promptGroup} />
       ))}

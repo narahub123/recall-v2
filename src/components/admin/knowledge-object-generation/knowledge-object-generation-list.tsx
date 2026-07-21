@@ -16,7 +16,7 @@ export function KnowledgeObjectGenerationList({ generations }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex flex-col">
       {generations.map((generation) => (
         <KnowledgeObjectGenerationCard
           key={generation.id}

@@ -56,6 +56,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           <Link
             href={`${ROUTES.NOTES}/${generation.note.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+            title={`${generation.note.title}로 이동하기`}
           >
             <p className="text-sm text-muted-foreground">노트</p>
 
@@ -65,6 +66,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           <Link
             href={`${ROUTES.ADMIN.PROMPTS}/${generation.promptGroup.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+            title={`${generation.promptGroup.name}로 이동하기`}
           >
             <p className="text-sm text-muted-foreground">Prompt Group</p>
 
@@ -74,6 +76,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           <Link
             href={`${ROUTES.ADMIN.PROMPTS}/${generation.promptGroup.id}/versions/${generation.promptVersion.id}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+            title={`${generation.promptGroup.name} v${generation.promptVersion.version}로 이동하기`}
           >
             <p className="text-sm text-muted-foreground">Prompt Version</p>
 
@@ -83,6 +86,7 @@ export function KnowledgeObjectGenerationDetail({ id }: Props) {
           <Link
             href={`${ROUTES.ADMIN.KNOWLEDGE_EXTRACTIONS}/${generation.extractionId}`}
             className="block rounded-md py-1 text-sm transition-colors hover:bg-muted hover:text-primary"
+            title={`${generation.note.title} 지식 추출 결과로 이동하기`}
           >
             <p className="text-sm text-muted-foreground">
               Knowledge Extraction

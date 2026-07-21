@@ -52,6 +52,10 @@ export function PromptGroupDetail({ id }: PromptGroupDetailProps) {
       <AdminBreadcrumb
         items={[
           {
+            label: "관리자",
+            href: ROUTES.ADMIN.DASHBOARD,
+          },
+          {
             label: "Prompts",
             href: ROUTES.ADMIN.PROMPTS,
           },
