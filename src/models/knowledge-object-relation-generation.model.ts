@@ -1,15 +1,8 @@
+import {
+  KNOWLEDGE_OBJECT_RELATION_GENERATION_STATUS,
+  KnowledgeObjectRelationGenerationStatus,
+} from "@/types/knowledge-object-relation-generation";
 import { Schema, Types, model, models } from "mongoose";
-
-export const KNOWLEDGE_OBJECT_RELATION_GENERATION_STATUS = {
-  PROCESSING: "PROCESSING",
-
-  COMPLETED: "COMPLETED",
-
-  FAILED: "FAILED",
-} as const;
-
-export type KnowledgeObjectRelationGenerationStatus =
-  (typeof KNOWLEDGE_OBJECT_RELATION_GENERATION_STATUS)[keyof typeof KNOWLEDGE_OBJECT_RELATION_GENERATION_STATUS];
 
 export interface IKnowledgeObjectRelationGenerationResult {
   sourceKnowledgeObjectId: string;

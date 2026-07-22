@@ -1,9 +1,45 @@
 import { KnowledgeObjectRelationGeneration } from "@/models/knowledge-object-relation-generation.model";
+import { KnowledgeObjectRelationGenerationStatus } from "@/types/knowledge-object-relation-generation";
 
-import type { KnowledgeObjectRelationGenerationStatus } from "@/models/knowledge-object-relation-generation.model";
-import { KnowledgeObjectRelationGenerationFilter } from "@/types/knowledge-object-relation-generation/filter";
-import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
 import { ListQuery } from "@/types/list-query";
+import {
+  KnowledgeObjectRelationGenerationDateField,
+  KnowledgeObjectRelationGenerationFilter,
+} from "@/types/knowledge-object-relation-generation/filter";
+import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
+import { QueryConditions } from "@/types/query-conditions";
+
+export interface KnowledgeObjectRelationGenerationConditionShape {
+  status?: {
+    $in: KnowledgeObjectRelationGenerationStatus[];
+  };
+
+  model?: {
+    $in: string[];
+  };
+
+  temperature?: {
+    $gte?: number;
+
+    $lte?: number;
+  };
+
+  errorMessage?: null | {
+    $ne: null;
+  };
+
+  createdAt?: {
+    $gte?: Date;
+
+    $lt?: Date;
+  };
+
+  updatedAt?: {
+    $gte?: Date;
+
+    $lt?: Date;
+  };
+}
 
 export class KnowledgeObjectRelationGenerationRepository {
   async create(data: {
@@ -58,15 +94,89 @@ export class KnowledgeObjectRelationGenerationRepository {
 
   async findAll({
     page,
+
     limit,
+
+    filter,
   }: ListQuery<
     KnowledgeObjectRelationGenerationFilter,
     KnowledgeObjectRelationGenerationSearch
   >) {
     const skip = (page - 1) * limit;
 
+    const conditions: QueryConditions<KnowledgeObjectRelationGenerationConditionShape> =
+      {};
+
+    const statuses = filter?.statuses?.filter((status) => status !== "all");
+
+    if (statuses && statuses.length > 0) {
+      conditions.status = {
+        $in: statuses,
+      };
+    }
+
+    const models = filter?.models?.filter((model) => model !== "all");
+
+    if (models && models.length > 0) {
+      conditions.model = {
+        $in: models,
+      };
+    }
+
+    const temperatureRange = filter?.numberRanges?.find(
+      (range) =>
+        range.field === "temperature" &&
+        (range.min !== undefined || range.max !== undefined),
+    );
+
+    if (temperatureRange) {
+      conditions.temperature = {};
+
+      if (temperatureRange.min !== undefined) {
+        conditions.temperature.$gte = temperatureRange.min;
+      }
+
+      if (temperatureRange.max !== undefined) {
+        conditions.temperature.$lte = temperatureRange.max;
+      }
+    }
+
+    const dateRange = filter?.dateRanges?.find(
+      (range) =>
+        range.field && (range.from !== undefined || range.to !== undefined),
+    );
+
+    if (dateRange?.field) {
+      const dateField =
+        dateRange.field as KnowledgeObjectRelationGenerationDateField;
+
+      conditions[dateField] = {};
+
+      if (dateRange.from) {
+        conditions[dateField].$gte = dateRange.from;
+      }
+
+      if (dateRange.to) {
+        const endDate = new Date(dateRange.to);
+
+        endDate.setDate(endDate.getDate() + 1);
+
+        conditions[dateField].$lt = endDate;
+      }
+    }
+
+    if (filter?.errorStatus === "hasError") {
+      conditions.errorMessage = {
+        $ne: null,
+      };
+    }
+
+    if (filter?.errorStatus === "noError") {
+      conditions.errorMessage = null;
+    }
+
     const [generations, total] = await Promise.all([
-      KnowledgeObjectRelationGeneration.find()
+      KnowledgeObjectRelationGeneration.find(conditions)
         .sort({
           createdAt: -1,
         })
@@ -74,7 +184,7 @@ export class KnowledgeObjectRelationGenerationRepository {
         .limit(limit)
         .lean(),
 
-      KnowledgeObjectRelationGeneration.countDocuments(),
+      KnowledgeObjectRelationGeneration.countDocuments(conditions),
     ]);
 
     return {
