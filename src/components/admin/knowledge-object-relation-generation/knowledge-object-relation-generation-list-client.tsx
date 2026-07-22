@@ -28,6 +28,12 @@ import { NumberRangeInput } from "@/components/common/number-range-input";
 
 import { DateRangeInput } from "@/components/common/date-range-input";
 import { FilterSelect } from "@/components/common/filter-select";
+import { SearchInput } from "@/components/common/search-input";
+import {
+  KNOWLEDGE_OBJECT_RELATION_GENERATION_SEARCH_FIELDS,
+  KNOWLEDGE_OBJECT_RELATION_GENERATION_SEARCH_LABELS,
+  KnowledgeObjectRelationGenerationSearch,
+} from "@/types/knowledge-object-relation-generation/search";
 
 const DEFAULT_LIMIT = 20;
 
@@ -37,6 +43,10 @@ export function KnowledgeObjectRelationGenerationListClient() {
   const [filter, setFilter] = useState<KnowledgeObjectRelationGenerationFilter>(
     {},
   );
+
+  const [search, setSearch] = useState<
+    KnowledgeObjectRelationGenerationSearch | undefined
+  >(undefined);
 
   const numberRange = filter.numberRanges?.[0] ?? {};
 
@@ -48,6 +58,8 @@ export function KnowledgeObjectRelationGenerationListClient() {
     limit: DEFAULT_LIMIT,
 
     filter,
+
+    search,
   });
 
   if (isLoading && !data) {
@@ -136,6 +148,17 @@ export function KnowledgeObjectRelationGenerationListClient() {
             }}
           />
         </div>
+
+        <SearchInput
+          fields={KNOWLEDGE_OBJECT_RELATION_GENERATION_SEARCH_FIELDS}
+          labels={KNOWLEDGE_OBJECT_RELATION_GENERATION_SEARCH_LABELS}
+          value={search}
+          onChange={(value) => {
+            setPage(1);
+
+            setSearch(value);
+          }}
+        />
       </div>
 
       <KnowledgeObjectRelationGenerationList generations={data?.items ?? []} />

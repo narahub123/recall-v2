@@ -6,8 +6,12 @@ import {
   KnowledgeObjectRelationGenerationDateField,
   KnowledgeObjectRelationGenerationFilter,
 } from "@/types/knowledge-object-relation-generation/filter";
-import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
+import {
+  KnowledgeObjectRelationGenerationSearch,
+  KnowledgeObjectRelationGenerationSearchField,
+} from "@/types/knowledge-object-relation-generation/search";
 import { QueryConditions } from "@/types/query-conditions";
+import { PipelineStage } from "mongoose";
 
 export interface KnowledgeObjectRelationGenerationConditionShape {
   status?: {
@@ -98,6 +102,8 @@ export class KnowledgeObjectRelationGenerationRepository {
     limit,
 
     filter,
+
+    search,
   }: ListQuery<
     KnowledgeObjectRelationGenerationFilter,
     KnowledgeObjectRelationGenerationSearch
@@ -175,22 +181,134 @@ export class KnowledgeObjectRelationGenerationRepository {
       conditions.errorMessage = null;
     }
 
-    const [generations, total] = await Promise.all([
-      KnowledgeObjectRelationGeneration.find(conditions)
-        .sort({
-          createdAt: -1,
-        })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+    const pipeline: PipelineStage[] = [
+      {
+        $match: conditions,
+      },
 
-      KnowledgeObjectRelationGeneration.countDocuments(conditions),
+      {
+        $addFields: {
+          knowledgeObjectObjectId: {
+            $toObjectId: "$knowledgeObjectId",
+          },
+
+          promptVersionObjectId: {
+            $toObjectId: "$promptVersionId",
+          },
+        },
+      },
+
+      {
+        $lookup: {
+          from: "knowledge_objects",
+
+          localField: "knowledgeObjectObjectId",
+
+          foreignField: "_id",
+
+          as: "knowledgeObject",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "prompt_versions",
+
+          localField: "promptVersionObjectId",
+
+          foreignField: "_id",
+
+          as: "promptVersion",
+        },
+      },
+
+      {
+        $unwind: {
+          path: "$knowledgeObject",
+
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      {
+        $unwind: {
+          path: "$promptVersion",
+
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      {
+        $lookup: {
+          from: "prompt_groups",
+
+          localField: "promptVersion.promptGroupId",
+
+          foreignField: "_id",
+
+          as: "promptGroup",
+        },
+      },
+
+      {
+        $unwind: {
+          path: "$promptGroup",
+
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ];
+
+    if (search?.field && search.keyword) {
+      const searchFields = {
+        knowledgeObjectName: "knowledgeObject.name",
+
+        promptGroupName: "promptGroup.name",
+      } satisfies Record<KnowledgeObjectRelationGenerationSearchField, string>;
+
+      pipeline.push({
+        $match: {
+          [searchFields[search.field]]: {
+            $regex: search.keyword,
+
+            $options: "i",
+          },
+        },
+      });
+    }
+
+    const [generations, total] = await Promise.all([
+      KnowledgeObjectRelationGeneration.aggregate([
+        ...pipeline,
+
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+
+        {
+          $skip: skip,
+        },
+
+        {
+          $limit: limit,
+        },
+      ]),
+
+      KnowledgeObjectRelationGeneration.aggregate([
+        ...pipeline,
+
+        {
+          $count: "total",
+        },
+      ]),
     ]);
 
     return {
       generations,
 
-      total,
+      total: total[0]?.total ?? 0,
     };
   }
 
