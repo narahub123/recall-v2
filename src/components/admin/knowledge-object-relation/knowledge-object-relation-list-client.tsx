@@ -13,6 +13,7 @@ import {
   KNOWLEDGE_RELATION_FILTER_OPTIONS,
   KNOWLEDGE_RELATION_TYPE_LABELS,
   KNOWLEDGE_RELATION_NUMBER_RANGE_OPTIONS,
+  KNOWLEDGE_RELATION_DATE_RANGE_OPTIONS,
   type KnowledgeObjectRelationFilter,
 } from "@/types/knowledge-object-relation/filter";
 
@@ -22,11 +23,13 @@ import {
   type KnowledgeObjectRelationSearch,
 } from "@/types/knowledge-object-relation/search";
 
-import { NumberRangeValue } from "@/types/filter";
+import { DateRangeValue, NumberRangeValue } from "@/types/filter";
 
 import { AdminSearchInput } from "../common/admin-search-input";
 import { AdminMultiSelect } from "../common/admin-multi-select";
+
 import { NumberRangeInput } from "@/components/common/number-range-input";
+import { DateRangeInput } from "@/components/common/date-range-input";
 
 const DEFAULT_LIMIT = 20;
 
@@ -40,6 +43,8 @@ export function KnowledgeObjectRelationListClient() {
   >(undefined);
 
   const numberRange = filter.numberRanges?.[0] ?? {};
+
+  const dateRange = filter.dateRanges?.[0] ?? {};
 
   const { data, isLoading } = useKnowledgeObjectRelations({
     page,
@@ -58,7 +63,7 @@ export function KnowledgeObjectRelationListClient() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col items-end gap-4">
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
           <AdminMultiSelect
             value={filter.relationTypes ?? []}
             options={KNOWLEDGE_RELATION_FILTER_OPTIONS}
@@ -87,6 +92,19 @@ export function KnowledgeObjectRelationListClient() {
               setFilter((prev) => ({
                 ...prev,
                 numberRanges: [value],
+              }));
+            }}
+          />
+
+          <DateRangeInput
+            value={dateRange}
+            options={KNOWLEDGE_RELATION_DATE_RANGE_OPTIONS}
+            onChange={(value: DateRangeValue) => {
+              setPage(1);
+
+              setFilter((prev) => ({
+                ...prev,
+                dateRanges: [value],
               }));
             }}
           />

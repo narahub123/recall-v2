@@ -1,6 +1,9 @@
 import { KnowledgeRelationType } from "@/constants/knowledge-object-relation";
 import { KnowledgeObjectRelation } from "@/models/knowledge-object-relation.model";
-import type { KnowledgeObjectRelationFilter } from "@/types/knowledge-object-relation/filter";
+import type {
+  KnowledgeObjectRelationDateField,
+  KnowledgeObjectRelationFilter,
+} from "@/types/knowledge-object-relation/filter";
 import type { KnowledgeObjectRelationSearch } from "@/types/knowledge-object-relation/search";
 import type { ListQuery } from "@/types/list-query";
 import type { QueryConditions } from "@/types/query-conditions";
@@ -17,6 +20,18 @@ export interface KnowledgeObjectRelationConditionShape {
     $gte?: number;
 
     $lte?: number;
+  };
+
+  createdAt?: {
+    $gte?: Date;
+
+    $lt?: Date;
+  };
+
+  updatedAt?: {
+    $gte?: Date;
+
+    $lt?: Date;
   };
 }
 
@@ -75,6 +90,29 @@ export class KnowledgeObjectRelationRepository {
 
       if (confidenceRange.max !== undefined) {
         conditions.confidence.$lte = confidenceRange.max;
+      }
+    }
+
+    const dateRange = filter?.dateRanges?.find(
+      (range) =>
+        range.field && (range.from !== undefined || range.to !== undefined),
+    );
+
+    if (dateRange?.field) {
+      const dateField = dateRange.field as KnowledgeObjectRelationDateField;
+
+      conditions[dateField] = {};
+
+      if (dateRange.from) {
+        conditions[dateField].$gte = dateRange.from;
+      }
+
+      if (dateRange.to) {
+        const endDate = new Date(dateRange.to);
+
+        endDate.setDate(endDate.getDate() + 1);
+
+        conditions[dateField].$lt = endDate;
       }
     }
 

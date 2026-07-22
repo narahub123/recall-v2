@@ -1,5 +1,5 @@
 import { KNOWLEDGE_RELATION_TYPES } from "@/constants/knowledge-object-relation";
-import { NumberRangeValue } from "../filter";
+import { DateRangeValue, NumberRangeValue } from "../filter";
 
 export const KNOWLEDGE_RELATION_FILTER_OPTIONS = [
   "all",
@@ -12,6 +12,7 @@ export type KnowledgeRelationFilterType =
 export interface KnowledgeObjectRelationFilter {
   relationTypes?: KnowledgeRelationFilterType[];
   numberRanges?: NumberRangeValue[];
+  dateRanges?: DateRangeValue[];
 }
 
 export const KNOWLEDGE_RELATION_TYPE_LABELS = {
@@ -42,5 +43,25 @@ export const KNOWLEDGE_RELATION_NUMBER_RANGE_OPTIONS = [
   {
     value: "confidence",
     label: "신뢰도",
+  },
+] as const;
+
+export const KNOWLEDGE_RELATION_DATE_RANGE_FIELDS = [
+  "createdAt",
+  "updatedAt",
+] as const;
+
+export type KnowledgeObjectRelationDateField =
+  (typeof KNOWLEDGE_RELATION_DATE_RANGE_FIELDS)[number];
+
+export const KNOWLEDGE_RELATION_DATE_RANGE_OPTIONS = [
+  {
+    value: "createdAt",
+    label: "생성일",
+  },
+
+  {
+    value: "updatedAt",
+    label: "수정일",
   },
 ] as const;
