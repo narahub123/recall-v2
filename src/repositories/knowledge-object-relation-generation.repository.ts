@@ -1,6 +1,9 @@
 import { KnowledgeObjectRelationGeneration } from "@/models/knowledge-object-relation-generation.model";
 
 import type { KnowledgeObjectRelationGenerationStatus } from "@/models/knowledge-object-relation-generation.model";
+import { KnowledgeObjectRelationGenerationFilter } from "@/types/knowledge-object-relation-generation/filter";
+import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
+import { ListQuery } from "@/types/list-query";
 
 export class KnowledgeObjectRelationGenerationRepository {
   async create(data: {
@@ -53,12 +56,32 @@ export class KnowledgeObjectRelationGenerationRepository {
     return KnowledgeObjectRelationGeneration.findById(id).lean();
   }
 
-  async findAll() {
-    return KnowledgeObjectRelationGeneration.find()
-      .sort({
-        createdAt: -1,
-      })
-      .lean();
+  async findAll({
+    page,
+    limit,
+  }: ListQuery<
+    KnowledgeObjectRelationGenerationFilter,
+    KnowledgeObjectRelationGenerationSearch
+  >) {
+    const skip = (page - 1) * limit;
+
+    const [generations, total] = await Promise.all([
+      KnowledgeObjectRelationGeneration.find()
+        .sort({
+          createdAt: -1,
+        })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+
+      KnowledgeObjectRelationGeneration.countDocuments(),
+    ]);
+
+    return {
+      generations,
+
+      total,
+    };
   }
 
   async findByKnowledgeObjectId(knowledgeObjectId: string) {

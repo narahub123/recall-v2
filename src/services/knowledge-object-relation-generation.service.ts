@@ -5,6 +5,10 @@ import { KnowledgeObjectRelationGenerationMapper } from "@/mappers/knowledge-obj
 import { KnowledgeObjectRelationGenerationRepository } from "@/repositories/knowledge-object-relation-generation.repository";
 
 import type { KnowledgeObjectRelationGenerationStatus } from "@/models/knowledge-object-relation-generation.model";
+import { ListQuery } from "@/types/list-query";
+import { KnowledgeObjectRelationGenerationFilter } from "@/types/knowledge-object-relation-generation/filter";
+import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
+import { PaginatedResult } from "@/types/pagination";
 
 export class KnowledgeObjectRelationGenerationService {
   constructor(
@@ -73,13 +77,38 @@ export class KnowledgeObjectRelationGenerationService {
     return KnowledgeObjectRelationGenerationMapper.toDTO(generation);
   }
 
-  async getGenerations(): Promise<KnowledgeObjectRelationGenerationDTO[]> {
-    const generations =
-      await this.knowledgeObjectRelationGenerationRepository.findAll();
+  async getGenerations(
+    query: ListQuery<
+      KnowledgeObjectRelationGenerationFilter,
+      KnowledgeObjectRelationGenerationSearch
+    >,
+  ): Promise<PaginatedResult<KnowledgeObjectRelationGenerationDTO>> {
+    const { generations, total } =
+      await this.knowledgeObjectRelationGenerationRepository.findAll(query);
 
-    return generations.map((generation) =>
+    const items = generations.map((generation) =>
       KnowledgeObjectRelationGenerationMapper.toDTO(generation),
     );
+
+    const totalPages = Math.ceil(total / query.limit);
+
+    return {
+      items,
+
+      pagination: {
+        page: query.page,
+
+        limit: query.limit,
+
+        total,
+
+        totalPages,
+
+        hasNextPage: query.page < totalPages,
+
+        hasPreviousPage: query.page > 1,
+      },
+    };
   }
 
   async getGenerationsByKnowledgeObjectId(

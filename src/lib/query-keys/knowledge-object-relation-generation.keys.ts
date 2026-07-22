@@ -1,3 +1,7 @@
+import { KnowledgeObjectRelationGenerationFilter } from "@/types/knowledge-object-relation-generation/filter";
+import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
+import { ListQuery } from "@/types/list-query";
+
 export const knowledgeObjectRelationGenerationKeys = {
   all: ["knowledge-object-relation-generations"] as const,
 
@@ -16,8 +20,13 @@ export const knowledgeObjectRelationGenerationKeys = {
   view: (id: string) =>
     [...knowledgeObjectRelationGenerationKeys.views(), id] as const,
 
-  viewList: () =>
-    [...knowledgeObjectRelationGenerationKeys.views(), "list"] as const,
+  viewList: (
+    query: ListQuery<
+      KnowledgeObjectRelationGenerationFilter,
+      KnowledgeObjectRelationGenerationSearch
+    >,
+  ) =>
+    [...knowledgeObjectRelationGenerationKeys.views(), "list", query] as const,
 
   byKnowledgeObject: (knowledgeObjectId: string) =>
     [

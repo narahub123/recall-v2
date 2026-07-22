@@ -1,5 +1,6 @@
 "use server";
 
+import { KnowledgeObjectRelationGenerationViewDTO } from "@/dto/knowledge-object-relation-generation-view.dto";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { connectMongoDB } from "@/lib/mongodb";
 import { KnowledgeObjectRelationGenerationViewMapper } from "@/mappers/knowledge-object-relation-generation-view.mapper";
@@ -10,6 +11,9 @@ import { knowledgeObjectRelationGenerationService } from "@/services/knowledge-o
 import { knowledgeObjectService } from "@/services/knowledge-object.service";
 import { promptGroupService } from "@/services/prompt-group.service";
 import { promptVersionService } from "@/services/prompt-version.service";
+import { KnowledgeObjectRelationGenerationFilter } from "@/types/knowledge-object-relation-generation/filter";
+import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
+import { ListQuery } from "@/types/list-query";
 
 export async function createKnowledgeObjectRelationGenerationAction(data: {
   knowledgeObjectId: string;
@@ -69,12 +73,17 @@ export async function getKnowledgeObjectRelationGenerationAction(id: string) {
   return knowledgeObjectRelationGenerationService.getGenerationById(id);
 }
 
-export async function getKnowledgeObjectRelationGenerationsAction() {
+export async function getKnowledgeObjectRelationGenerationsAction(
+  query: ListQuery<
+    KnowledgeObjectRelationGenerationFilter,
+    KnowledgeObjectRelationGenerationSearch
+  >,
+) {
   await connectMongoDB();
 
   await requireAdmin();
 
-  return knowledgeObjectRelationGenerationService.getGenerations();
+  return knowledgeObjectRelationGenerationService.getGenerations(query);
 }
 
 export async function getKnowledgeObjectRelationGenerationsByKnowledgeObjectIdAction(
@@ -276,17 +285,22 @@ export async function getKnowledgeObjectRelationGenerationViewAction(
   );
 }
 
-export async function getKnowledgeObjectRelationGenerationsViewAction() {
+export async function getKnowledgeObjectRelationGenerationsViewAction(
+  query: ListQuery<
+    KnowledgeObjectRelationGenerationFilter,
+    KnowledgeObjectRelationGenerationSearch
+  >,
+) {
   await connectMongoDB();
 
   await requireAdmin();
 
-  const generations =
-    await knowledgeObjectRelationGenerationService.getGenerations();
+  const { items, pagination } =
+    await knowledgeObjectRelationGenerationService.getGenerations(query);
 
-  const result = [];
+  const result: KnowledgeObjectRelationGenerationViewDTO[] = [];
 
-  for (const generation of generations) {
+  for (const generation of items) {
     const knowledgeObject = await knowledgeObjectService.getKnowledgeObjectById(
       generation.knowledgeObjectId,
     );
@@ -401,5 +415,8 @@ export async function getKnowledgeObjectRelationGenerationsViewAction() {
     );
   }
 
-  return result;
+  return {
+    items: result,
+    pagination,
+  };
 }

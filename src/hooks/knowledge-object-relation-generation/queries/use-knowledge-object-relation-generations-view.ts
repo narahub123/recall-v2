@@ -4,10 +4,21 @@ import { getKnowledgeObjectRelationGenerationsViewAction } from "@/actions/knowl
 
 import { knowledgeObjectRelationGenerationKeys } from "@/lib/query-keys/knowledge-object-relation-generation.keys";
 
-export function useKnowledgeObjectRelationGenerationsView() {
-  return useQuery({
-    queryKey: knowledgeObjectRelationGenerationKeys.viewList(),
+import { ListQuery } from "@/types/list-query";
+import { KnowledgeObjectRelationGenerationFilter } from "@/types/knowledge-object-relation-generation/filter";
+import { KnowledgeObjectRelationGenerationSearch } from "@/types/knowledge-object-relation-generation/search";
 
-    queryFn: () => getKnowledgeObjectRelationGenerationsViewAction(),
+export function useKnowledgeObjectRelationGenerationsView(
+  query: ListQuery<
+    KnowledgeObjectRelationGenerationFilter,
+    KnowledgeObjectRelationGenerationSearch
+  >,
+) {
+  return useQuery({
+    queryKey: [...knowledgeObjectRelationGenerationKeys.viewList(query), query],
+
+    queryFn: () => getKnowledgeObjectRelationGenerationsViewAction(query),
+
+    placeholderData: (previousData) => previousData,
   });
 }
