@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-import type { KnowledgeRelationType } from "@/models/knowledge-object-relation.model";
+import type { KnowledgeRelationType } from "@/constants/knowledge-object-relation";
 
 interface Props {
   type: KnowledgeRelationType;

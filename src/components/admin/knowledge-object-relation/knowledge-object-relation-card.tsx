@@ -9,9 +9,8 @@ import { useKnowledgeObject } from "@/hooks/knowledge-object/queries/use-knowled
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 
-import type { KnowledgeRelationType } from "@/models/knowledge-object-relation.model";
-
 import { RelationTypeIndicator } from "./relation-type-indicator";
+import type { KnowledgeRelationType } from "@/constants/knowledge-object-relation";
 
 interface Props {
   relation: KnowledgeObjectRelationDTO;

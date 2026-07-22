@@ -12,6 +12,12 @@ export interface KnowledgeObjectRelationConditionShape {
     | {
         $in: KnowledgeRelationType[];
       };
+
+  confidence?: {
+    $gte?: number;
+
+    $lte?: number;
+  };
 }
 
 export class KnowledgeObjectRelationRepository {
@@ -52,7 +58,25 @@ export class KnowledgeObjectRelationRepository {
       conditions.relationType = {
         $in: relationTypes,
       };
-    }``
+    }
+
+    const confidenceRange = filter?.numberRanges?.find(
+      (range) =>
+        range.field === "confidence" &&
+        (range.min !== undefined || range.max !== undefined),
+    );
+
+    if (confidenceRange) {
+      conditions.confidence = {};
+
+      if (confidenceRange.min !== undefined) {
+        conditions.confidence.$gte = confidenceRange.min;
+      }
+
+      if (confidenceRange.max !== undefined) {
+        conditions.confidence.$lte = confidenceRange.max;
+      }
+    }
 
     const pipeline: PipelineStage[] = [
       {

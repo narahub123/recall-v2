@@ -1,4 +1,5 @@
 import { KNOWLEDGE_RELATION_TYPES } from "@/constants/knowledge-object-relation";
+import { NumberRangeValue } from "../filter";
 
 export const KNOWLEDGE_RELATION_FILTER_OPTIONS = [
   "all",
@@ -10,6 +11,7 @@ export type KnowledgeRelationFilterType =
 
 export interface KnowledgeObjectRelationFilter {
   relationTypes?: KnowledgeRelationFilterType[];
+  numberRanges?: NumberRangeValue[];
 }
 
 export const KNOWLEDGE_RELATION_TYPE_LABELS = {
@@ -35,3 +37,10 @@ export const KNOWLEDGE_RELATION_BADGE_COLORS = {
 
   criterion: "bg-violet-100 text-violet-700",
 } satisfies Partial<Record<KnowledgeRelationFilterType, string>>;
+
+export const KNOWLEDGE_RELATION_NUMBER_RANGE_OPTIONS = [
+  {
+    value: "confidence",
+    label: "신뢰도",
+  },
+] as const;

@@ -18,5 +18,7 @@ export function useKnowledgeObjectRelations(
     queryKey: knowledgeObjectRelationKeys.list(query),
 
     queryFn: () => getKnowledgeObjectRelationsAction(query),
+
+    placeholderData: (previousData) => previousData,
   });
 }

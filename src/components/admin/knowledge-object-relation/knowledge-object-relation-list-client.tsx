@@ -12,18 +12,21 @@ import {
   KNOWLEDGE_RELATION_BADGE_COLORS,
   KNOWLEDGE_RELATION_FILTER_OPTIONS,
   KNOWLEDGE_RELATION_TYPE_LABELS,
+  KNOWLEDGE_RELATION_NUMBER_RANGE_OPTIONS,
   type KnowledgeObjectRelationFilter,
 } from "@/types/knowledge-object-relation/filter";
+
 import {
   KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS,
   KNOWLEDGE_OBJECT_RELATION_SEARCH_LABELS,
   type KnowledgeObjectRelationSearch,
 } from "@/types/knowledge-object-relation/search";
 
+import { NumberRangeValue } from "@/types/filter";
+
 import { AdminSearchInput } from "../common/admin-search-input";
-import { AdminFilterSelect } from "../common/admin-filter-select";
-import { KNOWLEDGE_RELATION_TYPES } from "@/constants/knowledge-object-relation";
 import { AdminMultiSelect } from "../common/admin-multi-select";
+import { NumberRangeInput } from "@/components/common/number-range-input";
 
 const DEFAULT_LIMIT = 20;
 
@@ -36,6 +39,8 @@ export function KnowledgeObjectRelationListClient() {
     KnowledgeObjectRelationSearch | undefined
   >(undefined);
 
+  const numberRange = filter.numberRanges?.[0] ?? {};
+
   const { data, isLoading } = useKnowledgeObjectRelations({
     page,
 
@@ -46,27 +51,47 @@ export function KnowledgeObjectRelationListClient() {
     search,
   });
 
-  if (isLoading) {
+  if (isLoading && !data) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4 flex flex-col items-end">
-        <AdminMultiSelect
-          value={filter.relationTypes ?? []}
-          options={KNOWLEDGE_RELATION_FILTER_OPTIONS}
-          labels={KNOWLEDGE_RELATION_TYPE_LABELS}
-          badgeColors={KNOWLEDGE_RELATION_BADGE_COLORS}
-          placeholder="관계 유형"
-          onChange={(relationTypes) => {
-            setPage(1);
+      <div className="flex flex-col items-end gap-4">
+        <div className="flex gap-4">
+          <AdminMultiSelect
+            value={filter.relationTypes ?? []}
+            options={KNOWLEDGE_RELATION_FILTER_OPTIONS}
+            labels={KNOWLEDGE_RELATION_TYPE_LABELS}
+            badgeColors={KNOWLEDGE_RELATION_BADGE_COLORS}
+            placeholder="관계 유형"
+            onChange={(relationTypes) => {
+              setPage(1);
 
-            setFilter({
-              relationTypes,
-            });
-          }}
-        />
+              setFilter((prev) => ({
+                ...prev,
+                relationTypes,
+              }));
+            }}
+          />
+
+          <NumberRangeInput
+            value={numberRange}
+            inputMin={0}
+            inputMax={2}
+            step={0.01}
+            options={KNOWLEDGE_RELATION_NUMBER_RANGE_OPTIONS}
+            onChange={(value: NumberRangeValue) => {
+              setPage(1);
+
+              setFilter((prev) => ({
+                ...prev,
+                numberRanges: [value],
+              }));
+            }}
+          />
+        </div>
+
         <AdminSearchInput
           fields={KNOWLEDGE_OBJECT_RELATION_SEARCH_FIELDS}
           labels={KNOWLEDGE_OBJECT_RELATION_SEARCH_LABELS}
