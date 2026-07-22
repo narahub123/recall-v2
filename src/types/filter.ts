@@ -1,3 +1,10 @@
+export type FilterType =
+  | "select"
+  | "multi-select"
+  | "date-range"
+  | "number-range"
+  | "toggle";
+
 /**
  * Number range filter value.
  *
@@ -65,6 +72,49 @@ export interface DateRangeValue {
  * 사용자가 선택할 수 있는 날짜 필드 목록을 표현한다.
  */
 export interface DateRangeOption {
+  /**
+   * 실제 filter field key
+   */
+  value: string;
+
+  /**
+   * 사용자에게 표시되는 이름
+   */
+  label: string;
+}
+
+/**
+ * Toggle filter value.
+ *
+ * 특정 boolean 필드에 대한 활성화 여부를 표현한다.
+ */
+/**
+ * Toggle filter value.
+ *
+ * 특정 boolean 필드에 대한 조건을 표현한다.
+ */
+export interface ToggleValue {
+  /**
+   * 적용 대상 필드
+   */
+  field?: string;
+
+  /**
+   * toggle 상태
+   *
+   * undefined: 필터 미적용
+   * true: 활성 조건
+   * false: 비활성 조건
+   */
+  value?: boolean;
+}
+
+/**
+ * Toggle selectable field option.
+ *
+ * 사용자가 선택할 수 있는 boolean 필드 목록을 표현한다.
+ */
+export interface ToggleOption {
   /**
    * 실제 filter field key
    */
